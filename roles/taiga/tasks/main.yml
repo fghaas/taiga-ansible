@@ -1,0 +1,62 @@
+---
+- name: populate hosts file
+  become: true
+  become_user: root
+  lineinfile:
+    dest: /etc/hosts
+    regexp: '{{ hostvars[item].ansible_default_ipv4.address }}.*{{ item }}$'
+    line: "{{ hostvars[item].ansible_default_ipv4.address }} {{ hostvars[item].ansible_fqdn }} {{ item }}"
+    state: present
+  with_items: "{{ groups.all }}"
+  when: >
+    taiga_populate_hosts
+    and (hostvars[item].ansible_default_ipv4 is defined)
+  tags:
+    - config
+    - front-config
+    - back-config
+    - events-config
+
+- name: "create user {{ taiga_user }}"
+  become: true
+  become_user: root
+  user:
+    name: "{{ taiga_user }}"
+    groups: sudo
+    home: "{{ taiga_user_home }}"
+
+- name: "create logs directory"
+  become: true
+  become_user: "{{ taiga_user }}"
+  file:
+    path: "{{ taiga_log_dir }}"
+    state: directory
+
+- name: update package cache
+  become: true
+  become_user: root
+  apt:
+    update_cache: true
+
+- name: install essential packages
+  become: true
+  become_user: root
+  apt:
+    name: "{{ item }}"
+  with_items:
+    - circus
+    - python-setuptools
+
+- name: "make Circus configuration directory writeable for user {{ taiga_user }}"
+  become: true
+  become_user: root
+  file:
+    path: /etc/circus/conf.d
+    owner: root
+    group: taiga
+    mode: '0775'
+  tags:
+    - config
+    - front-config
+    - back-config
+    - events-config

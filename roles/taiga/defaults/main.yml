@@ -1,0 +1,28 @@
+---
+taiga_populate_hosts: true
+taiga_user: taiga
+taiga_user_home: '/home/{{ taiga_user }}'
+taiga_log_dir: '{{ taiga_user_home }}/logs'
+taiga_git_mirror: 'https://github.com/taigaio'
+taiga_version: stable
+taiga_venv_name: taiga
+taiga_debug: false
+taiga_enable_ssl: false
+taiga_enable_public_register: false
+taiga_enable_feedback: false
+taiga_enable_async_tasks: false
+taiga_enable_events: false
+taiga_enable_email: false
+taiga_email_use_tls: false
+taiga_email_host: "{{ ansible_fqdn }}"
+taiga_email_host_user: ""
+taiga_email_host_password: ""
+taiga_email_port: 25
+taiga_enable_github_login: false
+taiga_github_api_client_id: ""
+taiga_github_api_client_secret: ""
+taiga_backend_host: "{{ hostvars[groups['taiga-back'][0]]['ansible_fqdn'] }}"
+taiga_rabbitmq_user: "taiga"
+taiga_rabbitmq_host: "{{ taiga_backend_host }}"
+taiga_rabbitmq_port: 5672
+taiga_rabbitmq_vhost: taiga
