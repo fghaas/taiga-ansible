@@ -1,0 +1,3 @@
+- hosts: taiga-back
+  roles:
+    - role: taiga-back
