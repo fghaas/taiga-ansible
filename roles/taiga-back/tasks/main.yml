@@ -1,0 +1,217 @@
+---
+- name: install required backend-specific packages
+  become: true
+  become_user: root
+  apt:
+    name: "{{ item }}"
+  with_items:
+    - build-essential
+    - binutils-doc
+    - autoconf
+    - flex
+    - bison
+    - libjpeg-dev
+    - libfreetype6-dev
+    - zlib1g-dev
+    - libzmq3-dev
+    - libgdbm-dev
+    - libncurses5-dev
+    - automake
+    - libtool
+    - libffi-dev
+    - curl
+    - git
+    - tmux
+    - gettext
+    - nginx
+    - redis-server
+    - circus
+    - python3
+    - python3-pip
+    - python-dev
+    - python3-dev
+    - python-pip
+    - virtualenvwrapper
+    - postgresql-9.5
+    - postgresql-contrib-9.5
+    - postgresql-doc-9.5
+    - postgresql-server-dev-9.5
+    - rabbitmq-server
+    - python-psycopg2
+  tags:
+    - install
+    - back-install
+
+- name: optionally install RabbitMQ
+  become: true
+  become_user: root
+  apt:
+    name: rabbitmq-server
+  when: (taiga_enable_async_tasks or taiga_enable_events)
+  tags:
+    - install
+    - back-install
+
+- name: optionally install Redis
+  become: true
+  become_user: root
+  apt:
+    name: redis-server
+  when: taiga_enable_async_tasks
+  tags:
+    - install
+    - back-install
+
+- name: create PostgreSQL user
+  become: true
+  become_user: postgres
+  postgresql_user:
+    name: "{{ taiga_back_postgres_user }}"
+  tags:
+    - install
+    - back-install
+
+- name: create PostgreSQL database
+  become: true
+  become_user: postgres
+  postgresql_db:
+    name: "{{ taiga_back_postgres_db }}"
+    owner: "{{ taiga_back_postgres_user }}"
+  tags:
+    - install
+    - back-install
+
+- name: optionally create RabbitMQ vhost
+  become: true
+  become_user: root
+  rabbitmq_vhost:
+    name: "{{ taiga_back_rabbitmq_vhost }}"
+  when: (taiga_enable_async_tasks or taiga_enable_events)
+  tags:
+    - install
+    - back-install
+
+- name: optionally create RabbitMQ user
+  become: true
+  become_user: root
+  rabbitmq_user:
+    user: "{{ taiga_back_rabbitmq_user }}"
+    password: "{{ taiga_back_rabbitmq_password }}"
+    vhost: "{{ taiga_back_rabbitmq_vhost }}"
+    configure_priv: .*
+    read_priv: .*
+    write_priv: .*
+  when: (taiga_enable_async_tasks or taiga_enable_events)
+  tags:
+    - install
+    - back-install
+
+- name: check out git repository
+  become: true
+  become_user: "{{ taiga_user }}"
+  git:
+    repo: "{{ taiga_back_repo }}"
+    dest: "{{ taiga_back_checkout_dir }}"
+    version: "{{ taiga_back_version }}"
+  tags:
+    - install
+    - back-install
+
+- name: set up virtualenv
+  become: true
+  become_user: "{{ taiga_user }}"
+  command: >
+    virtualenv --python=python3.5
+    {{ taiga_user_home }}/{{ taiga_venv_name }}
+  args:
+    creates: "{{ taiga_user_home }}/{{ taiga_venv_name }}/bin/python"
+
+- name: install Python packages into virtualenv
+  become: true
+  become_user: "{{ taiga_user }}"
+  pip:
+    requirements: "{{ taiga_back_checkout_dir }}/requirements.txt"
+    virtualenv: "{{ taiga_user_home }}/{{ taiga_venv_name }}"
+    virtualenv_python: "python3.5"
+  tags:
+    - install
+    - back-install
+
+- name: migrate database
+  become: true
+  become_user: "{{ taiga_user }}"
+  django_manage:
+    app_path: "{{ taiga_back_checkout_dir }}"
+    command: migrate
+    virtualenv: "{{ taiga_user_home }}/{{ taiga_venv_name }}"
+  tags:
+    - install
+    - back-install
+
+- name: load initial user data
+  become: true
+  become_user: "{{ taiga_user }}"
+  django_manage:
+    app_path: "{{ taiga_back_checkout_dir }}"
+    command: loaddata initial_user
+    virtualenv: "{{ taiga_user_home }}/{{ taiga_venv_name }}"
+  when: taiga_back_load_initial_user_data
+  tags:
+    - install
+    - back-install
+
+- name: load initial project templates
+  become: true
+  become_user: "{{ taiga_user }}"
+  django_manage:
+    app_path: "{{ taiga_back_checkout_dir }}"
+    command: loaddata initial_project_templates
+    virtualenv: "{{ taiga_user_home }}/{{ taiga_venv_name }}"
+  when: taiga_back_load_initial_project_templates
+  tags:
+    - install
+    - back-install
+
+- name: compile messages
+  become: true
+  become_user: "{{ taiga_user }}"
+  django_manage:
+    app_path: "{{ taiga_back_checkout_dir }}"
+    command: compilemessages
+    virtualenv: "{{ taiga_user_home }}/{{ taiga_venv_name }}"
+  tags:
+    - install
+    - back-install
+
+- name: collect static assets
+  become: true
+  become_user: "{{ taiga_user }}"
+  django_manage:
+    app_path: "{{ taiga_back_checkout_dir }}"
+    command: collectstatic
+    virtualenv: "{{ taiga_user_home }}/{{ taiga_venv_name }}"
+  tags:
+    - install
+    - back-install
+
+- name: create sample data
+  become: true
+  become_user: "{{ taiga_user }}"
+  django_manage:
+    app_path: "{{ taiga_back_checkout_dir }}"
+    command: sample_data
+    virtualenv: "{{ taiga_user_home }}/{{ taiga_venv_name }}"
+  when: taiga_back_create_sample_data
+  tags:
+    - install
+    - back-install
+
+- name: deploy local settings
+  become: true
+  become_user: "{{ taiga_user }}"
+  template:
+    src: local.py.j2
+    dest: "{{ taiga_back_checkout_dir }}/settings/local.py"
+  tags:
+    - config
+    - back-config

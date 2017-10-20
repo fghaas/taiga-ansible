@@ -1,0 +1,20 @@
+---
+taiga_back_checkout_dir: "{{ taiga_user_home }}/taiga-back"
+taiga_back_create_sample_data: false
+taiga_back_debug: "{{ taiga_debug }}"
+taiga_back_default_from_email: "no-reply@{{ taiga_back_domain }}"
+taiga_back_domain: "{{ ansible_domain }}"
+taiga_back_enable_public_register: "{{ taiga_enable_public_register }}"
+taiga_back_enable_ssl: "{{ taiga_enable_ssl }}"
+taiga_back_hostname: "{{ ansible_fqdn }}"
+taiga_back_load_initial_project_templates: true
+taiga_back_load_initial_user_data: true
+taiga_back_postgres_db: taiga
+taiga_back_postgres_user: "{{ taiga_user }}"
+taiga_back_rabbitmq_host: "{{ taiga_rabbitmq_host }}"
+taiga_back_rabbitmq_password: "{{ taiga_rabbitmq_password }}"
+taiga_back_rabbitmq_port: "{{ taiga_rabbitmq_port }}"
+taiga_back_rabbitmq_user: "{{ taiga_rabbitmq_user }}"
+taiga_back_rabbitmq_vhost: "{{ taiga_rabbitmq_vhost }}"
+taiga_back_repo: "{{ taiga_git_mirror }}/taiga-back.git"
+taiga_back_version: "{{ taiga_version }}"

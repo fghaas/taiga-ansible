@@ -1,0 +1,39 @@
+from .common import *
+
+{% set scheme = 'https' if taiga_back_enable_ssl else 'http' %}
+
+MEDIA_URL = "{{ scheme }}://{{ taiga_back_hostname }}/media/"
+STATIC_URL = "{{ scheme }}://{{ taiga_back_hostname }}/static/"
+SITES["front"]["scheme"] = "{{ scheme }}"
+SITES["front"]["domain"] = "{{ taiga_back_hostname }}"
+
+SECRET_KEY = "{{ taiga_back_secret_key }}"
+
+DEBUG = {{ taiga_back_debug | bool }}
+PUBLIC_REGISTER_ENABLED = {{ taiga_back_enable_public_register | bool }}
+
+DEFAULT_FROM_EMAIL = "{{ taiga_back_default_from_email }}"
+SERVER_EMAIL = DEFAULT_FROM_EMAIL
+
+CELERY_ENABLED = {{ taiga_enable_async_tasks | bool }}
+
+{% if taiga_enable_events %}
+EVENTS_PUSH_BACKEND = "taiga.events.backends.rabbitmq.EventsPushBackend"
+EVENTS_PUSH_BACKEND_OPTIONS = {"url": "amqp://{{ taiga_back_rabbitmq_user }}:{{ taiga_back_rabbitmq_password }}@{{ taiga_back_rabbitmq_host }}:{{ taiga_back_rabbitmq_port }}/{{ taiga_back_rabbitmq_vhost }}"}
+{% endif %}
+
+{% if taiga_enable_email %}
+# Uncomment and populate with proper connection parameters
+# for enable email sending. EMAIL_HOST_USER should end by @domain.tld
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_USE_TLS = {{ taiga_email_use_tls | bool }}
+EMAIL_HOST = "{{ taiga_email_host }}"
+EMAIL_HOST_USER = "{{ taiga_email_host_user }}"
+EMAIL_HOST_PASSWORD = "{{ taiga_email_host_password }}"
+EMAIL_PORT = {{ taiga_email_port }}
+{% endif %}
+
+{% if taiga_enable_github_login %}
+GITHUB_API_CLIENT_ID = "{{ taiga_github_api_client_id }}"
+GITHUB_API_CLIENT_SECRET = "{{ taiga_github_api_client_secret }}"
+{% endif %}
