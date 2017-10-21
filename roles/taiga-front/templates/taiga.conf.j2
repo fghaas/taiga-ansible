@@ -22,7 +22,11 @@ server {
         proxy_set_header X-Scheme $scheme;
         proxy_set_header X-Forwarded-Proto $scheme;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_pass http://127.0.0.1:8001/api;
+{% if 'taiga-back' in group_names %}
+        proxy_pass http://127.0.0.1:{{ taiga_backend_port }}/api;
+{% else %}
+        proxy_pass http://{{ taiga_front_backend_hostname }}:{{ taiga_backend_port }}/api;
+{% endif %}
         proxy_redirect off;
     }
 
@@ -33,23 +37,52 @@ server {
         proxy_set_header X-Scheme $scheme;
         proxy_set_header X-Forwarded-Proto $scheme;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_pass http://127.0.0.1:8001$request_uri;
+{% if 'taiga-back' in group_names %}
+        proxy_pass http://127.0.0.1:{{ taiga_backend_port }}$request_uri;
+{% else %}
+        proxy_pass http://{{ taiga_front_backend_hostname }}:{{ taiga_backend_port }}$request_uri;
+{% endif %}
         proxy_redirect off;
     }
 
     # Static files
     location /static {
+{% if 'taiga-back' in group_names %}
         alias /home/taiga/taiga-back/static;
+{% else %}
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Scheme $scheme;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass http://{{ taiga_front_backend_hostname }}:{{ taiga_backend_port }}$request_uri;
+        proxy_redirect off;
+{% endif %}
     }
 
     # Media files
     location /media {
+{% if 'taiga-back' in group_names %}
         alias /home/taiga/taiga-back/media;
+{% else %}
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Scheme $scheme;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass http://{{ taiga_front_backend_hostname }}:{{ taiga_backend_port }}$request_uri;
+        proxy_redirect off;
+{% endif %}
     }
 
+{% if taiga_enable_events %}
 	# Taiga-events
 	location /events {
-	proxy_pass http://127.0.0.1:8888/events;
+{% if 'taiga-events' in group_names %}
+	proxy_pass http://127.0.0.1:{{ taiga_events_port }}/events;
+{% else %}
+	proxy_pass http://{{ taiga_front_events_hostname }}:{{ taiga_events_port }}/events;
+{% endif %}
 	proxy_http_version 1.1;
 	proxy_set_header Upgrade $http_upgrade;
 	proxy_set_header Connection "upgrade";
@@ -57,4 +90,5 @@ server {
 	proxy_send_timeout 7d;
 	proxy_read_timeout 7d;
 	}
+{% endif %}
 }
