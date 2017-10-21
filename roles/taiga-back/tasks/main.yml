@@ -24,7 +24,6 @@
     - tmux
     - gettext
     - nginx
-    - circus
     - python3
     - python3-pip
     - python-dev
