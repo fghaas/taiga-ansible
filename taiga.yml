@@ -1,3 +1,16 @@
+- hosts:
+    - taiga-front
+    - taiga-back
+    - taiga-events
+  become: false
+  tasks:
+    - name: group hosts by distribution
+      group_by:
+        key: "{{ ansible_distribution | lower }}-{{ ansible_distribution_release | lower }}"
+      changed_when: false
+  tags:
+    - always
+
 - hosts: taiga-back
   roles:
     - role: taiga-back
@@ -5,3 +18,7 @@
 - hosts: taiga-front
   roles:
     - role: taiga-front
+
+- hosts: taiga-events
+  roles:
+    - role: taiga-events

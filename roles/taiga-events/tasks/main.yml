@@ -1,0 +1,101 @@
+---
+- name: add NodeSource repository key
+  become: true
+  become_user: root
+  apt_key:
+    url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+  tags:
+    - install
+    - events-install
+
+- name: add NodeSource repository
+  become: true
+  become_user: root
+  apt_repository:
+    repo: "deb https://deb.nodesource.com/node_6.x {{ ansible_distribution_release }} main"
+  register: nodesource_repo
+  tags:
+    - install
+    - events-install
+
+- name: update apt cache if NodeSource repository was added or updated
+  become: true
+  become_user: root
+  apt:
+    update_cache: true
+  when: nodesource_repo.changed
+  tags:
+    - install
+    - events-install
+
+- name: install nodejs
+  become: true
+  become_user: root
+  apt:
+    name: nodejs
+  tags:
+    - install
+    - events-install
+
+- name: check out git repository
+  become: true
+  become_user: "{{ taiga_user }}"
+  git:
+    repo: "{{ taiga_events_repo }}"
+    dest: "{{ taiga_events_checkout_dir }}"
+    version: "{{ taiga_events_version }}"
+  tags:
+    - install
+    - events-install
+
+- name: deploy configuration file
+  become: true
+  become_user: "{{ taiga_user }}"
+  template:
+    src: config.json.j2
+    dest: "{{ taiga_events_checkout_dir }}/config.json"
+  tags:
+    - config
+    - events-config
+
+- name: install global NPM modules
+  become: true
+  become_user: root
+  npm:
+    name: "{{ item }}"
+    global: true
+  with_items:
+    - coffee-script
+  tags:
+    - install
+    - events-install
+
+- name: install local NPM modules
+  become: true
+  become_user: "{{ taiga_user }}"
+  npm:
+    name: "{{ item }}"
+    path: "{{ taiga_events_checkout_dir }}"
+  with_items:
+    - amqplib
+    - base64-url
+    - bluebird
+    - minimist
+    - node-uuid
+    - ws
+  tags:
+    - install
+    - events-install
+
+- name: add taiga-events to Circus
+  become: true
+  become_user: "{{ taiga_user }}"
+  template:
+    src: taiga-events.ini.j2
+    dest: "/etc/circus/conf.d/taiga-events.ini"
+  notify:
+    - restart circus
+  tags:
+    - config
+    - events-config
+

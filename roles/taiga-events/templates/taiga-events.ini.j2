@@ -1,0 +1,16 @@
+[watcher:taiga-events]
+working_dir = {{ taiga_events_checkout_dir }}
+cmd = /usr/bin/coffee
+args = index.coffee
+uid = taiga
+numprocesses = 1
+autostart = true
+send_hup = true
+stdout_stream.class = FileStream
+stdout_stream.filename = {{ taiga_events_log_dir }}/taigaevents.stdout.log
+stdout_stream.max_bytes = 10485760
+stdout_stream.backup_count = 12
+stderr_stream.class = FileStream
+stderr_stream.filename = {{ taiga_events_log_dir }}/taigaevents.stderr.log
+stderr_stream.max_bytes = 10485760
+stderr_stream.backup_count = 12

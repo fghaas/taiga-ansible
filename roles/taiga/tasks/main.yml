@@ -60,3 +60,15 @@
     - front-config
     - back-config
     - events-config
+
+- name: enable Circus service
+  become: true
+  become_user: root
+  service:
+    name: circusd
+    state: started
+  tags:
+    - config
+    - front-config
+    - back-config
+    - events-config
