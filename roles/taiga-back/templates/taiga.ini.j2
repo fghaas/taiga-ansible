@@ -1,0 +1,29 @@
+[watcher:taiga]
+working_dir = {{ taiga_back_checkout_dir }}
+cmd = gunicorn
+{% if 'taiga-front' in group_names %}
+args = -w 3 -t 60 --pythonpath=. -b 127.0.0.1:{{ taiga_backend_port }} taiga.wsgi
+{% else %}
+args = -w 3 -t 60 --pythonpath=. -b 0.0.0.0:{{ taiga_backend_port }} taiga.wsgi
+{% endif %}
+uid = {{ taiga_user }}
+numprocesses = 1
+autostart = true
+send_hup = true
+stdout_stream.class = FileStream
+stdout_stream.filename = {{ taiga_back_log_dir }}/gunicorn.stdout.log
+stdout_stream.max_bytes = 10485760
+stdout_stream.backup_count = 4
+stderr_stream.class = FileStream
+stderr_stream.filename = {{ taiga_back_log_dir }}/gunicorn.stderr.log
+stderr_stream.max_bytes = 10485760
+stderr_stream.backup_count = 4
+
+[env:taiga]
+PATH = {{ taiga_back_venv_dir }}/bin:$PATH
+TERM=rxvt-256color
+SHELL=/bin/bash
+USER={{ taiga_user }}
+LANG=en_US.UTF-8
+HOME={{ taiga_user_home }}
+PYTHONPATH={{ taiga_back_venv_dir }}/lib/python3.5/site-packages

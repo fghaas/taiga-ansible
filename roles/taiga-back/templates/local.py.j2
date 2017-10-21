@@ -2,8 +2,8 @@ from .common import *
 
 {% set scheme = 'https' if taiga_back_enable_ssl else 'http' %}
 
-MEDIA_URL = "{{ scheme }}://{{ taiga_back_hostname }}/media/"
-STATIC_URL = "{{ scheme }}://{{ taiga_back_hostname }}/static/"
+MEDIA_URL = "{{ scheme }}://{{ taiga_back_hostname }}:{{ taiga_backend_port }}/media/"
+STATIC_URL = "{{ scheme }}://{{ taiga_back_hostname }}:{{ taiga_backend_port }}/static/"
 SITES["front"]["scheme"] = "{{ scheme }}"
 SITES["front"]["domain"] = "{{ taiga_back_hostname }}"
 

@@ -6,6 +6,7 @@ taiga_log_dir: '{{ taiga_user_home }}/logs'
 taiga_git_mirror: 'https://github.com/taigaio'
 taiga_version: stable
 taiga_venv_name: taiga
+taiga_venv_dir: "{{ taiga_user_home }}/{{ taiga_venv_name }}"
 taiga_debug: false
 taiga_enable_ssl: false
 taiga_enable_public_register: false
@@ -26,3 +27,4 @@ taiga_rabbitmq_user: "taiga"
 taiga_rabbitmq_host: "{{ taiga_backend_host }}"
 taiga_rabbitmq_port: 5672
 taiga_rabbitmq_vhost: taiga
+taiga_backend_port: 8001

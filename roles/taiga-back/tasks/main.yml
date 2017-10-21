@@ -122,16 +122,16 @@
   become_user: "{{ taiga_user }}"
   command: >
     virtualenv --python=python3.5
-    {{ taiga_user_home }}/{{ taiga_venv_name }}
+    {{ taiga_back_venv_dir }}
   args:
-    creates: "{{ taiga_user_home }}/{{ taiga_venv_name }}/bin/python"
+    creates: "{{ taiga_back_venv_dir }}/bin/python"
 
 - name: install Python packages into virtualenv
   become: true
   become_user: "{{ taiga_user }}"
   pip:
     requirements: "{{ taiga_back_checkout_dir }}/requirements.txt"
-    virtualenv: "{{ taiga_user_home }}/{{ taiga_venv_name }}"
+    virtualenv: "{{ taiga_back_venv_dir }}"
     virtualenv_python: "python3.5"
   tags:
     - install
@@ -143,7 +143,7 @@
   django_manage:
     app_path: "{{ taiga_back_checkout_dir }}"
     command: migrate
-    virtualenv: "{{ taiga_user_home }}/{{ taiga_venv_name }}"
+    virtualenv: "{{ taiga_back_venv_dir }}"
   tags:
     - install
     - back-install
@@ -154,7 +154,7 @@
   django_manage:
     app_path: "{{ taiga_back_checkout_dir }}"
     command: loaddata initial_user
-    virtualenv: "{{ taiga_user_home }}/{{ taiga_venv_name }}"
+    virtualenv: "{{ taiga_back_venv_dir }}"
   when: taiga_back_load_initial_user_data
   tags:
     - install
@@ -166,7 +166,7 @@
   django_manage:
     app_path: "{{ taiga_back_checkout_dir }}"
     command: loaddata initial_project_templates
-    virtualenv: "{{ taiga_user_home }}/{{ taiga_venv_name }}"
+    virtualenv: "{{ taiga_back_venv_dir }}"
   when: taiga_back_load_initial_project_templates
   tags:
     - install
@@ -178,7 +178,7 @@
   django_manage:
     app_path: "{{ taiga_back_checkout_dir }}"
     command: compilemessages
-    virtualenv: "{{ taiga_user_home }}/{{ taiga_venv_name }}"
+    virtualenv: "{{ taiga_back_venv_dir }}"
   tags:
     - install
     - back-install
@@ -189,7 +189,7 @@
   django_manage:
     app_path: "{{ taiga_back_checkout_dir }}"
     command: collectstatic
-    virtualenv: "{{ taiga_user_home }}/{{ taiga_venv_name }}"
+    virtualenv: "{{ taiga_back_venv_dir }}"
   tags:
     - install
     - back-install
@@ -200,7 +200,7 @@
   django_manage:
     app_path: "{{ taiga_back_checkout_dir }}"
     command: sample_data
-    virtualenv: "{{ taiga_user_home }}/{{ taiga_venv_name }}"
+    virtualenv: "{{ taiga_back_venv_dir }}"
   when: taiga_back_create_sample_data
   tags:
     - install
@@ -212,6 +212,18 @@
   template:
     src: local.py.j2
     dest: "{{ taiga_back_checkout_dir }}/settings/local.py"
+  tags:
+    - config
+    - back-config
+
+- name: add taiga to Circus
+  become: true
+  become_user: "{{ taiga_user }}"
+  template:
+    src: taiga.ini.j2
+    dest: "/etc/circus/conf.d/taiga.ini"
+  notify:
+    - restart circus
   tags:
     - config
     - back-config
