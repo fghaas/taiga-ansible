@@ -8,3 +8,4 @@ taiga_front_enable_feedback: "{{ taiga_enable_feedback }}"
 taiga_front_backend_hostname: "{{ taiga_backend_host }}"
 taiga_front_log_dir: "{{ taiga_log_dir }}"
 taiga_front_events_hostname: "{{ taiga_events_host }}"
+taiga_front_enable_django_admin: false

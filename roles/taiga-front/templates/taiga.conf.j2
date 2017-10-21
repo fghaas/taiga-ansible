@@ -30,6 +30,7 @@ server {
         proxy_redirect off;
     }
 
+{% if taiga_front_enable_django_admin %}
     # Django admin access (/admin/)
     location /admin {
         proxy_set_header Host $http_host;
@@ -44,6 +45,7 @@ server {
 {% endif %}
         proxy_redirect off;
     }
+{% endif %}
 
     # Static files
     location /static {
