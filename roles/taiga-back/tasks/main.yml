@@ -210,8 +210,11 @@
   become: true
   become_user: "{{ taiga_user }}"
   template:
+    mode: '0644'
     src: local.py.j2
     dest: "{{ taiga_back_checkout_dir }}/settings/local.py"
+  notify:
+    - restart circus
   tags:
     - config
     - back-config
