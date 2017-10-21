@@ -1,0 +1,9 @@
+---
+taiga_front_repo: "{{ taiga_git_mirror }}/taiga-front-dist.git"
+taiga_front_version: "{{ taiga_version }}"
+taiga_front_checkout_dir: "{{ taiga_user_home }}/taiga-front-dist"
+taiga_front_debug: "{{ taiga_debug }}"
+taiga_front_enable_public_register: "{{ taiga_enable_public_register }}"
+taiga_front_enable_feedback: "{{ taiga_enable_feedback }}"
+taiga_front_backend_hostname: "{{ hostvars[groups['taiga-back'][0]]['ansible_fqdn'] }}"
+taiga_front_log_dir: "{{ taiga_log_dir }}"
