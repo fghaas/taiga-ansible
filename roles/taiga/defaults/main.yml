@@ -22,7 +22,9 @@ taiga_email_port: 25
 taiga_enable_github_login: false
 taiga_github_api_client_id: ""
 taiga_github_api_client_secret: ""
+taiga_frontend_host: "{{ hostvars[groups['taiga-front'][0]]['ansible_fqdn'] }}"
 taiga_backend_host: "{{ hostvars[groups['taiga-back'][0]]['ansible_fqdn'] }}"
+taiga_events_host: "{{ hostvars[groups['taiga-events'][0]]['ansible_fqdn'] }}"
 taiga_rabbitmq_user: "taiga"
 taiga_rabbitmq_host: "{{ taiga_backend_host }}"
 taiga_rabbitmq_port: 5672
