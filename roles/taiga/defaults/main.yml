@@ -28,3 +28,4 @@ taiga_rabbitmq_host: "{{ taiga_backend_host }}"
 taiga_rabbitmq_port: 5672
 taiga_rabbitmq_vhost: taiga
 taiga_backend_port: 8001
+taiga_events_port: 8888
