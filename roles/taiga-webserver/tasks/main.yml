@@ -3,5 +3,10 @@
   fail:
     msg: "Unsupported value for taiga_webserver, must be 'nginx'"
   when: taiga_webserver not in ['nginx',]
+  tags:
+    - always
+
+- include: ssl.yml
+  when: (taiga_enable_ssl | bool) and _taiga_is_front_node
 
 - include: "{{ taiga_webserver }}.yml"

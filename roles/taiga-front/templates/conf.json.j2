@@ -1,7 +1,7 @@
 {
-	"api": "http://{{ taiga_frontend_host }}/api/v1/",
+	"api": "{{'https' if (taiga_enable_ssl | bool) else 'http'}}://{{ taiga_frontend_host }}/api/v1/",
 {% if taiga_enable_events %}
-	"eventsUrl": "ws://{{ taiga_frontend_host }}/events",
+	"eventsUrl": "{{'wss' if (taiga_enable_ssl | bool) else 'ws'}}://{{ taiga_frontend_host }}/events",
 {% endif %}
 	"debug": "{{ taiga_front_debug | bool | lower }}",
 	"publicRegisterEnabled": {{ taiga_front_enable_public_register | bool | lower }},

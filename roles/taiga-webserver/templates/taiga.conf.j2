@@ -1,10 +1,20 @@
 server {
     listen 80 default_server;
     server_name _;
+{% if taiga_enable_ssl | bool %}
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl default_server;
+    server_name _;
+{% endif %}
 
     large_client_header_buffers 4 32k;
     client_max_body_size 50M;
     charset utf-8;
+
+    index index.html;
 
     access_log {{ taiga_front_log_dir }}/nginx.access.log;
     error_log {{ taiga_front_log_dir }}/nginx.error.log;
@@ -78,19 +88,38 @@ server {
     }
 
 {% if taiga_enable_events %}
-	# Taiga-events
-	location /events {
+    # Taiga-events
+    location /events {
 {% if _taiga_is_events_node %}
-	proxy_pass http://127.0.0.1:{{ taiga_events_port }}/events;
+        proxy_pass http://127.0.0.1:{{ taiga_events_port }}/events;
 {% else %}
-	proxy_pass http://{{ taiga_front_events_hostname }}:{{ taiga_events_port }}/events;
+        proxy_pass http://{{ taiga_front_events_hostname }}:{{ taiga_events_port }}/events;
 {% endif %}
-	proxy_http_version 1.1;
-	proxy_set_header Upgrade $http_upgrade;
-	proxy_set_header Connection "upgrade";
-	proxy_connect_timeout 7d;
-	proxy_send_timeout 7d;
-	proxy_read_timeout 7d;
-	}
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_connect_timeout 7d;
+        proxy_send_timeout 7d;
+        proxy_read_timeout 7d;
+    }
 {% endif %}
+
+{% if taiga_enable_ssl | bool %}
+    ssl on;
+    ssl_certificate {{ _taiga_webserver_ssl_certificate_path }};
+    ssl_certificate_key {{ _taiga_webserver_ssl_key_path }};
+    ssl_session_timeout 5m;
+    ssl_protocols {{ taiga_webserver_ssl_protocols | join(' ') }};
+    ssl_prefer_server_ciphers on;
+    ssl_ciphers {{ taiga_webserver_ssl_ciphers | join(':') }};
+    ssl_session_cache shared:SSL:10m;
+    ssl_dhparam {{ _taiga_webserver_ssl_dhparam_path }};
+    ssl_stapling on;
+    ssl_stapling_verify on;
+
+{% if taiga_webserver_enable_hsts %}
+    add_header Strict-Transport-Security "max-age={{ taiga_webserver_hsts_max_age }}; includeSubdomains; preload";
+{% endif %}
+{% endif %}
+
 }

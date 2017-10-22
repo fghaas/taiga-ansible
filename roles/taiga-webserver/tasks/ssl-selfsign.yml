@@ -1,0 +1,41 @@
+- name: install pyOpenSSL
+  become: true
+  become_user: root
+  apt:
+    name: python-openssl
+  tags:
+    - install
+    - front-install
+
+- name: create SSL private key
+  become: true
+  become_user: taiga
+  openssl_privatekey:
+    path: "{{ _taiga_webserver_ssl_key_path }}"
+    size: 4096
+  tags:
+    - config
+    - front-config
+
+- name: create SSL certificate request
+  become: true
+  become_user: taiga
+  openssl_csr:
+    path: "{{ _taiga_webserver_ssl_csr_path }}"
+    privatekey_path: "{{ _taiga_webserver_ssl_key_path }}"
+    common_name: "{{ _taiga_webserver_ssl_common_name }}"
+  tags:
+    - config
+    - front-config
+
+- name: create self-signed SSL certificate
+  become: true
+  become_user: taiga
+  openssl_certificate:
+    path: "{{ _taiga_webserver_ssl_certificate_path }}"
+    privatekey_path: "{{ _taiga_webserver_ssl_key_path }}"
+    csr_path: "{{ _taiga_webserver_ssl_csr_path }}"
+    provider: selfsigned
+  tags:
+    - config
+    - front-config

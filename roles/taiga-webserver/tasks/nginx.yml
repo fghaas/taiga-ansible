@@ -1,0 +1,63 @@
+---
+- name: install nginx
+  become: true
+  become_user: root
+  apt:
+    name: "{{ item }}"
+  with_items:
+    - nginx
+  tags:
+    - install
+    - nginx-install
+    - front-install
+
+- name: "make nginx configuration directory writeable for user {{ taiga_user }}"
+  become: true
+  become_user: root
+  file:
+    path: /etc/nginx/conf.d
+    owner: root
+    group: taiga
+    mode: '0775'
+  tags:
+    - config
+    - nginx-config
+    - front-config
+
+- name: "remove nginx default site"
+  become: true
+  become_user: root
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  notify:
+    - restart nginx
+  tags:
+    - config
+    - nginx-config
+    - front-config
+
+- name: add taiga to nginx
+  become: true
+  become_user: "{{ taiga_user }}"
+  template:
+    src: taiga.conf.j2
+    dest: "/etc/nginx/conf.d/taiga.conf"
+  notify:
+    - restart nginx
+  tags:
+    - config
+    - nginx-config
+    - front-config
+    - back-config
+
+- name: enable nginx service
+  become: true
+  become_user: root
+  service:
+    name: nginx
+    state: started
+  tags:
+    - config
+    - nginx-config
+    - front-config

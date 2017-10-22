@@ -1,6 +1,6 @@
 from .common import *
 
-{% set scheme = 'https' if taiga_back_enable_ssl else 'http' %}
+{% set scheme = 'https' if (taiga_back_enable_ssl | bool) else 'http' %}
 
 MEDIA_URL = "{{ scheme }}://{{ taiga_back_hostname }}:{{ taiga_backend_port }}/media/"
 STATIC_URL = "{{ scheme }}://{{ taiga_back_hostname }}:{{ taiga_backend_port }}/static/"
