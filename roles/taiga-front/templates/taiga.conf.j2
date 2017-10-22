@@ -22,7 +22,7 @@ server {
         proxy_set_header X-Scheme $scheme;
         proxy_set_header X-Forwarded-Proto $scheme;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-{% if 'taiga-back' in group_names %}
+{% if _taiga_is_back_node %}
         proxy_pass http://127.0.0.1:{{ taiga_backend_port }}/api;
 {% else %}
         proxy_pass http://{{ taiga_front_backend_hostname }}:{{ taiga_backend_port }}/api;
@@ -38,7 +38,7 @@ server {
         proxy_set_header X-Scheme $scheme;
         proxy_set_header X-Forwarded-Proto $scheme;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-{% if 'taiga-back' in group_names %}
+{% if _taiga_is_back_node %}
         proxy_pass http://127.0.0.1:{{ taiga_backend_port }}$request_uri;
 {% else %}
         proxy_pass http://{{ taiga_front_backend_hostname }}:{{ taiga_backend_port }}$request_uri;
@@ -49,7 +49,7 @@ server {
 
     # Static files
     location /static {
-{% if 'taiga-back' in group_names %}
+{% if _taiga_is_back_node %}
         alias /home/taiga/taiga-back/static;
 {% else %}
         proxy_set_header Host $http_host;
@@ -64,7 +64,7 @@ server {
 
     # Media files
     location /media {
-{% if 'taiga-back' in group_names %}
+{% if _taiga_is_back_node %}
         alias /home/taiga/taiga-back/media;
 {% else %}
         proxy_set_header Host $http_host;
@@ -80,7 +80,7 @@ server {
 {% if taiga_enable_events %}
 	# Taiga-events
 	location /events {
-{% if 'taiga-events' in group_names %}
+{% if _taiga_is_events_node %}
 	proxy_pass http://127.0.0.1:{{ taiga_events_port }}/events;
 {% else %}
 	proxy_pass http://{{ taiga_front_events_hostname }}:{{ taiga_events_port }}/events;

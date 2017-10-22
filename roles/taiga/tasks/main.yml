@@ -1,4 +1,12 @@
 ---
+- name: set facts identifying node roles
+  set_fact:
+    _taiga_is_back_node: "{{ 'taiga-back' in group_names }}"
+    _taiga_is_front_node: "{{ 'taiga-front' in group_names }}"
+    _taiga_is_events_node: "{{ 'taiga-events' in group_names }}"
+  tags:
+    always
+
 - name: populate hosts file
   become: true
   become_user: root
