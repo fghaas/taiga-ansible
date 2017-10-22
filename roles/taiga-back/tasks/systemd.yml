@@ -1,0 +1,47 @@
+- name: add taiga to systemd
+  become: true
+  become_user: "{{ taiga_user }}"
+  template:
+    src: "{{ item }}.service.j2"
+    dest: "/etc/systemd/system/{{ item }}.service"
+    mode: "0644"
+  with_items:
+    - taiga
+    - taiga-celery
+  register: _taiga_service_unit
+  tags:
+    - config
+    - back-config
+
+- name: reload systemd
+  become: true
+  become_user: root
+  systemd:
+    daemon_reload: true
+  when: _taiga_service_unit.changed
+  tags:
+    - config
+    - back-config
+
+- name: start taiga service
+  become: true
+  become_user: root
+  systemd:
+    name: taiga.service
+    enabled: true
+    state: started
+  tags:
+    - config
+    - back-config
+
+- name: start taiga-celery service
+  become: true
+  become_user: root
+  systemd:
+    name: taiga-celery.service
+    enabled: true
+    state: started
+  when: taiga_enable_async_tasks | bool
+  tags:
+    - config
+    - back-config

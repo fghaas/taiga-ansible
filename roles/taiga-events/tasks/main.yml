@@ -87,15 +87,4 @@
     - install
     - events-install
 
-- name: add taiga-events to Circus
-  become: true
-  become_user: "{{ taiga_user }}"
-  template:
-    src: taiga-events.ini.j2
-    dest: "/etc/circus/conf.d/taiga-events.ini"
-  notify:
-    - restart circus
-  tags:
-    - config
-    - events-config
-
+- include: "{{ taiga_service_manager }}.yml"

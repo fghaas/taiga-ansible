@@ -1,5 +1,2 @@
 ---
-- name: restart circus
-  service:
-    name: circusd
-    state: restarted
+- include: "{{ taiga_service_manager }}.yml"

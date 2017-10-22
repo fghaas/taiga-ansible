@@ -1,0 +1,34 @@
+- name: install essential packages
+  become: true
+  become_user: root
+  apt:
+    name: "{{ item }}"
+  with_items:
+    - circus
+    - python-setuptools
+
+- name: "make Circus configuration directory writeable for user {{ taiga_user }}"
+  become: true
+  become_user: root
+  file:
+    path: /etc/circus/conf.d
+    owner: root
+    group: taiga
+    mode: '0775'
+  tags:
+    - config
+    - front-config
+    - back-config
+    - events-config
+
+- name: enable Circus service
+  become: true
+  become_user: root
+  service:
+    name: circusd
+    state: started
+  tags:
+    - config
+    - front-config
+    - back-config
+    - events-config

@@ -1,0 +1,31 @@
+- name: add taiga-events to systemd
+  become: true
+  become_user: "{{ taiga_user }}"
+  template:
+    src: taiga-events.service.j2
+    dest: "/etc/systemd/system/taiga-events.service"
+  register: _taiga_events_service_unit
+  tags:
+    - config
+    - events-config
+
+- name: reload systemd
+  become: true
+  become_user: root
+  systemd:
+    daemon_reload: true
+  when: _taiga_events_service_unit.changed
+  tags:
+    - config
+    - events-config
+
+- name: start taiga-events service
+  become: true
+  become_user: root
+  systemd:
+    name: taiga-events
+    enabled: true
+    state: started
+  tags:
+    - config
+    - events-config

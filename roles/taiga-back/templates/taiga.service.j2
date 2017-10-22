@@ -1,0 +1,24 @@
+[Unit]
+Description=Taiga backend service
+
+[Service]
+Restart=on-failure
+WorkingDirectory={{ taiga_back_checkout_dir }}
+{% if _taiga_is_front_node %}
+ExecStart={{ taiga_back_venv_dir }}/bin/gunicorn -w 3 -t 60 --pythonpath=. -b 127.0.0.1:{{ taiga_backend_port }} taiga.wsgi
+{% else %}
+ExecStart={{ taiga_back_venv_dir }}/bin/gunicorn -w 3 -t 60 --pythonpath=. -b 0.0.0.0:{{ taiga_backend_port }} taiga.wsgi
+{% endif %}
+ExecStop=/bin/kill -TERM $MAINPID
+ExecReload=/bin/kill -HUP $MAINPID
+Environment="PATH={{ taiga_back_venv_dir }}/bin:$PATH"
+Environment="TERM=rxvt-256color"
+Environment="SHELL=/bin/bash"
+Environment="USER={{ taiga_user }}"
+Environment="LANG=en_US.UTF-8"
+Environment="HOME={{ taiga_user_home }}"
+Environment="PYTHONPATH={{ taiga_back_venv_dir }}/lib/python3.5/site-packages"
+User={{ taiga_user }}
+
+[Install]
+WantedBy=default.target

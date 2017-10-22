@@ -1,0 +1,7 @@
+---
+- name: restart circus
+  become: true
+  become_user: root
+  service:
+    name: circusd
+    state: restarted

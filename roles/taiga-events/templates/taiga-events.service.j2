@@ -1,0 +1,16 @@
+[Unit]
+Description=Taiga events service
+
+[Service]
+Type=simple
+Restart=on-failure
+WorkingDirectory={{ taiga_events_checkout_dir }}
+StandardOutput=journal
+StandardError=journal
+ExecStart=/usr/bin/coffee index.coffee
+ExecStop=/bin/kill -TERM $MAINPID
+ExecReload=/bin/kill -HUP $MAINPID
+User={{ taiga_user }}
+
+[Install]
+WantedBy=default.target

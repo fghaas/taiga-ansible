@@ -1,0 +1,6 @@
+---
+- name: restart systemd
+  become: true
+  become_user: root
+  systemd:
+    daemon_reload: true

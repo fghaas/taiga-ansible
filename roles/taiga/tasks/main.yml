@@ -46,37 +46,11 @@
   apt:
     update_cache: true
 
-- name: install essential packages
-  become: true
-  become_user: root
-  apt:
-    name: "{{ item }}"
-  with_items:
-    - circus
-    - python-setuptools
-
-- name: "make Circus configuration directory writeable for user {{ taiga_user }}"
-  become: true
-  become_user: root
-  file:
-    path: /etc/circus/conf.d
-    owner: root
-    group: taiga
-    mode: '0775'
+- name: fail on unsupported service manager
+  fail:
+    msg: "Unsupported value for taiga_service_manager, must be 'circus' or 'systemd'"
+  when: taiga_service_manager not in ['circus', 'systemd']
   tags:
-    - config
-    - front-config
-    - back-config
-    - events-config
+    - always
 
-- name: enable Circus service
-  become: true
-  become_user: root
-  service:
-    name: circusd
-    state: started
-  tags:
-    - config
-    - front-config
-    - back-config
-    - events-config
+- include: "{{ taiga_service_manager }}.yml"
