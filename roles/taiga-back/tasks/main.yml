@@ -227,3 +227,16 @@
   tags:
     - config
     - back-config
+
+- name: add taiga-celery to Circus
+  become: true
+  become_user: "{{ taiga_user }}"
+  template:
+    src: taiga-celery.ini.j2
+    dest: "/etc/circus/conf.d/taiga-celery.ini"
+  when: taiga_enable_async_tasks
+  notify:
+    - restart circus
+  tags:
+    - config
+    - back-config
