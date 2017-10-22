@@ -1,0 +1,7 @@
+---
+- name: fail on unsupported webserver
+  fail:
+    msg: "Unsupported value for taiga_webserver, must be 'nginx'"
+  when: taiga_webserver not in ['nginx',]
+
+- include: "{{ taiga_webserver }}.yml"
