@@ -1,4 +1,10 @@
 ---
+- name: check for required variables
+  assert:
+    that: "{{ item }} is defined"
+  with_items:
+    - taiga_secret_key
+
 - name: set facts identifying node roles
   set_fact:
     _taiga_is_back_node: "{{ 'taiga-back' in group_names }}"
