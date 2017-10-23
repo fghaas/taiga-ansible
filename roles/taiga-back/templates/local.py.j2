@@ -1,16 +1,16 @@
 from .common import *
 
-{% set scheme = 'https' if (taiga_back_enable_ssl | bool) else 'http' %}
+{% set scheme = 'https' if (taiga_enable_ssl | bool) else 'http' %}
 
 MEDIA_URL = "{{ scheme }}://{{ taiga_back_hostname }}:{{ taiga_backend_port }}/media/"
 STATIC_URL = "{{ scheme }}://{{ taiga_back_hostname }}:{{ taiga_backend_port }}/static/"
 SITES["front"]["scheme"] = "{{ scheme }}"
 SITES["front"]["domain"] = "{{ taiga_back_hostname }}"
 
-SECRET_KEY = "{{ taiga_back_secret_key }}"
+SECRET_KEY = "{{ taiga_secret_key }}"
 
-DEBUG = {{ taiga_back_debug | bool }}
-PUBLIC_REGISTER_ENABLED = {{ taiga_back_enable_public_register | bool }}
+DEBUG = {{ taiga_debug | bool }}
+PUBLIC_REGISTER_ENABLED = {{ taiga_enable_public_register | bool }}
 
 DEFAULT_FROM_EMAIL = "{{ taiga_back_default_from_email }}"
 SERVER_EMAIL = DEFAULT_FROM_EMAIL
@@ -19,7 +19,7 @@ CELERY_ENABLED = {{ taiga_enable_async_tasks | bool }}
 
 {% if taiga_enable_events | bool %}
 EVENTS_PUSH_BACKEND = "taiga.events.backends.rabbitmq.EventsPushBackend"
-EVENTS_PUSH_BACKEND_OPTIONS = {"url": "amqp://{{ taiga_back_rabbitmq_user }}:{{ taiga_back_rabbitmq_password }}@{{ taiga_back_rabbitmq_host }}:{{ taiga_back_rabbitmq_port }}/{{ taiga_back_rabbitmq_vhost }}"}
+EVENTS_PUSH_BACKEND_OPTIONS = {"url": "amqp://{{ taiga_rabbitmq_user }}:{{ taiga_rabbitmq_password }}@{{ taiga_rabbitmq_host }}:{{ taiga_rabbitmq_port }}/{{ taiga_rabbitmq_vhost }}"}
 {% endif %}
 
 {% if taiga_enable_email | bool %}
