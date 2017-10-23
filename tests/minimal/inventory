@@ -1,0 +1,5 @@
+[taiga-back]
+localhost ansible_connection=local
+
+[taiga-front:children]
+taiga-back

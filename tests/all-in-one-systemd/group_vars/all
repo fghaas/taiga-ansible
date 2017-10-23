@@ -1,0 +1,3 @@
+---
+taiga_service_manager: systemd
+taiga_rabbitmq_password: 'myverysecretpassword'

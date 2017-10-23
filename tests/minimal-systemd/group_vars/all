@@ -1,0 +1,3 @@
+---
+taiga_secret_key: 'myverysecretsecret'
+taiga_service_manager: 'systemd'
