@@ -14,12 +14,6 @@
   tags:
     - always
 
-- name: determine whether we need a self-signed certificate
-  set_fact:
-    _taiga_webserver_ssl_certificate_selfsign: "{{ (taiga_webserver_ssl_key is undefined) and (ansible_version | version_compare('2.4', '>=')) }}"
-  tags:
-    - always
-
 - name: create DH params
   become: true
   become_user: taiga
@@ -30,4 +24,4 @@
     - config
     - front-config
 
-- include: "ssl-{{ 'selfsign' if _taiga_webserver_ssl_certificate_selfsign | bool else 'signed'}}.yml"
+- include: "ssl-{{ 'selfsign' if taiga_webserver_ssl_key is undefined else 'signed'}}.yml"
