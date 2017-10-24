@@ -1,7 +1,10 @@
 ---
 - name: check for required variables
   assert:
-    that: "{{ item }} is defined"
+    that:
+      - "taiga_secret_key is defined"
+      - "taiga_rabbitmq_password is defined or not (taiga_enable_events | bool or taiga_enable_async_tasks | bool)"
+      - "taiga_service_manager == 'circus' or ansible_version | version_compare('2.2', '>=')"
   with_items:
     - taiga_secret_key
 
