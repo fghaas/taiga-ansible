@@ -1,6 +1,6 @@
 {
     "url": "amqp://{{ taiga_rabbitmq_user }}:{{ taiga_rabbitmq_password }}@{{ taiga_rabbitmq_host }}:{{ taiga_rabbitmq_port }}",
-    "secret": "{{ taiga_events_secret_key }}",
+    "secret": "{{ taiga_secret_key }}",
     "webSocketServer": {
         "port": {{ taiga_events_port }}
     }

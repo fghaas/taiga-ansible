@@ -81,7 +81,7 @@
   become: true
   become_user: root
   rabbitmq_vhost:
-    name: "{{ taiga_back_rabbitmq_vhost }}"
+    name: "{{ taiga_rabbitmq_vhost }}"
   when: (taiga_enable_async_tasks or taiga_enable_events)
   tags:
     - install
@@ -91,9 +91,9 @@
   become: true
   become_user: root
   rabbitmq_user:
-    user: "{{ taiga_back_rabbitmq_user }}"
-    password: "{{ taiga_back_rabbitmq_password }}"
-    vhost: "{{ taiga_back_rabbitmq_vhost }}"
+    user: "{{ taiga_rabbitmq_user }}"
+    password: "{{ taiga_rabbitmq_password }}"
+    vhost: "{{ taiga_rabbitmq_vhost }}"
     configure_priv: .*
     read_priv: .*
     write_priv: .*

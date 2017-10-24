@@ -117,15 +117,10 @@ taiga_back_load_initial_user_data: true
 taiga_back_log_dir: "{{ taiga_log_dir }}"
 taiga_back_postgres_db: taiga
 taiga_back_postgres_user: "{{ taiga_user }}"
-taiga_back_rabbitmq_host: "{{ taiga_rabbitmq_host }}"
-taiga_back_rabbitmq_password: "{{ taiga_rabbitmq_password }}"
-taiga_back_rabbitmq_port: "{{ taiga_rabbitmq_port }}"
-taiga_back_rabbitmq_user: "{{ taiga_rabbitmq_user }}"
-taiga_back_rabbitmq_vhost: "{{ taiga_rabbitmq_vhost }}"
 taiga_back_repo: "{{ taiga_git_mirror }}/taiga-back.git"
-taiga_back_secret_key: "{{ taiga_secret_key }}"
 taiga_back_venv_dir: "{{ taiga_venv_dir }}"
 taiga_back_version: "{{ taiga_version }}"
+
 ```
 
 ## Variables defined in `taiga-events`
@@ -138,6 +133,6 @@ taiga_events_version: "master"
 taiga_events_checkout_dir: "{{ taiga_user_home }}/taiga-events"
 taiga_events_backend_hostname: "{{ hostvars[groups['taiga-back'][0]]['ansible_fqdn'] }}"
 taiga_events_rabbitmq_host: "{{ taiga_rabbitmq_host }}"
-taiga_events_secret_key: "{{ taiga_secret_key }}"
 taiga_events_log_dir: "{{ taiga_log_dir }}"
+
 ```
