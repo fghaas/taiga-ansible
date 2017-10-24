@@ -1,2 +1,12 @@
 ---
-- include: "{{ taiga_service_manager }}.yml"
+- name: restart circus
+  become: true
+  become_user: root
+  service:
+    name: circusd
+    state: restarted
+
+- name: restart systemd
+  become: true
+  become_user: root
+  command: systemctl daemon-reload
