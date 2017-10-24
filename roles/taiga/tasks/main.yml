@@ -41,6 +41,11 @@
     name: "{{ taiga_user }}"
     groups: sudo
     home: "{{ taiga_user_home }}"
+  tags:
+    - install
+    - front-install
+    - back-install
+    - events-install
 
 - name: "create logs directory"
   become: true
@@ -48,12 +53,22 @@
   file:
     path: "{{ taiga_log_dir }}"
     state: directory
+  tags:
+    - install
+    - front-install
+    - back-install
+    - events-install
 
 - name: update package cache
   become: true
   become_user: root
   apt:
     update_cache: true
+  tags:
+    - install
+    - front-install
+    - back-install
+    - events-install
 
 - name: fail on unsupported service manager
   fail:
