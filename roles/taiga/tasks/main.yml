@@ -49,10 +49,12 @@
 
 - name: "create logs directory"
   become: true
-  become_user: "{{ taiga_user }}"
+  become_user: root
   file:
     path: "{{ taiga_log_dir }}"
     state: directory
+    owner: "{{ taiga_user }}"
+    group: "{{ taiga_user }}"
   tags:
     - install
     - front-install
