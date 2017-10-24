@@ -15,10 +15,10 @@
   roles:
     - role: taiga-back
 
-- hosts: taiga-front
-  roles:
-    - role: taiga-front
-
 - hosts: taiga-events
   roles:
     - role: taiga-events
+
+- hosts: taiga-front
+  roles:
+    - role: taiga-front
