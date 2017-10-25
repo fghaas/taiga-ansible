@@ -21,13 +21,8 @@
     - libncurses5-dev
     - libtool
     - libzmq3-dev
-    - postgresql-9.5
-    - postgresql-contrib-9.5
-    - postgresql-doc-9.5
-    - postgresql-server-dev-9.5
     - python-dev
     - python-pip
-    - python-psycopg2
     - python3
     - python3-dev
     - python3-pip
@@ -38,73 +33,18 @@
     - install
     - back-install
 
-- name: optionally install RabbitMQ
-  become: true
-  become_user: root
-  apt:
-    name: rabbitmq-server
-  when: >
-    (taiga_enable_async_tasks or taiga_enable_events)
-    and (taiga_rabbitmq_host in ['localhost', '127.0.0.1', '::1', ansible_hostname, ansible_fqdn])
-  tags:
-    - install
-    - back-install
+- name: set facts identifying backend services
+  set_fact:
+    - _taiga_is_rabbit_node: "(taiga_enable_async_tasks or taiga_enable_events) and (taiga_rabbitmq_host in ['localhost', '127.0.0.1', '::1', ansible_hostname, ansible_fqdn])"
+    - _taiga_is_redis_node: "(taiga_enable_async_tasks | bool) and (taiga_back_redis_host in ['localhost', '127.0.0.1', '::1', ansible_hostname, ansible_fqdn])"
 
-- name: optionally install Redis
-  become: true
-  become_user: root
-  apt:
-    name: redis-server
-  when: >
-    (taiga_enable_async_tasks | bool)
-    and (taiga_back_redis_host in ['localhost', '127.0.0.1', '::1', ansible_hostname, ansible_fqdn])
-  tags:
-    - install
-    - back-install
+- include: rabbitmq.yml
+  when: _taiga_is_rabbit_node
 
-- name: create PostgreSQL user
-  become: true
-  become_user: postgres
-  postgresql_user:
-    name: "{{ taiga_back_postgres_user }}"
-  tags:
-    - install
-    - back-install
+- include: redis.yml
+  when: _taiga_is_redis_node
 
-- name: create PostgreSQL database
-  become: true
-  become_user: postgres
-  postgresql_db:
-    name: "{{ taiga_back_postgres_db }}"
-    owner: "{{ taiga_back_postgres_user }}"
-  tags:
-    - install
-    - back-install
-
-- name: optionally create RabbitMQ vhost
-  become: true
-  become_user: root
-  rabbitmq_vhost:
-    name: "{{ taiga_rabbitmq_vhost }}"
-  when: (taiga_enable_async_tasks or taiga_enable_events)
-  tags:
-    - install
-    - back-install
-
-- name: optionally create RabbitMQ user
-  become: true
-  become_user: root
-  rabbitmq_user:
-    user: "{{ taiga_rabbitmq_user }}"
-    password: "{{ taiga_rabbitmq_password }}"
-    vhost: "{{ taiga_rabbitmq_vhost }}"
-    configure_priv: .*
-    read_priv: .*
-    write_priv: .*
-  when: (taiga_enable_async_tasks or taiga_enable_events)
-  tags:
-    - install
-    - back-install
+- include: postgresql.yml
 
 - name: check out git repository
   become: true

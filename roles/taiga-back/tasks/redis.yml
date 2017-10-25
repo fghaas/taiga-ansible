@@ -1,0 +1,9 @@
+- name: install Redis
+  become: true
+  become_user: root
+  apt:
+    name: redis-server
+  tags:
+    - install
+    - back-install
+

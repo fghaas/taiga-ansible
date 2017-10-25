@@ -1,0 +1,34 @@
+- name: install required database packages
+  become: true
+  become_user: root
+  apt:
+    name: "{{ item }}"
+  with_items:
+    - postgresql-9.5
+    - postgresql-contrib-9.5
+    - postgresql-doc-9.5
+    - postgresql-server-dev-9.5
+    - python-psycopg2
+  tags:
+    - install
+    - back-install
+
+- name: create PostgreSQL user
+  become: true
+  become_user: postgres
+  postgresql_user:
+    name: "{{ taiga_back_postgres_user }}"
+  tags:
+    - install
+    - back-install
+
+- name: create PostgreSQL database
+  become: true
+  become_user: postgres
+  postgresql_db:
+    name: "{{ taiga_back_postgres_db }}"
+    owner: "{{ taiga_back_postgres_user }}"
+  tags:
+    - install
+    - back-install
+
