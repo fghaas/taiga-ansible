@@ -1,3 +1,4 @@
 ---
 taiga_secret_key: 'myverysecretsecret'
 taiga_rabbitmq_password: 'myverysecretpassword'
+taiga_enable_events: true
