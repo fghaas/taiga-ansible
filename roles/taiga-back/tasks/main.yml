@@ -43,7 +43,9 @@
   become_user: root
   apt:
     name: rabbitmq-server
-  when: (taiga_enable_async_tasks or taiga_enable_events)
+  when: >
+    (taiga_enable_async_tasks or taiga_enable_events)
+    and (taiga_rabbitmq_host in ['localhost', '127.0.0.1', '::1', ansible_hostname, ansible_fqdn])
   tags:
     - install
     - back-install
