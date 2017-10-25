@@ -53,7 +53,9 @@
   become_user: root
   apt:
     name: redis-server
-  when: taiga_enable_async_tasks
+  when: >
+    (taiga_enable_async_tasks | bool)
+    and (taiga_back_redis_host in ['localhost', '127.0.0.1', '::1', ansible_hostname, ansible_fqdn])
   tags:
     - install
     - back-install
