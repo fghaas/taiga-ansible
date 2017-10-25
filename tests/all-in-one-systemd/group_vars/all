@@ -1,3 +1,4 @@
 ---
 taiga_service_manager: systemd
+taiga_secret_key: 'myverysecretsecret'
 taiga_rabbitmq_password: 'myverysecretpassword'
