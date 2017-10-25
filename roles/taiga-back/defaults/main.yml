@@ -1,16 +1,40 @@
 ---
+# What repo should we check out?
+taiga_back_repo: "{{ taiga_git_mirror }}/taiga-back.git"
 taiga_back_checkout_dir: "{{ taiga_user_home }}/taiga-back"
-taiga_back_create_sample_data: false
+taiga_back_version: "{{ taiga_version }}"
+
+# What name should we use for the virtualenv for the backend?
+taiga_back_venv_name: taiga
+
+# Where should we install the virtualenv for the backend?
+taiga_back_venv_dir: "{{ taiga_user_home }}/{{ taiga_back_venv_name }}"
+
+# Where should we write our logs?
+taiga_back_log_dir: "{{ taiga_log_dir }}"
+
+# Do we want to enable debugging for the backend?
 taiga_back_debug: "{{ taiga_debug }}"
-taiga_back_default_from_email: "no-reply@{{ taiga_back_domain }}"
-taiga_back_domain: "{{ ansible_domain }}"
+
+# Which hostname should go into the Django app's configuration?
 taiga_back_hostname: "{{ ansible_fqdn }}"
+
+# Do we want to load the Taiga initial project templates and user
+# data?
 taiga_back_load_initial_project_templates: true
 taiga_back_load_initial_user_data: true
-taiga_back_log_dir: "{{ taiga_log_dir }}"
+
+# Do we want to create a set of sample Taiga data? (Leave disabled on
+# a production system.)
+taiga_back_create_sample_data: false
+
+# Which address should the backend send email from? (Ignored if
+# taiga_enable_email is off.)
+taiga_back_default_from_email: "no-reply@{{ ansible_domain }}"
+
+# What PostgreSQL database should we be using?
 taiga_back_postgres_db: taiga
 taiga_back_postgres_user: "{{ taiga_user }}"
+
+# Which Redis host should we connect to?
 taiga_back_redis_host: localhost
-taiga_back_repo: "{{ taiga_git_mirror }}/taiga-back.git"
-taiga_back_venv_dir: "{{ taiga_venv_dir }}"
-taiga_back_version: "{{ taiga_version }}"

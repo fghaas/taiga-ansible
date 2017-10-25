@@ -1,34 +1,96 @@
 ---
-taiga_populate_hosts: true
+# Which host runs our backend?
+taiga_backend_host: "{{ hostvars[groups['taiga-back'][0]]['ansible_fqdn'] }}"
+
+# Which host should run the taiga-events service?
+taiga_events_host: "{{ hostvars[groups['taiga-events'][0]]['ansible_fqdn'] }}"
+
+# Which host should run the Taiga front end?
+taiga_frontend_host: "{{ hostvars[groups['taiga-front'][0]]['ansible_fqdn'] }}"
+
+# Which user should be created on all hosts for Taiga's own purposes?
+# Taiga services must not be run as root.
 taiga_user: taiga
+
+# Which home directory should we create for the Taiga user?
 taiga_user_home: '/home/{{ taiga_user }}'
+
+# Which directory should Taiga write its logs to?
 taiga_log_dir: '{{ taiga_user_home }}/logs'
-taiga_git_mirror: 'https://github.com/taigaio'
-taiga_version: stable
-taiga_venv_name: taiga
-taiga_venv_dir: "{{ taiga_user_home }}/{{ taiga_venv_name }}"
+
+# What port should the Taiga backend Django REST application listen on?
+taiga_backend_port: 8001
+
+# Do we want debug logging for all services? Can be overridden on a
+# per-role basis. Do not enable this permanently on a production
+# system, particularly when simultaneously setting
+# taiga_enable_async_tasks (there are known memory leaks in Celery
+# when running in debug mode).
 taiga_debug: false
-taiga_enable_ssl: false
-taiga_enable_public_register: false
-taiga_enable_feedback: false
-taiga_enable_async_tasks: false
-taiga_enable_events: false
+
+# Should Taiga send email?
 taiga_enable_email: false
-taiga_email_use_tls: false
+
+# What SMTP host, port, username and password should Taiga use for
+# sending email? (Only applies when taiga_email_enable is set.)
 taiga_email_host: "{{ ansible_fqdn }}"
-taiga_email_host_user: ""
 taiga_email_host_password: ""
+taiga_email_host_user: "{{ taiga_user }}@{{ ansible_domain }}"
 taiga_email_port: 25
+
+# Do we want to connect with TLS when sending email? (Only applies
+# when taiga_email_enable is set.)
+taiga_email_use_tls: false
+
+# Should Taiga enable asynchronous task processing with Celery?
+taiga_enable_async_tasks: false
+
+# Should Taiga enable websockets events?
+taiga_enable_events: false
+
+# Which (backend) port should the taiga-events service listen on?
+taiga_events_port: 8888
+
+# Should Taiga come with a "Send feedback" button?
+taiga_enable_feedback: false
+
+# Do we want users to be able to log in with their GitHub identity?
 taiga_enable_github_login: false
+
+# What API client ID and secret should be used when authenticating
+# users via GitHub?(Ignored unless taiga_enable_github_login is set.)
 taiga_github_api_client_id: ""
 taiga_github_api_client_secret: ""
-taiga_frontend_host: "{{ hostvars[groups['taiga-front'][0]]['ansible_fqdn'] }}"
-taiga_backend_host: "{{ hostvars[groups['taiga-back'][0]]['ansible_fqdn'] }}"
-taiga_events_host: "{{ hostvars[groups['taiga-events'][0]]['ansible_fqdn'] }}"
-taiga_rabbitmq_user: "taiga"
+
+# Do we want to enable anyone to register?
+taiga_enable_public_register: false
+
+# Should Taiga enable SSL for the frontend web site (HTTPS) and events
+# WebSockets (WSS)?
+taiga_enable_ssl: false
+
+# Which GitHub organization should we clone Taiga from?
+taiga_git_mirror: 'https://github.com/taigaio'
+
+# What Taiga version, tag, branch, or commit should we check out
+# when installing?
+taiga_version: stable
+
+# Do we want to create name/address entries for all hosts we touch, in
+# every hosts's /etc/hosts file?
+taiga_populate_hosts: true
+
+# Which RabbitMQ host should Taiga communicate with? Ignored if
+# neither taiga_enable_events nor taiga_enable_async_tasks is set.  If
+# either of the two is set, then RabbitMQ will be installed on the
+# matching node.
 taiga_rabbitmq_host: "{{ taiga_backend_host }}"
 taiga_rabbitmq_port: 5672
+taiga_rabbitmq_user: "taiga"
 taiga_rabbitmq_vhost: taiga
-taiga_backend_port: 8001
-taiga_events_port: 8888
+
+# Which service manager should run the Taiga gunicorn, Celery, and
+# node.js services? Defaults to "circus" because that is the
+# upstream-preferred default. Can also be set to "systemd", if using
+# Ansible 2.2 or later.
 taiga_service_manager: circus

@@ -4,38 +4,100 @@
 
 ```yaml
 ---
-taiga_populate_hosts: true
+# Which host runs our backend?
+taiga_backend_host: "{{ hostvars[groups['taiga-back'][0]]['ansible_fqdn'] }}"
+
+# Which host should run the taiga-events service?
+taiga_events_host: "{{ hostvars[groups['taiga-events'][0]]['ansible_fqdn'] }}"
+
+# Which host should run the Taiga front end?
+taiga_frontend_host: "{{ hostvars[groups['taiga-front'][0]]['ansible_fqdn'] }}"
+
+# Which user should be created on all hosts for Taiga's own purposes?
+# Taiga services must not be run as root.
 taiga_user: taiga
+
+# Which home directory should we create for the Taiga user?
 taiga_user_home: '/home/{{ taiga_user }}'
+
+# Which directory should Taiga write its logs to?
 taiga_log_dir: '{{ taiga_user_home }}/logs'
-taiga_git_mirror: 'https://github.com/taigaio'
-taiga_version: stable
-taiga_venv_name: taiga
-taiga_venv_dir: "{{ taiga_user_home }}/{{ taiga_venv_name }}"
+
+# What port should the Taiga backend Django REST application listen on?
+taiga_backend_port: 8001
+
+# Do we want debug logging for all services? Can be overridden on a
+# per-role basis. Do not enable this permanently on a production
+# system, particularly when simultaneously setting
+# taiga_enable_async_tasks (there are known memory leaks in Celery
+# when running in debug mode).
 taiga_debug: false
-taiga_enable_ssl: false
-taiga_enable_public_register: false
-taiga_enable_feedback: false
-taiga_enable_async_tasks: false
-taiga_enable_events: false
+
+# Should Taiga send email?
 taiga_enable_email: false
-taiga_email_use_tls: false
+
+# What SMTP host, port, username and password should Taiga use for
+# sending email? (Only applies when taiga_email_enable is set.)
 taiga_email_host: "{{ ansible_fqdn }}"
-taiga_email_host_user: ""
 taiga_email_host_password: ""
+taiga_email_host_user: "{{ taiga_user }}@{{ ansible_domain }}"
 taiga_email_port: 25
+
+# Do we want to connect with TLS when sending email? (Only applies
+# when taiga_email_enable is set.)
+taiga_email_use_tls: false
+
+# Should Taiga enable asynchronous task processing with Celery?
+taiga_enable_async_tasks: false
+
+# Should Taiga enable websockets events?
+taiga_enable_events: false
+
+# Which (backend) port should the taiga-events service listen on?
+taiga_events_port: 8888
+
+# Should Taiga come with a "Send feedback" button?
+taiga_enable_feedback: false
+
+# Do we want users to be able to log in with their GitHub identity?
 taiga_enable_github_login: false
+
+# What API client ID and secret should be used when authenticating
+# users via GitHub?(Ignored unless taiga_enable_github_login is set.)
 taiga_github_api_client_id: ""
 taiga_github_api_client_secret: ""
-taiga_frontend_host: "{{ hostvars[groups['taiga-front'][0]]['ansible_fqdn'] }}"
-taiga_backend_host: "{{ hostvars[groups['taiga-back'][0]]['ansible_fqdn'] }}"
-taiga_events_host: "{{ hostvars[groups['taiga-events'][0]]['ansible_fqdn'] }}"
-taiga_rabbitmq_user: "taiga"
+
+# Do we want to enable anyone to register?
+taiga_enable_public_register: false
+
+# Should Taiga enable SSL for the frontend web site (HTTPS) and events
+# WebSockets (WSS)?
+taiga_enable_ssl: false
+
+# Which GitHub organization should we clone Taiga from?
+taiga_git_mirror: 'https://github.com/taigaio'
+
+# What Taiga version, tag, branch, or commit should we check out
+# when installing?
+taiga_version: stable
+
+# Do we want to create name/address entries for all hosts we touch, in
+# every hosts's /etc/hosts file?
+taiga_populate_hosts: true
+
+# Which RabbitMQ host should Taiga communicate with? Ignored if
+# neither taiga_enable_events nor taiga_enable_async_tasks is set.  If
+# either of the two is set, then RabbitMQ will be installed on the
+# matching node.
 taiga_rabbitmq_host: "{{ taiga_backend_host }}"
 taiga_rabbitmq_port: 5672
+taiga_rabbitmq_user: "taiga"
 taiga_rabbitmq_vhost: taiga
-taiga_backend_port: 8001
-taiga_events_port: 8888
+
+# Which service manager should run the Taiga gunicorn, Celery, and
+# node.js services? Defaults to "circus" because that is the
+# upstream-preferred default. Can also be set to "systemd", if using
+# Ansible 2.2 or later.
 taiga_service_manager: circus
 
 ```
@@ -44,13 +106,21 @@ taiga_service_manager: circus
 
 ```yaml
 ---
+# Which webserver should we install for the Taiga frontend? Currently
+# only supports "nginx" because that is the upstream-preferred
+# default.
 taiga_webserver: nginx
+
+# Do we want to enable debug logging for the webserver?
 taiga_webserver_debug: "{{ taiga_debug }}"
-taiga_webserver_ssl_dhparam_bits: 4096
-taiga_webserver_ssl_protocols:
-  - TLSv1
-  - TLSv1.1
-  - TLSv1.2
+
+# Do we want to enable HSTS, and if so, with what max age? (Ignored if
+# taiga_enable_ssl is off.)
+taiga_webserver_enable_hsts: true
+taiga_webserver_hsts_max_age: 63072000
+
+# Which SSL ciphers do we want to allow? (Ignored if taiga_enable_ssl
+# is off.)
 taiga_webserver_ssl_ciphers:
   - ECDHE-RSA-AES128-GCM-SHA256
   - ECDHE-ECDSA-AES128-GCM-SHA256
@@ -81,8 +151,17 @@ taiga_webserver_ssl_ciphers:
   - '!3DES'
   - '!MD5'
   - '!PSK'
-taiga_webserver_enable_hsts: true
-taiga_webserver_hsts_max_age: 63072000
+
+# What length do we want for our Diffie-Hellman parameters? (Ignored if
+# taiga_enable_ssl is off.)
+taiga_webserver_ssl_dhparam_bits: 4096
+
+# Which SSL protocols do we want to allow? (Ignored if
+# taiga_enable_ssl is off.)
+taiga_webserver_ssl_protocols:
+  - TLSv1
+  - TLSv1.1
+  - TLSv1.2
 
 ```
 
@@ -90,13 +169,18 @@ taiga_webserver_hsts_max_age: 63072000
 
 ```yaml
 ---
+# What repo should we check out?
 taiga_front_repo: "{{ taiga_git_mirror }}/taiga-front-dist.git"
-taiga_front_version: "{{ taiga_version }}"
 taiga_front_checkout_dir: "{{ taiga_user_home }}/taiga-front-dist"
-taiga_front_debug: "{{ taiga_debug }}"
-taiga_front_backend_hostname: "{{ taiga_backend_host }}"
+taiga_front_version: "{{ taiga_version }}"
+
+# Where should we write our logs?
 taiga_front_log_dir: "{{ taiga_log_dir }}"
-taiga_front_events_hostname: "{{ taiga_events_host }}"
+
+# Do we want to enable debugging for the frontend?
+taiga_front_debug: "{{ taiga_debug }}"
+
+# Do we want to expose the Django admin interface in the front end?
 taiga_front_enable_django_admin: false
 
 ```
@@ -105,20 +189,43 @@ taiga_front_enable_django_admin: false
 
 ```yaml
 ---
+# What repo should we check out?
+taiga_back_repo: "{{ taiga_git_mirror }}/taiga-back.git"
 taiga_back_checkout_dir: "{{ taiga_user_home }}/taiga-back"
-taiga_back_create_sample_data: false
+taiga_back_version: "{{ taiga_version }}"
+
+# What name should we use for the virtualenv for the backend?
+taiga_back_venv_name: taiga
+
+# Where should we install the virtualenv for the backend?
+taiga_back_venv_dir: "{{ taiga_user_home }}/{{ taiga_back_venv_name }}"
+
+# Where should we write our logs?
+taiga_back_log_dir: "{{ taiga_log_dir }}"
+
+# Do we want to enable debugging for the backend?
 taiga_back_debug: "{{ taiga_debug }}"
-taiga_back_default_from_email: "no-reply@{{ taiga_back_domain }}"
-taiga_back_domain: "{{ ansible_domain }}"
+
+# Which hostname should go into the Django app's configuration?
 taiga_back_hostname: "{{ ansible_fqdn }}"
+
+# Do we want to load the Taiga initial project templates and user
+# data?
 taiga_back_load_initial_project_templates: true
 taiga_back_load_initial_user_data: true
-taiga_back_log_dir: "{{ taiga_log_dir }}"
+
+# Do we want to create a set of sample Taiga data? (Leave disabled on
+# a production system.)
+taiga_back_create_sample_data: false
+
+# Which address should the backend send email from? (Ignored if
+# taiga_enable_email is off.)
+taiga_back_default_from_email: "no-reply@{{ ansible_domain }}"
+
+# What PostgreSQL database should we be using?
 taiga_back_postgres_db: taiga
 taiga_back_postgres_user: "{{ taiga_user }}"
-taiga_back_repo: "{{ taiga_git_mirror }}/taiga-back.git"
-taiga_back_venv_dir: "{{ taiga_venv_dir }}"
-taiga_back_version: "{{ taiga_version }}"
+taiga_back_redis_host: localhost
 
 ```
 
@@ -126,11 +233,12 @@ taiga_back_version: "{{ taiga_version }}"
 
 ```yaml
 ---
+# What repo should we check out?
 taiga_events_repo: "{{ taiga_git_mirror }}/taiga-events.git"
-# No stable branch exists for taiga-events
-taiga_events_version: "master"
 taiga_events_checkout_dir: "{{ taiga_user_home }}/taiga-events"
-taiga_events_backend_hostname: "{{ hostvars[groups['taiga-back'][0]]['ansible_fqdn'] }}"
+taiga_events_version: "master"  # No stable branch exists for taiga-events
+
+# Where should we write our logs?
 taiga_events_log_dir: "{{ taiga_log_dir }}"
 
 ```

@@ -1,11 +1,19 @@
 ---
+# Which webserver should we install for the Taiga frontend? Currently
+# only supports "nginx" because that is the upstream-preferred
+# default.
 taiga_webserver: nginx
+
+# Do we want to enable debug logging for the webserver?
 taiga_webserver_debug: "{{ taiga_debug }}"
-taiga_webserver_ssl_dhparam_bits: 4096
-taiga_webserver_ssl_protocols:
-  - TLSv1
-  - TLSv1.1
-  - TLSv1.2
+
+# Do we want to enable HSTS, and if so, with what max age? (Ignored if
+# taiga_enable_ssl is off.)
+taiga_webserver_enable_hsts: true
+taiga_webserver_hsts_max_age: 63072000
+
+# Which SSL ciphers do we want to allow? (Ignored if taiga_enable_ssl
+# is off.)
 taiga_webserver_ssl_ciphers:
   - ECDHE-RSA-AES128-GCM-SHA256
   - ECDHE-ECDSA-AES128-GCM-SHA256
@@ -36,5 +44,14 @@ taiga_webserver_ssl_ciphers:
   - '!3DES'
   - '!MD5'
   - '!PSK'
-taiga_webserver_enable_hsts: true
-taiga_webserver_hsts_max_age: 63072000
+
+# What length do we want for our Diffie-Hellman parameters? (Ignored if
+# taiga_enable_ssl is off.)
+taiga_webserver_ssl_dhparam_bits: 4096
+
+# Which SSL protocols do we want to allow? (Ignored if
+# taiga_enable_ssl is off.)
+taiga_webserver_ssl_protocols:
+  - TLSv1
+  - TLSv1.1
+  - TLSv1.2

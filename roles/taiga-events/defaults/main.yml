@@ -1,7 +1,8 @@
 ---
+# What repo should we check out?
 taiga_events_repo: "{{ taiga_git_mirror }}/taiga-events.git"
-# No stable branch exists for taiga-events
-taiga_events_version: "master"
 taiga_events_checkout_dir: "{{ taiga_user_home }}/taiga-events"
-taiga_events_backend_hostname: "{{ hostvars[groups['taiga-back'][0]]['ansible_fqdn'] }}"
+taiga_events_version: "master"  # No stable branch exists for taiga-events
+
+# Where should we write our logs?
 taiga_events_log_dir: "{{ taiga_log_dir }}"
