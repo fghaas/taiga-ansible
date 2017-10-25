@@ -1,0 +1,8 @@
+[taiga-front]
+localhost
+
+[taiga-back]
+localhost
+
+[taiga-events]
+localhost

@@ -1,0 +1,38 @@
+---
+sudo: false
+dist: trusty
+
+language: python
+python:
+  - "2.7"
+  - "3.5"
+
+# Doc: https://docs.travis-ci.com/user/customizing-the-build#Build-Matrix
+env:
+  - ANSIBLE_VERSION=latest
+  - ANSIBLE_VERSION=2.4.0.0
+  - ANSIBLE_VERSION=2.3.2.0
+  - ANSIBLE_VERSION=2.2.3.0
+  - ANSIBLE_VERSION=2.1.1.0
+
+# Python 3 support was added in Ansible 2.2
+matrix:
+  exclude:
+    - python: "3.5"
+      env: ANSIBLE_VERSION=2.1.1.0
+
+branches:
+  only:
+    - master
+
+before_install:
+  - sudo apt-get update -qq
+
+install:
+  # Install Ansible.
+  - if [ "$ANSIBLE_VERSION" = "latest" ]; then pip install ansible; else pip install ansible==$ANSIBLE_VERSION; fi
+  - if [ "$ANSIBLE_VERSION" = "latest" ]; then pip install ansible-lint; fi
+
+script:
+  # Check the role/playbook's syntax.
+  - ansible-playbook -i tests/syntax-check/inventory taiga.yml --syntax-check
