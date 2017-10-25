@@ -17,7 +17,7 @@ server {
     index index.html;
 
     access_log {{ taiga_log_dir }}/nginx.access.log;
-    error_log {{ taiga_log_dir }}/nginx.error.log;
+    error_log {{ taiga_log_dir }}/nginx.error.log{{ ' debug' if taiga_webserver_debug | bool else '' }};
 
     # Frontend
     location / {

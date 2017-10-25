@@ -1,5 +1,6 @@
 ---
 taiga_webserver: nginx
+taiga_webserver_debug: "{{ taiga_debug }}"
 taiga_webserver_ssl_dhparam_bits: 4096
 taiga_webserver_ssl_protocols:
   - TLSv1
