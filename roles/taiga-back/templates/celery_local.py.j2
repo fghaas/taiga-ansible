@@ -1,0 +1,3 @@
+from .celery import *
+
+broker_url = 'amqp://{{ taiga_rabbitmq_user }}:{{ taiga_rabbitmq_password }}@{{ taiga_rabbitmq_host }}:{{ taiga_rabbitmq_port }}/{{ taiga_rabbitmq_vhost }}'

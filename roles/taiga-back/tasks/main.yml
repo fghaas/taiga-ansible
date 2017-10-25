@@ -215,5 +215,19 @@
     - config
     - back-config
 
+- name: optionally deploy local Celery settings
+  become: true
+  become_user: "{{ taiga_user }}"
+  template:
+    mode: '0644'
+    src: celery_local.py.j2
+    dest: "{{ taiga_back_checkout_dir }}/settings/celery_local.py"
+  notify:
+    - "restart {{ taiga_service_manager }}"
+  when: "{{ taiga_enable_async_tasks | bool }}"
+  tags:
+    - config
+    - back-config
+
 - include: "{{ taiga_service_manager }}.yml"
 
