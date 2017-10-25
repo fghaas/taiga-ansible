@@ -4,8 +4,6 @@ taiga_back_create_sample_data: false
 taiga_back_debug: "{{ taiga_debug }}"
 taiga_back_default_from_email: "no-reply@{{ taiga_back_domain }}"
 taiga_back_domain: "{{ ansible_domain }}"
-taiga_back_enable_public_register: "{{ taiga_enable_public_register }}"
-taiga_back_enable_ssl: "{{ taiga_enable_ssl }}"
 taiga_back_hostname: "{{ ansible_fqdn }}"
 taiga_back_load_initial_project_templates: true
 taiga_back_load_initial_user_data: true

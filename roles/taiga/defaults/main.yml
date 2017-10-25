@@ -9,7 +9,6 @@ taiga_venv_name: taiga
 taiga_venv_dir: "{{ taiga_user_home }}/{{ taiga_venv_name }}"
 taiga_debug: false
 taiga_enable_ssl: false
-taiga_enable_hsts: false
 taiga_enable_public_register: false
 taiga_enable_feedback: false
 taiga_enable_async_tasks: false

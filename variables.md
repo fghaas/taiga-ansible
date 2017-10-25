@@ -14,7 +14,6 @@ taiga_venv_name: taiga
 taiga_venv_dir: "{{ taiga_user_home }}/{{ taiga_venv_name }}"
 taiga_debug: false
 taiga_enable_ssl: false
-taiga_enable_hsts: false
 taiga_enable_public_register: false
 taiga_enable_feedback: false
 taiga_enable_async_tasks: false
@@ -38,6 +37,7 @@ taiga_rabbitmq_vhost: taiga
 taiga_backend_port: 8001
 taiga_events_port: 8888
 taiga_service_manager: circus
+
 ```
 
 ## Variables defined in `taiga-webserver`
@@ -45,6 +45,7 @@ taiga_service_manager: circus
 ```yaml
 ---
 taiga_webserver: nginx
+taiga_webserver_debug: "{{ taiga_debug }}"
 taiga_webserver_ssl_dhparam_bits: 4096
 taiga_webserver_ssl_protocols:
   - TLSv1
@@ -82,6 +83,7 @@ taiga_webserver_ssl_ciphers:
   - '!PSK'
 taiga_webserver_enable_hsts: true
 taiga_webserver_hsts_max_age: 63072000
+
 ```
 
 ## Variables defined in `taiga-front`
@@ -92,12 +94,11 @@ taiga_front_repo: "{{ taiga_git_mirror }}/taiga-front-dist.git"
 taiga_front_version: "{{ taiga_version }}"
 taiga_front_checkout_dir: "{{ taiga_user_home }}/taiga-front-dist"
 taiga_front_debug: "{{ taiga_debug }}"
-taiga_front_enable_public_register: "{{ taiga_enable_public_register }}"
-taiga_front_enable_feedback: "{{ taiga_enable_feedback }}"
 taiga_front_backend_hostname: "{{ taiga_backend_host }}"
 taiga_front_log_dir: "{{ taiga_log_dir }}"
 taiga_front_events_hostname: "{{ taiga_events_host }}"
 taiga_front_enable_django_admin: false
+
 ```
 
 ## Variables defined in `taiga-back`
@@ -109,8 +110,6 @@ taiga_back_create_sample_data: false
 taiga_back_debug: "{{ taiga_debug }}"
 taiga_back_default_from_email: "no-reply@{{ taiga_back_domain }}"
 taiga_back_domain: "{{ ansible_domain }}"
-taiga_back_enable_public_register: "{{ taiga_enable_public_register }}"
-taiga_back_enable_ssl: "{{ taiga_enable_ssl }}"
 taiga_back_hostname: "{{ ansible_fqdn }}"
 taiga_back_load_initial_project_templates: true
 taiga_back_load_initial_user_data: true
@@ -132,7 +131,6 @@ taiga_events_repo: "{{ taiga_git_mirror }}/taiga-events.git"
 taiga_events_version: "master"
 taiga_events_checkout_dir: "{{ taiga_user_home }}/taiga-events"
 taiga_events_backend_hostname: "{{ hostvars[groups['taiga-back'][0]]['ansible_fqdn'] }}"
-taiga_events_rabbitmq_host: "{{ taiga_rabbitmq_host }}"
 taiga_events_log_dir: "{{ taiga_log_dir }}"
 
 ```
