@@ -17,7 +17,7 @@
   become: true
   become_user: postgres
   postgresql_user:
-    name: "{{ taiga_back_postgres_user }}"
+    name: "{{ taiga_back_database_user }}"
   tags:
     - install
     - back-install
@@ -26,8 +26,8 @@
   become: true
   become_user: postgres
   postgresql_db:
-    name: "{{ taiga_back_postgres_db }}"
-    owner: "{{ taiga_back_postgres_user }}"
+    name: "{{ taiga_back_database_name }}"
+    owner: "{{ taiga_back_database_user }}"
   tags:
     - install
     - back-install

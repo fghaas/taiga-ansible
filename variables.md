@@ -223,8 +223,8 @@ taiga_back_create_sample_data: false
 taiga_back_default_from_email: "no-reply@{{ ansible_domain }}"
 
 # What PostgreSQL database should we be using?
-taiga_back_postgres_db: taiga
-taiga_back_postgres_user: "{{ taiga_user }}"
+taiga_back_database_name: taiga
+taiga_back_database_user: "{{ taiga_user }}"
 
 # Which Redis host should we connect to?
 taiga_back_redis_host: localhost

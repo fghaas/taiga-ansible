@@ -12,8 +12,8 @@ SECRET_KEY = "{{ taiga_secret_key }}"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "{{ taiga_back_postgres_db }}",
-        "USER": "{{ taiga_back_postgres_user }}",
+        "NAME": "{{ taiga_back_database_name }}",
+        "USER": "{{ taiga_back_database_user }}",
     }
 }
 
