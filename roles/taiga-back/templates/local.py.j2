@@ -9,6 +9,14 @@ SITES["front"]["domain"] = "{{ taiga_back_hostname }}"
 
 SECRET_KEY = "{{ taiga_secret_key }}"
 
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "{{ taiga_back_postgres_db }}",
+        "USER": "{{ taiga_back_postgres_user }}",
+    }
+}
+
 DEBUG = {{ taiga_debug | bool }}
 PUBLIC_REGISTER_ENABLED = {{ taiga_enable_public_register | bool }}
 
