@@ -3,7 +3,7 @@
 {% if taiga_enable_events %}
 	"eventsUrl": "{{'wss' if (taiga_enable_ssl | bool) else 'ws'}}://{{ taiga_frontend_host }}/events",
 {% endif %}
-	"debug": "{{ taiga_front_debug | bool | lower }}",
+	"debug": {{ taiga_front_debug | bool | lower }},
 	"publicRegisterEnabled": {{ taiga_enable_public_register | bool | lower }},
 	"feedbackEnabled": {{ taiga_enable_feedback | bool | lower }},
 	"privacyPolicyUrl": null,
