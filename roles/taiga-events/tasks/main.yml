@@ -74,15 +74,7 @@
   become: true
   become_user: "{{ taiga_user }}"
   npm:
-    name: "{{ item }}"
     path: "{{ taiga_events_checkout_dir }}"
-  with_items:
-    - amqplib
-    - base64-url
-    - bluebird
-    - minimist
-    - node-uuid
-    - ws
   tags:
     - install
     - events-install
