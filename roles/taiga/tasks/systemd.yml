@@ -1,20 +1,4 @@
 ---
-- name: create directory for user systemd unit files
-  become: true
-  become_user: "{{ taiga_user }}"
-  file:
-    path: "{{ item }}"
-    state: directory
-  with_items:
-    - "{{ taiga_user_home }}/.config"
-    - "{{ taiga_user_home }}/.config/systemd"
-    - "{{ taiga_user_home }}/.config/systemd/user"
-  tags:
-    - install
-    - front-install
-    - back-install
-    - events-install
-
 - name: "make systemd configuration directory writeable for user {{ taiga_user }}"
   become: true
   become_user: root
