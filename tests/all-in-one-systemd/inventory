@@ -4,5 +4,5 @@ localhost ansible_connection=local
 [taiga-front:children]
 taiga-back
 
-[taiga-front:children]
+[taiga-events:children]
 taiga-back
