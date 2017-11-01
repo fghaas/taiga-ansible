@@ -6,6 +6,8 @@
     repo: "{{ taiga_front_repo }}"
     dest: "{{ taiga_front_checkout_dir }}"
     version: "{{ taiga_front_version }}"
+  notify:
+    - restart nginx
   tags:
     - install
     - front-install
@@ -18,8 +20,7 @@
     src: conf.json.j2
     dest: "{{ taiga_front_checkout_dir }}/dist/conf.json"
   notify:
-    - restart nginx
+    - "restart {{ taiga_service_manager }}"
   tags:
     - config
     - front-config
-

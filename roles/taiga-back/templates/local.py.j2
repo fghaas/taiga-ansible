@@ -2,10 +2,10 @@ from .common import *
 
 {% set scheme = 'https' if (taiga_enable_ssl | bool) else 'http' %}
 
-MEDIA_URL = "{{ scheme }}://{{ taiga_back_hostname }}:{{ taiga_backend_port }}/media/"
-STATIC_URL = "{{ scheme }}://{{ taiga_back_hostname }}:{{ taiga_backend_port }}/static/"
+MEDIA_URL = "{{ scheme }}://{{ taiga_frontend_host }}/media/"
+STATIC_URL = "{{ scheme }}://{{ taiga_frontend_host }}/static/"
 SITES["front"]["scheme"] = "{{ scheme }}"
-SITES["front"]["domain"] = "{{ taiga_back_hostname }}"
+SITES["front"]["domain"] = "{{ taiga_frontend_host }}"
 
 SECRET_KEY = "{{ taiga_secret_key }}"
 
