@@ -4,7 +4,7 @@ Description=Taiga events service
 [Service]
 Type=simple
 Restart=on-failure
-WorkingDirectory={{ taiga_events_checkout_dir }}
+WorkingDirectory={{ taiga_user_home }}/{{ taiga_events_checkout_dir }}
 StandardOutput=journal
 StandardError=journal
 ExecStart=/usr/bin/coffee index.coffee

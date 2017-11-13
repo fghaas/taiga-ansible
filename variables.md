@@ -21,7 +21,8 @@ taiga_user: taiga
 taiga_user_home: '/home/{{ taiga_user }}'
 
 # Which directory should Taiga write its logs to?
-taiga_log_dir: '{{ taiga_user_home }}/logs'
+# (relative to taiga_user_home)
+taiga_log_dir: 'logs'
 
 # What port should the Taiga backend Django REST application listen on?
 taiga_backend_port: 8001
@@ -170,8 +171,15 @@ taiga_webserver_ssl_protocols:
 ```yaml
 ---
 # What repo should we check out?
-taiga_front_repo: "{{ taiga_git_mirror }}/taiga-front-dist.git"
-taiga_front_checkout_dir: "{{ taiga_user_home }}/taiga-front-dist"
+# (relative to taiga_git_mirror)
+taiga_front_repo: "taiga-front-dist"
+
+# Which directory should we check it out into?
+# (relative to taiga_user_home)
+taiga_front_checkout_dir: "{{ taiga_front_repo }}"
+
+# What Taiga version, tag, branch, or commit should we check out
+# when installing?
 taiga_front_version: "{{ taiga_version }}"
 
 # Where should we write our logs?
@@ -190,15 +198,23 @@ taiga_front_enable_django_admin: false
 ```yaml
 ---
 # What repo should we check out?
-taiga_back_repo: "{{ taiga_git_mirror }}/taiga-back.git"
-taiga_back_checkout_dir: "{{ taiga_user_home }}/taiga-back"
+# (relative to taiga_git_mirror)
+taiga_back_repo: "taiga-back"
+
+# Which directory should we check it out into?
+# (relative to taiga_user_home)
+taiga_back_checkout_dir: "{{ taiga_back_repo }}"
+
+# What Taiga version, tag, branch, or commit should we check out
+# when installing?
 taiga_back_version: "{{ taiga_version }}"
 
 # What name should we use for the virtualenv for the backend?
 taiga_back_venv_name: taiga
 
 # Where should we install the virtualenv for the backend?
-taiga_back_venv_dir: "{{ taiga_user_home }}/{{ taiga_back_venv_name }}"
+# (relative to taiga_user_home)
+taiga_back_venv_dir: ".virtualenvs/{{ taiga_back_venv_name }}"
 
 # Where should we write our logs?
 taiga_back_log_dir: "{{ taiga_log_dir }}"
@@ -222,7 +238,7 @@ taiga_back_create_sample_data: false
 # taiga_enable_email is off.)
 taiga_back_default_from_email: "no-reply@{{ ansible_domain }}"
 
-# What PostgreSQL database should we be using?
+# What PostgreSQL database name and user should we configure?
 taiga_back_database_name: taiga
 taiga_back_database_user: "{{ taiga_user }}"
 
@@ -236,8 +252,15 @@ taiga_back_redis_host: localhost
 ```yaml
 ---
 # What repo should we check out?
-taiga_events_repo: "{{ taiga_git_mirror }}/taiga-events.git"
-taiga_events_checkout_dir: "{{ taiga_user_home }}/taiga-events"
+# (relative to taiga_git_mirror)
+taiga_events_repo: "taiga-events"
+
+# Which directory should we check it out into?
+# (relative to taiga_user_home)
+taiga_events_checkout_dir: "{{ taiga_events_repo }}"
+
+# What Taiga version, tag, branch, or commit should we check out
+# when installing?
 taiga_events_version: "master"  # No stable branch exists for taiga-events
 
 # Where should we write our logs?

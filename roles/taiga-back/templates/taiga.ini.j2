@@ -1,6 +1,6 @@
 {% set _listen_address = '127.0.0.1' if _taiga_is_front_node else '0.0.0.0' %}
 [watcher:taiga]
-working_dir = {{ taiga_back_checkout_dir }}
+working_dir = {{ taiga_user_home }}/{{ taiga_back_checkout_dir }}
 cmd = gunicorn
 args = -w 3 -t 60 --pythonpath=. -b {{ _listen_address }}:{{ taiga_backend_port }}{{ ' --log-level debug' if taiga_back_debug else '' }} taiga.wsgi
 uid = {{ taiga_user }}
@@ -8,11 +8,11 @@ numprocesses = 1
 autostart = true
 send_hup = true
 stdout_stream.class = FileStream
-stdout_stream.filename = {{ taiga_back_log_dir }}/gunicorn.stdout.log
+stdout_stream.filename = {{ taiga_user_home }}/{{ taiga_back_log_dir }}/gunicorn.stdout.log
 stdout_stream.max_bytes = 10485760
 stdout_stream.backup_count = 4
 stderr_stream.class = FileStream
-stderr_stream.filename = {{ taiga_back_log_dir }}/gunicorn.stderr.log
+stderr_stream.filename = {{ taiga_user_home }}/{{ taiga_back_log_dir }}/gunicorn.stderr.log
 stderr_stream.max_bytes = 10485760
 stderr_stream.backup_count = 4
 
@@ -23,4 +23,4 @@ SHELL=/bin/bash
 USER={{ taiga_user }}
 LANG=en_US.UTF-8
 HOME={{ taiga_user_home }}
-PYTHONPATH={{ taiga_back_venv_dir }}/lib/python3.5/site-packages
+PYTHONPATH={{ taiga_user_home }}/{{ taiga_back_venv_dir }}/lib/python3.5/site-packages

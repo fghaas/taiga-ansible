@@ -1,7 +1,14 @@
 ---
 # What repo should we check out?
-taiga_events_repo: "{{ taiga_git_mirror }}/taiga-events.git"
-taiga_events_checkout_dir: "{{ taiga_user_home }}/taiga-events"
+# (relative to taiga_git_mirror)
+taiga_events_repo: "taiga-events"
+
+# Which directory should we check it out into?
+# (relative to taiga_user_home)
+taiga_events_checkout_dir: "{{ taiga_events_repo }}"
+
+# What Taiga version, tag, branch, or commit should we check out
+# when installing?
 taiga_events_version: "master"  # No stable branch exists for taiga-events
 
 # Where should we write our logs?

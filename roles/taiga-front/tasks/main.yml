@@ -9,9 +9,10 @@
   become: true
   become_user: "{{ taiga_user }}"
   git:
-    repo: "{{ taiga_front_repo }}"
-    dest: "{{ taiga_front_checkout_dir }}"
+    repo: "{{ taiga_git_mirror }}/{{ taiga_front_repo }}"
+    dest: "{{ taiga_user_home }}/{{ taiga_front_checkout_dir }}"
     version: "{{ taiga_front_version }}"
+    force: true
   notify:
     - restart nginx
   tags:
@@ -26,7 +27,7 @@
   template:
     mode: '0644'
     src: conf.json.j2
-    dest: "{{ taiga_front_checkout_dir }}/dist/conf.json"
+    dest: "{{ taiga_user_home }}/{{ taiga_front_checkout_dir }}/dist/conf.json"
   notify:
     - "restart {{ taiga_service_manager }}"
   tags:

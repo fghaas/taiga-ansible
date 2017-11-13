@@ -51,7 +51,7 @@
   become: true
   become_user: root
   file:
-    path: "{{ taiga_log_dir }}"
+    path: "{{ taiga_user_home }}/{{ taiga_log_dir }}"
     state: directory
     owner: "{{ taiga_user }}"
     group: "{{ taiga_user }}"

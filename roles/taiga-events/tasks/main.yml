@@ -3,8 +3,8 @@
   become: true
   become_user: "{{ taiga_user }}"
   git:
-    repo: "{{ taiga_events_repo }}"
-    dest: "{{ taiga_events_checkout_dir }}"
+    repo: "{{ taiga_git_mirror }}/{{ taiga_events_repo }}"
+    dest: "{{ taiga_user_home }}/{{ taiga_events_checkout_dir }}"
     version: "{{ taiga_events_version }}"
   tags:
     - install
@@ -15,7 +15,7 @@
   become_user: "{{ taiga_user }}"
   template:
     src: config.json.j2
-    dest: "{{ taiga_events_checkout_dir }}/config.json"
+    dest: "{{ taiga_user_home }}/{{ taiga_events_checkout_dir }}/config.json"
   tags:
     - config
     - events-config
@@ -36,7 +36,7 @@
   become: true
   become_user: "{{ taiga_user }}"
   npm:
-    path: "{{ taiga_events_checkout_dir }}"
+    path: "{{ taiga_user_home }}/{{ taiga_events_checkout_dir }}"
   tags:
     - install
     - events-install

@@ -40,7 +40,7 @@
   become: true
   become_user: "{{ taiga_user }}"
   npm:
-    path: "{{ taiga_front_checkout_dir }}"
+    path: "{{ taiga_user_home }}/{{ taiga_front_checkout_dir }}"
   tags:
     - install
     - front-install
@@ -50,8 +50,8 @@
   become_user: "{{ taiga_user }}"
   shell: gulp deploy
   args:
-    chdir: "{{ taiga_front_checkout_dir }}"
-    creates: "{{ taiga_front_checkout_dir }}/dist/conf.example.json"
+    chdir: "{{ taiga_user_home }}/{{ taiga_front_checkout_dir }}"
+    creates: "{{ taiga_user_home }}/{{ taiga_front_checkout_dir }}/dist/conf.example.json"
   tags:
     - config
     - front-config

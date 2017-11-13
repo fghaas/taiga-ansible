@@ -1,7 +1,14 @@
 ---
 # What repo should we check out?
-taiga_front_repo: "{{ taiga_git_mirror }}/taiga-front-dist.git"
-taiga_front_checkout_dir: "{{ taiga_user_home }}/taiga-front-dist"
+# (relative to taiga_git_mirror)
+taiga_front_repo: "taiga-front-dist"
+
+# Which directory should we check it out into?
+# (relative to taiga_user_home)
+taiga_front_checkout_dir: "{{ taiga_front_repo }}"
+
+# What Taiga version, tag, branch, or commit should we check out
+# when installing?
 taiga_front_version: "{{ taiga_version }}"
 
 # Where should we write our logs?

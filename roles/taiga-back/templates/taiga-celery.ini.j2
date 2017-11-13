@@ -1,5 +1,5 @@
 [watcher:taiga-celery]
-working_dir = {{ taiga_back_checkout_dir }}
+working_dir = {{ taiga_user_home }}/{{ taiga_back_checkout_dir }}
 cmd = celery
 args = -A taiga worker -c 4
 uid = {{ taiga_user }}
@@ -7,11 +7,11 @@ uid = {{ taiga_user }}
 autostart = true
 send_hup = true
 stdout_stream.class = FileStream
-stdout_stream.filename = {{ taiga_back_log_dir }}/celery.stdout.log
+stdout_stream.filename = {{ taiga_user_home }}/{{ taiga_back_log_dir }}/celery.stdout.log
 stdout_stream.max_bytes = 10485760
 stdout_stream.backup_count = 4
 stderr_stream.class = FileStream
-stderr_stream.filename = {{ taiga_back_log_dir }}/celery.stderr.log
+stderr_stream.filename = {{ taiga_user_home }}/{{ taiga_back_log_dir }}/celery.stderr.log
 stderr_stream.max_bytes = 10485760
 stderr_stream.backup_count = 4
 
@@ -22,4 +22,4 @@ SHELL=/bin/bash
 USER={{ taiga_user }}
 LANG=en_US.UTF-8
 HOME=/home/taiga
-PYTHONPATH={{ taiga_back_venv_dir }}/lib/python3.5/site-packages
+PYTHONPATH={{ taiga_user_home }}/{{ taiga_back_venv_dir }}/lib/python3.5/site-packages

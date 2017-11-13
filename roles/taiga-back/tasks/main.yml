@@ -51,8 +51,8 @@
   become: true
   become_user: "{{ taiga_user }}"
   git:
-    repo: "{{ taiga_back_repo }}"
-    dest: "{{ taiga_back_checkout_dir }}"
+    repo: "{{ taiga_git_mirror }}/{{ taiga_back_repo }}"
+    dest: "{{ taiga_user_home }}/{{ taiga_back_checkout_dir }}"
     version: "{{ taiga_back_version }}"
   tags:
     - install
@@ -63,7 +63,7 @@
   become_user: "{{ taiga_user }}"
   command: >
     virtualenv --python=python3.5
-    {{ taiga_back_venv_dir }}
+    {{ taiga_user_home }}/{{ taiga_back_venv_dir }}
   args:
     creates: "{{ taiga_back_venv_dir }}/bin/python"
 
@@ -71,8 +71,8 @@
   become: true
   become_user: "{{ taiga_user }}"
   pip:
-    requirements: "{{ taiga_back_checkout_dir }}/requirements.txt"
-    virtualenv: "{{ taiga_back_venv_dir }}"
+    requirements: "{{ taiga_user_home }}/{{ taiga_back_checkout_dir }}/requirements.txt"
+    virtualenv: "{{ taiga_user_home }}/{{ taiga_back_venv_dir }}"
     virtualenv_python: "python3.5"
   tags:
     - install
@@ -84,7 +84,7 @@
   template:
     mode: '0644'
     src: local.py.j2
-    dest: "{{ taiga_back_checkout_dir }}/settings/local.py"
+    dest: "{{ taiga_user_home }}/{{ taiga_back_checkout_dir }}/settings/local.py"
   notify:
     - "restart {{ taiga_service_manager }}"
   tags:
@@ -97,7 +97,7 @@
   template:
     mode: '0644'
     src: celery_local.py.j2
-    dest: "{{ taiga_back_checkout_dir }}/settings/celery_local.py"
+    dest: "{{ taiga_user_home }}/{{ taiga_back_checkout_dir }}/settings/celery_local.py"
   notify:
     - "restart {{ taiga_service_manager }}"
   when: "taiga_enable_async_tasks | bool"
@@ -109,9 +109,9 @@
   become: true
   become_user: "{{ taiga_user }}"
   django_manage:
-    app_path: "{{ taiga_back_checkout_dir }}"
+    app_path: "{{ taiga_user_home }}/{{ taiga_back_checkout_dir }}"
     command: migrate
-    virtualenv: "{{ taiga_back_venv_dir }}"
+    virtualenv: "{{ taiga_user_home }}/{{ taiga_back_venv_dir }}"
   tags:
     - install
     - back-install
@@ -120,9 +120,9 @@
   become: true
   become_user: "{{ taiga_user }}"
   django_manage:
-    app_path: "{{ taiga_back_checkout_dir }}"
+    app_path: "{{ taiga_user_home }}/{{ taiga_back_checkout_dir }}"
     command: loaddata initial_user
-    virtualenv: "{{ taiga_back_venv_dir }}"
+    virtualenv: "{{ taiga_user_home }}/{{ taiga_back_venv_dir }}"
   when: taiga_back_load_initial_user_data
   tags:
     - install
@@ -132,9 +132,9 @@
   become: true
   become_user: "{{ taiga_user }}"
   django_manage:
-    app_path: "{{ taiga_back_checkout_dir }}"
+    app_path: "{{ taiga_user_home }}/{{ taiga_back_checkout_dir }}"
     command: loaddata initial_project_templates
-    virtualenv: "{{ taiga_back_venv_dir }}"
+    virtualenv: "{{ taiga_user_home }}/{{ taiga_back_venv_dir }}"
   when: taiga_back_load_initial_project_templates
   tags:
     - install
@@ -144,9 +144,9 @@
   become: true
   become_user: "{{ taiga_user }}"
   django_manage:
-    app_path: "{{ taiga_back_checkout_dir }}"
+    app_path: "{{ taiga_user_home }}/{{ taiga_back_checkout_dir }}"
     command: compilemessages
-    virtualenv: "{{ taiga_back_venv_dir }}"
+    virtualenv: "{{ taiga_user_home }}/{{ taiga_back_venv_dir }}"
   tags:
     - install
     - back-install
@@ -155,9 +155,9 @@
   become: true
   become_user: "{{ taiga_user }}"
   django_manage:
-    app_path: "{{ taiga_back_checkout_dir }}"
+    app_path: "{{ taiga_user_home }}/{{ taiga_back_checkout_dir }}"
     command: collectstatic
-    virtualenv: "{{ taiga_back_venv_dir }}"
+    virtualenv: "{{ taiga_user_home }}/{{ taiga_back_venv_dir }}"
   tags:
     - install
     - back-install
@@ -166,9 +166,9 @@
   become: true
   become_user: "{{ taiga_user }}"
   django_manage:
-    app_path: "{{ taiga_back_checkout_dir }}"
+    app_path: "{{ taiga_user_home }}/{{ taiga_back_checkout_dir }}"
     command: sample_data
-    virtualenv: "{{ taiga_back_venv_dir }}"
+    virtualenv: "{{ taiga_user_home }}/{{ taiga_back_venv_dir }}"
   when: taiga_back_create_sample_data
   tags:
     - install

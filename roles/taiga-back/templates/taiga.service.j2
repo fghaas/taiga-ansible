@@ -4,17 +4,17 @@ Description=Taiga backend service
 
 [Service]
 Restart=on-failure
-WorkingDirectory={{ taiga_back_checkout_dir }}
-ExecStart={{ taiga_back_venv_dir }}/bin/gunicorn -w 3 -t 60 --pythonpath=. -b {{ _listen_address }}:{{ taiga_backend_port }}{{ ' --log-level debug' if taiga_back_debug else '' }} taiga.wsgi
+WorkingDirectory={{ taiga_user_home }}/{{ taiga_back_checkout_dir }}
+ExecStart={{ taiga_user_home }}/{{ taiga_back_venv_dir }}/bin/gunicorn -w 3 -t 60 --pythonpath=. -b {{ _listen_address }}:{{ taiga_backend_port }}{{ ' --log-level debug' if taiga_back_debug else '' }} taiga.wsgi
 ExecStop=/bin/kill -TERM $MAINPID
 ExecReload=/bin/kill -HUP $MAINPID
-Environment="PATH={{ taiga_back_venv_dir }}/bin:$PATH"
+Environment="PATH={{ taiga_user_home }}/{{ taiga_back_venv_dir }}/bin:$PATH"
 Environment="TERM=rxvt-256color"
 Environment="SHELL=/bin/bash"
 Environment="USER={{ taiga_user }}"
 Environment="LANG=en_US.UTF-8"
 Environment="HOME={{ taiga_user_home }}"
-Environment="PYTHONPATH={{ taiga_back_venv_dir }}/lib/python3.5/site-packages"
+Environment="PYTHONPATH={{ taiga_user_home }}/{{ taiga_back_venv_dir }}/lib/python3.5/site-packages"
 User={{ taiga_user }}
 
 [Install]

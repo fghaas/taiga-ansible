@@ -1,14 +1,22 @@
 ---
 # What repo should we check out?
-taiga_back_repo: "{{ taiga_git_mirror }}/taiga-back.git"
-taiga_back_checkout_dir: "{{ taiga_user_home }}/taiga-back"
+# (relative to taiga_git_mirror)
+taiga_back_repo: "taiga-back"
+
+# Which directory should we check it out into?
+# (relative to taiga_user_home)
+taiga_back_checkout_dir: "{{ taiga_back_repo }}"
+
+# What Taiga version, tag, branch, or commit should we check out
+# when installing?
 taiga_back_version: "{{ taiga_version }}"
 
 # What name should we use for the virtualenv for the backend?
 taiga_back_venv_name: taiga
 
 # Where should we install the virtualenv for the backend?
-taiga_back_venv_dir: "{{ taiga_user_home }}/{{ taiga_back_venv_name }}"
+# (relative to taiga_user_home)
+taiga_back_venv_dir: ".virtualenvs/{{ taiga_back_venv_name }}"
 
 # Where should we write our logs?
 taiga_back_log_dir: "{{ taiga_log_dir }}"

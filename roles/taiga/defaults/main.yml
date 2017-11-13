@@ -16,7 +16,8 @@ taiga_user: taiga
 taiga_user_home: '/home/{{ taiga_user }}'
 
 # Which directory should Taiga write its logs to?
-taiga_log_dir: '{{ taiga_user_home }}/logs'
+# (relative to taiga_user_home)
+taiga_log_dir: 'logs'
 
 # What port should the Taiga backend Django REST application listen on?
 taiga_backend_port: 8001
