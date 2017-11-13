@@ -2,12 +2,22 @@
 	"api": "{{'https' if (taiga_enable_ssl | bool) else 'http'}}://{{ taiga_frontend_host }}/api/v1/",
 {% if taiga_enable_events %}
 	"eventsUrl": "{{'wss' if (taiga_enable_ssl | bool) else 'ws'}}://{{ taiga_frontend_host }}/events",
+	"eventsMaxMissedHeartbeats": 5,
+	"eventsHeartbeatIntervalTime": 60000,
+	"eventsReconnectTryInterval": 10000,
 {% endif %}
 	"debug": {{ taiga_front_debug | bool | lower }},
+	"debugInfo": false,
+	"defaultLanguage": "en",
+	"themes": ["taiga"],
+	"defaultTheme": "taiga",
 	"publicRegisterEnabled": {{ taiga_enable_public_register | bool | lower }},
 	"feedbackEnabled": {{ taiga_enable_feedback | bool | lower }},
 	"privacyPolicyUrl": null,
 	"termsOfServiceUrl": null,
 	"maxUploadFileSize": null,
-	"contribPlugins": []
+	"contribPlugins": [],
+        "tribeHost": null,
+	"importers": [],
+	"gravatar": true
 }
