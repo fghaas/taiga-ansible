@@ -1,0 +1,42 @@
+---
+- name: add NodeSource repository key
+  become: true
+  become_user: root
+  apt_key:
+    url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+  tags:
+    - install
+    - front-install
+    - events-install
+
+- name: add NodeSource repository
+  become: true
+  become_user: root
+  apt_repository:
+    repo: "deb https://deb.nodesource.com/node_6.x {{ ansible_distribution_release }} main"
+  register: nodesource_repo
+  tags:
+    - install
+    - front-install
+    - events-install
+
+- name: update apt cache if NodeSource repository was added or updated
+  become: true
+  become_user: root
+  apt:
+    update_cache: true
+  when: nodesource_repo.changed
+  tags:
+    - install
+    - front-install
+    - events-install
+
+- name: install nodejs
+  become: true
+  become_user: root
+  apt:
+    name: nodejs
+  tags:
+    - install
+    - front-install
+    - events-install

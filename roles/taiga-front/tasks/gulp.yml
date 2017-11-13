@@ -1,0 +1,57 @@
+---
+- name: install required packages
+  become: true
+  become_user: root
+  apt:
+    name: "{{ item }}"
+  with_items:
+    - ruby
+    - ruby-dev
+  tags:
+    - install
+    - front-install
+
+- name: install required gems
+  become: true
+  become_user: "{{ taiga_user }}"
+  gem:
+    user_install: true
+    name: "{{ item }}"
+  with_items:
+    - sass
+    - scss_lint
+  tags:
+    - install
+    - front-install
+
+- name: install global NPM modules
+  become: true
+  become_user: root
+  npm:
+    name: "{{ item }}"
+    global: true
+  with_items:
+    - gulp
+  tags:
+    - install
+    - front-install
+
+- name: install local NPM modules
+  become: true
+  become_user: "{{ taiga_user }}"
+  npm:
+    path: "{{ taiga_front_checkout_dir }}"
+  tags:
+    - install
+    - front-install
+
+- name: run gulp deploy
+  become: true
+  become_user: "{{ taiga_user }}"
+  shell: gulp deploy
+  args:
+    chdir: "{{ taiga_front_checkout_dir }}"
+    creates: "{{ taiga_front_checkout_dir }}/dist/conf.example.json"
+  tags:
+    - config
+    - front-config

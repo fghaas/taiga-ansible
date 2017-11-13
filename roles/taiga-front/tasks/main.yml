@@ -1,4 +1,10 @@
 ---
+- name: set fact to determine front end install mode
+  set_fact:
+    _taiga_front_install_mode: "{{ 'dist' if '-dist' in taiga_front_repo else 'gulp' }}"
+  tags:
+    always
+
 - name: check out git repository
   become: true
   become_user: "{{ taiga_user }}"
@@ -11,6 +17,8 @@
   tags:
     - install
     - front-install
+
+- include: "{{ _taiga_front_install_mode }}.yml"
 
 - name: deploy configuration file
   become: true
