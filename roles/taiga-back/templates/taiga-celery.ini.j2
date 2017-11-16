@@ -16,7 +16,7 @@ stderr_stream.max_bytes = 10485760
 stderr_stream.backup_count = 4
 
 [env:taiga-celery]
-PATH = {{ taiga_back_venv_dir }}/bin:$PATH
+PATH = {{ taiga_user_home }}/{{ taiga_back_venv_dir }}/bin:$PATH
 TERM=rxvt-256color
 SHELL=/bin/bash
 USER={{ taiga_user }}
