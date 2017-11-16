@@ -14,6 +14,7 @@
   become: true
   become_user: "{{ taiga_user }}"
   template:
+    mode: '0644'
     src: config.json.j2
     dest: "{{ taiga_user_home }}/{{ taiga_events_checkout_dir }}/config.json"
   tags:
