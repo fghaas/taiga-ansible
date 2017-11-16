@@ -116,7 +116,7 @@
     - install
     - back-install
 
-- name: load initial user data
+- name: optionally load initial user data
   become: true
   become_user: "{{ taiga_user }}"
   django_manage:
@@ -128,7 +128,7 @@
     - install
     - back-install
 
-- name: load initial project templates
+- name: optionally load initial project templates
   become: true
   become_user: "{{ taiga_user }}"
   django_manage:
@@ -162,7 +162,7 @@
     - install
     - back-install
 
-- name: create sample data
+- name: optionally create sample data
   become: true
   become_user: "{{ taiga_user }}"
   django_manage:

@@ -87,6 +87,16 @@ following variable:
 - `taiga_secret_key`: defines the secret key used by both the backend
   and the events processor.
 
+You should set the following variables on the initial deployment run
+only. It is recommended that you set these from the command line with
+`ansible-playbook -e`:
+
+- `taiga_back_load_initial_user_data`: if `true`, populates the
+  database with initial user data.
+
+- `taiga_back_load_initial_project_templates`: if `true`, populates
+  the database with initial project templates.
+
 Other variables that you might want to set include:
 
 - `taiga_frontend_host`: defines the server name of your Taiga

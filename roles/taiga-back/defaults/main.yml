@@ -29,8 +29,10 @@ taiga_back_hostname: "{{ ansible_fqdn }}"
 
 # Do we want to load the Taiga initial project templates and user
 # data?
-taiga_back_load_initial_project_templates: true
-taiga_back_load_initial_user_data: true
+# (Set both of these to true on initial deployment, and then
+# leave them at the defaults for any subsequent runs.)
+taiga_back_load_initial_project_templates: false
+taiga_back_load_initial_user_data: false
 
 # Do we want to create a set of sample Taiga data? (Leave disabled on
 # a production system.)
