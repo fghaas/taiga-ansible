@@ -29,6 +29,9 @@ taiga_backend_port: 8001
 # when running in debug mode).
 taiga_debug: false
 
+# Email address to be associated with the Taiga "admin" user.
+taiga_admin_email: "taiga@{{ ansible_fqdn }}"
+
 # Should Taiga send email?
 taiga_enable_email: false
 

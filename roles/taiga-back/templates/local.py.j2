@@ -17,6 +17,10 @@ DATABASES = {
     }
 }
 
+ADMINS = (
+    ("Admin", "{{ taiga_admin_email }}"),
+)
+
 DEBUG = {{ taiga_debug | bool }}
 PUBLIC_REGISTER_ENABLED = {{ taiga_enable_public_register | bool }}
 

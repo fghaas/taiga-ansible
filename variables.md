@@ -34,6 +34,9 @@ taiga_backend_port: 8001
 # when running in debug mode).
 taiga_debug: false
 
+# Email address to be associated with the Taiga "admin" user.
+taiga_admin_email: "taiga@{{ ansible_fqdn }}"
+
 # Should Taiga send email?
 taiga_enable_email: false
 
@@ -276,7 +279,7 @@ taiga_back_create_sample_data: false
 
 # Which address should the backend send email from? (Ignored if
 # taiga_enable_email is off.)
-taiga_back_default_from_email: "no-reply@{{ ansible_domain }}"
+taiga_back_default_from_email: "{{ taiga_admin_email }}"
 
 # What PostgreSQL database name and user should we configure?
 taiga_back_database_name: taiga
