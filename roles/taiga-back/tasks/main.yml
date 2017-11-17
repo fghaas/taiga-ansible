@@ -58,15 +58,6 @@
     - install
     - back-install
 
-- name: set up virtualenv
-  become: true
-  become_user: "{{ taiga_user }}"
-  command: >
-    virtualenv --python=python3.5
-    {{ taiga_user_home }}/{{ taiga_back_venv_dir }}
-  args:
-    creates: "{{ taiga_back_venv_dir }}/bin/python"
-
 - name: install Python packages into virtualenv
   become: true
   become_user: "{{ taiga_user }}"
