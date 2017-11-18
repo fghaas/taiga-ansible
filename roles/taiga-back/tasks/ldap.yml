@@ -1,0 +1,10 @@
+- name: optionally install packages for LDAP authentication into virtualenv
+  become: true
+  become_user: "{{ taiga_user }}"
+  pip:
+    name: taiga-contrib-ldap-auth
+    virtualenv: "{{ taiga_user_home }}/{{ taiga_back_venv_dir }}"
+    virtualenv_python: "python3.5"
+  tags:
+    - install
+    - back-install

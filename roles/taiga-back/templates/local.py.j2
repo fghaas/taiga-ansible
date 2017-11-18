@@ -45,3 +45,23 @@ EMAIL_PORT = {{ taiga_email_port }}
 GITHUB_API_CLIENT_ID = "{{ taiga_github_api_client_id }}"
 GITHUB_API_CLIENT_SECRET = "{{ taiga_github_api_client_secret }}"
 {% endif %}
+
+{% if taiga_enable_ldap_login | bool %}
+INSTALLED_APPS += ["taiga_contrib_ldap_auth"]
+
+LDAP_SERVER = '{{ taiga_ldap_server }}'
+LDAP_PORT = {{ taiga_ldap_port }}
+
+{% if taiga_ldap_bind_dn %}
+LDAP_BIND_DN = '{{ taiga_ldap_bind_dn }}'
+LDAP_BIND_PASSWORD = ''{{ taiga_ldap_bind_password }}'
+{% endif %}
+
+LDAP_SEARCH_BASE = '{{ taiga_ldap_search_base }}'
+
+LDAP_SEARCH_PROPERTY = '{{ taiga_ldap_search_property }}'
+LDAP_SEARCH_SUFFIX = '{{ taiga_ldap_search_suffix }}'
+
+LDAP_EMAIL_PROPERTY = '{{ taiga_ldap_email_property }}'
+LDAP_FULL_NAME_PROPERTY = '{{ taiga_ldap_full_name_property }}'
+{% endif %}

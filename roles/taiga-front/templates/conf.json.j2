@@ -13,6 +13,9 @@
 	"defaultTheme": "taiga",
 	"publicRegisterEnabled": {{ taiga_enable_public_register | bool | lower }},
 	"feedbackEnabled": {{ taiga_enable_feedback | bool | lower }},
+{% if taiga_enable_ldap_login | bool %}
+        "loginFormType": "ldap",
+{% endif %}
 	"privacyPolicyUrl": null,
 	"termsOfServiceUrl": null,
 	"maxUploadFileSize": null,

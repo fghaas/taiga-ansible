@@ -101,6 +101,44 @@ taiga_rabbitmq_vhost: taiga
 # Ansible 2.2 or later.
 taiga_service_manager: circus
 
+# Should Taiga support LDAP authentication?
+taiga_enable_ldap_login: false
+
+# LDAP server to connect to for authentication. Ignored unless
+# taiga_enable_ldap_login is set, must not be blank otherwise. Must be
+# specified as a URI, using either ldap:// or ldaps:// as its scheme.
+taiga_ldap_server: ""
+
+# LDAP server port. Ignored unless taiga_enable_ldap_login is set.
+taiga_ldap_port: 389
+
+# LDAP bind DN and password. Ignored unless taiga_enable_ldap_login is
+# set. Can be left blank, in which case Taiga attempts to bind to the
+# LDAP server anonymously. If set, must be given in Distinguished Name
+# (DN) format.
+taiga_ldap_bind_dn: ""
+taiga_ldap_bind_password: ""
+
+# LDAP search base. Ignored unless taiga_enable_ldap_login is
+# set. Must be given in Distinguished Name (DN) format. Can be left
+# blank, in which case Taiga attempts to search from the top of the
+# LDAP tree (note that some LDAP servers disallow this by default.)
+taiga_ldap_search_base: ""
+
+# The LDAP property that Taiga should interpret as the user's email
+# address. Ignored unless taiga_enable_ldap_login is set.
+taiga_ldap_email_property: mail
+
+# The LDAP property that Taiga should interpret as the user's full
+# name.  Ignored unless taiga_enable_ldap_login is set.
+taiga_ldap_full_name_property: name
+
+# The LDAP property that Taiga should use to build its search filter
+# when looking for a matching user. Ignored unless
+# taiga_enable_ldap_login is set. Defaults to the property that
+# defines the user's email address, meaning the email address
+# effectively becomes the user's login name.
+taiga_ldap_search_property: "{{ taiga_ldap_email_property }}"
 ```
 
 ## Variables defined in `taiga-webserver`

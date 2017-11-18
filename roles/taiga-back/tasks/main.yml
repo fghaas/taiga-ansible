@@ -78,6 +78,9 @@
     - install
     - back-install
 
+- include: "ldap.yml"
+  when: taiga_enable_ldap_login | bool
+
 - name: deploy local settings
   become: true
   become_user: "{{ taiga_user }}"
