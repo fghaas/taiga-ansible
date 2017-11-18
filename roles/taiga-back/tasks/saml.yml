@@ -1,0 +1,52 @@
+- name: "install required packages for {{ taiga_contrib_saml_auth_repo }}"
+  become: true
+  become_user: root
+  apt:
+    name: "{{ item }}"
+  with_items:
+    - libxmlsec1-dev
+  tags:
+    - install
+    - back-install
+
+- name: "check out {{ taiga_contrib_saml_auth_repo }} git repository"
+  become: true
+  become_user: "{{ taiga_user }}"
+  git:
+    repo: "{{ taiga_contrib_saml_auth_mirror }}/{{ taiga_contrib_saml_auth_repo }}"
+    dest: "{{ taiga_user_home }}/{{ taiga_contrib_saml_auth_checkout_dir }}"
+    version: "{{ taiga_contrib_saml_auth_version }}"
+  tags:
+    - install
+    - back-install
+
+- name: install packages for SAML authentication into virtualenv
+  become: true
+  become_user: "{{ taiga_user }}"
+  pip:
+    name: "{{ taiga_user_home }}/{{ taiga_contrib_saml_auth_checkout_dir }}/back"
+    editable: true
+    virtualenv: "{{ taiga_user_home }}/{{ taiga_back_venv_dir }}"
+    virtualenv_python: "python3.5"
+  tags:
+    - install
+    - back-install
+
+- name: add URL pattern for SAML authentication
+  become: true
+  become_user: "{{ taiga_user }}"
+  blockinfile:
+    path: "{{ taiga_user_home }}/{{ taiga_back_checkout_dir }}/taiga/urls.py"
+    insertbefore: EOF
+    content: |
+
+      ##############################################
+      # SAML Auth
+      ##############################################
+
+      urlpatterns += [url(r'^saml/', include('taiga_contrib_saml_auth.urls'))]
+  tags:
+    - config
+    - back-config
+
+- include: "saml-{{ 'signed' if taiga_ssl_key else 'selfsign'}}.yml"

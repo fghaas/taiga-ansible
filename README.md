@@ -146,6 +146,48 @@ to `true`, and set `taiga_ldap_*` variables to match your LDAP server
 configuration. For details on supported variables, see
 [variables.md](variables.md).
 
+## SAML Authentication
+
+To enable SAML authentication, set `taiga_enable_saml_login` to
+`true`, and include your SAML configuration in the `taiga_saml_*`
+dictionary variables. An example configuration for those variables is
+given below:
+
+```yaml
+taiga_saml_sp_name_id_format: "urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress" 
+taiga_saml_idp_entity_id: "http://example.com/saml"
+taiga_saml_idp_single_sign_on_url: "http://example.com/saml/sso"
+taiga_saml_security:    # these are the defaults, to use them just omit this variable
+  nameIdEncrypted:         false
+  authnRequestsSigned:     false
+  logoutRequestSigned:     false
+  logoutResponseSigned:    false
+  signMetadata:            false
+  wantMessagesSigned:      false
+  wantAssertionsSigned:    false
+  wantNameId:              true
+  wantAssertionsEncrypted: false
+  wantNameIdEncrypted:     false
+  wantAttributeStatement:  true
+  requestedAuthnContext:   true
+taiga_saml_contact_person:
+  technical:
+    givenName:     # name of your technical contact
+    emailAddress:  # email address of your technical contact
+  support:
+    givenName:     # name of your support contact
+    emailAddress:  # email address of your support contact
+taiga_saml_mapping:  # map SAML users to Taiga users
+  id: SAML_NAMEID
+  attributes:
+    email:     SAML_ATTRIBUTE_NAME_EMAIL
+    username:  SAML_ATTRIBUTE_NAME_USERNAME
+    full_name: SAML_ATTRIBUTE_NAME_FULLNAME
+    bio:       SAML_ATTRIBUTE_NAME_BIO
+    lang:      SAML_ATTRIBUTE_NAME_LANG
+    timezone:  SAML_ATTRIBUTE_NAME_TIMEZONE
+```
+
 ## Limitations
 
 - PostgreSQL gets installed to the `taiga-back` node. There is

@@ -159,3 +159,106 @@ taiga_ldap_search_property: "{{ taiga_ldap_email_property }}"
 # (not their email address), and that username itself is not in your
 # LDAP directory for some reason.
 taiga_ldap_search_suffix: ""
+
+# Should Taiga support SAML authentication?
+taiga_enable_saml_login: false
+
+# Which GitHub organization should we clone taiga-contrib-saml-auth
+# from? Ignored unless taiga_enable_saml_login is set.
+taiga_contrib_saml_auth_mirror: "https://github.com/jgiannuzzi"
+
+# The name of the taiga-contrib-saml-auth repository. Ignored unless
+# taiga_enable_saml_login is set.
+taiga_contrib_saml_auth_repo: "taiga-contrib-saml-auth"
+
+# The checkout directory for taiga-contrib-saml-auth. Ignored unless
+# taiga_enable_saml_login is set.
+taiga_contrib_saml_auth_checkout_dir: "{{ taiga_contrib_saml_auth_repo }}"
+
+# Version, tag, branch, or commit to check out when installing
+# taiga-contrib-saml-auth. Ignored unless taiga_enable_saml_login is
+# set.
+taiga_contrib_saml_auth_version: "1.0.1"
+
+# The SAML NameId format, if your IdP requires that you specify
+# one. Ignored unless taiga_enable_saml_login is set.
+taiga_saml_sp_name_id_format: ""
+
+# Your SAML IdP's entity ID. Ignored unless taiga_enable_saml_login is
+# set.
+taiga_saml_idp_entity_id: ""
+
+# Your SAML IdP's SSO URL. Ignored unless taiga_enable_saml_login is
+# set.
+taiga_saml_idp_single_sign_on_url: ""
+
+# Your SAML IdP's SLO URL. Ignored unless taiga_enable_saml_login is
+# set. If left empty, SAML authentication will use the same URL as
+# that specified in taiga_saml_idp_single_sign_on_url.
+taiga_saml_idp_single_logout_url: ""
+
+# Your SAML IdP's X.509 certificate. Ignored unless
+# taiga_enable_saml_login is set.
+taiga_saml_idp_cert: ""
+
+# Your SAML IdP's X.509 certificate. Ignored unless
+# taiga_enable_saml_login is set. This is also ignored if you choose
+# to specify the whole certificate instead. In other words, set either
+# taiga_saml_idp_cert or this variable.
+taiga_saml_idp_cert_fingerprint: ""
+
+# Security settings for your SAML configuration. Ignored unless
+# taiga_enable_saml_login is set. Leaving this dictionary empty has
+# the same effect as specifying the following values:
+# taiga_saml_security:
+#   nameIdEncrypted:         false
+#   authnRequestsSigned:     false
+#   logoutRequestSigned:     false
+#   logoutResponseSigned:    false
+#   signMetadata:            false
+#   wantMessagesSigned:      false
+#   wantAssertionsSigned:    false
+#   wantNameId:              true
+#   wantAssertionsEncrypted: false
+#   wantNameIdEncrypted:     false
+#   wantAttributeStatement:  true
+#   requestedAuthnContext:   true
+taiga_saml_security: {}
+
+# Organization settings for your SAML SP. Ignored unless
+# taiga_enable_saml_login is set. If unset, this information is
+# generated from the frontend hostname.
+# Example settings:
+taiga_saml_organization:  # populate at least for en-US, and for other languages as needed
+  en-US:
+    name:          # organization identifier
+    displayname:   # name to display for the organization
+    url:           # web site URL
+taiga_saml_organization: {}
+
+# Contact person settings for your SAML SP. Ignored unless
+# taiga_enable_saml_login is set. If unset, this is omitted from the
+# SP metadata.
+# Example settings:
+# taiga_saml_contact_person:
+#   technical:
+#     givenName:     # name of your technical contact
+#     emailAddress:  # email address of your technical contact
+#   support:
+#     givenName:     # name of your support contact
+#     emailAddress:  # email address of your support contact
+taiga_saml_contact_person: {}
+
+# Attribute mapping settings for your SAML SP. Ignored unless
+# taiga_enable_saml_login is set.
+# Example settings:
+# taiga_saml_mapping:  # map SAML users to Taiga users
+#   id: SAML_NAMEID
+#   attributes:
+#     email:     SAML_ATTRIBUTE_NAME_EMAIL
+#     username:  SAML_ATTRIBUTE_NAME_USERNAME
+#     full_name: SAML_ATTRIBUTE_NAME_FULLNAME
+#     bio:       SAML_ATTRIBUTE_NAME_BIO
+#     lang:      SAML_ATTRIBUTE_NAME_LANG
+#     timezone:  SAML_ATTRIBUTE_NAME_TIMEZONE
+taiga_saml_mapping: {}

@@ -54,6 +54,7 @@
     repo: "{{ taiga_git_mirror }}/{{ taiga_back_repo }}"
     dest: "{{ taiga_user_home }}/{{ taiga_back_checkout_dir }}"
     version: "{{ taiga_back_version }}"
+    force: true
   tags:
     - install
     - back-install
@@ -71,6 +72,9 @@
 
 - include: "ldap.yml"
   when: taiga_enable_ldap_login | bool
+
+- include: "saml.yml"
+  when: taiga_enable_saml_login | bool
 
 - name: deploy local settings
   become: true

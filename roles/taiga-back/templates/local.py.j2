@@ -69,3 +69,51 @@ LDAP_SEARCH_SUFFIX = '{{ taiga_ldap_search_suffix }}'
 LDAP_EMAIL_PROPERTY = '{{ taiga_ldap_email_property }}'
 LDAP_FULL_NAME_PROPERTY = '{{ taiga_ldap_full_name_property }}'
 {% endif %}
+
+{% if taiga_enable_saml_login | bool %}
+INSTALLED_APPS += ["taiga_contrib_saml_auth"]
+
+SAML_AUTH = {
+  'sp': {
+{% if taiga_saml_sp_name_id_format %}
+    'nameIDFormat': '{{ taiga_saml_sp_name_id_format }}',
+{% endif %}
+    'cert': open('{{ _taiga_ssl_certificate_path }}', 'r').read(),
+    'key': open('{{ _taiga_ssl_key_path }}', 'r').read(),
+  },
+  'idp': {
+    'entityID': '{{ taiga_saml_idp_entity_id }}',
+    'singleSignOnURL': '{{ taiga_saml_idp_single_sign_on_url }}',
+{% if taiga_saml_idp_single_logout_url %}
+    'singleLogoutURL': '{{ taiga_saml_idp_single_logout_url }}',
+{% else %}
+    'singleLogoutURL': '{{ taiga_saml_idp_single_sign_on_url }}',
+{% endif %}
+{% if taiga_saml_idp_cert %}
+    'cert': '{{ taiga_saml_idp_cert }}',
+{% else %}
+    'certFingerprint': '{{ taiga_saml_idp_cert_fingerprint }}',
+{% endif %}
+  },
+{% if taiga_saml_security %}
+  {{ taiga_saml_security }},
+{% endif %}
+{% if taiga_saml_organization %}
+  'organization': {{ taiga_saml_organization }}
+{% else %}
+  'organization': {
+    'en-US': {
+      'name': '{{ taiga_frontend_host }}',
+      'displayname': '{{ taiga_frontend_host }}',
+      'url': '{{ scheme }}://{{ taiga_frontend_host }}',
+    },
+  },
+{% endif %}
+{% if taiga_saml_contact_person %}
+  'contactPerson': {{ taiga_saml_contact_person }}
+{% endif %}
+{% if taiga_saml_mapping %}
+  'mapping': {{ taiga_saml_mapping }}
+{% endif %}
+}
+{% endif %}

@@ -1,0 +1,21 @@
+- name: check out taiga-contrib-saml-auth git repository
+  become: true
+  become_user: "{{ taiga_user }}"
+  git:
+    repo: "{{ taiga_contrib_saml_auth_mirror }}/{{ taiga_contrib_saml_auth_repo }}"
+    dest: "{{ taiga_user_home }}/{{ taiga_contrib_saml_auth_checkout_dir }}"
+    version: "{{ taiga_contrib_saml_auth_version }}"
+  tags:
+    - install
+    - front-install
+
+- name: "link taiga-contrib-saml-auth into {{ taiga_front_checkout_dir }}"
+  become: true
+  become_user: "{{ taiga_user }}"
+  file:
+    dest: "{{ taiga_user_home }}/{{ taiga_front_checkout_dir }}/dist/plugins/saml-auth"
+    src: "{{ taiga_user_home }}/{{ taiga_contrib_saml_auth_checkout_dir }}/front/dist"
+    state: link
+  tags:
+    - install
+    - front-install

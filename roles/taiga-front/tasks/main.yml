@@ -21,6 +21,19 @@
 
 - include: "{{ _taiga_front_install_mode }}.yml"
 
+- name: create plugins directory
+  become: true
+  become_user: "{{ taiga_user }}"
+  file:
+    path: "{{ taiga_user_home }}/{{ taiga_front_checkout_dir }}/dist/plugins"
+    state: directory
+  tags:
+    - config
+    - front-install
+
+- include: saml.yml
+  when: taiga_enable_saml_login | bool
+
 - name: deploy configuration file
   become: true
   become_user: "{{ taiga_user }}"

@@ -1,0 +1,22 @@
+---
+- name: deploy SAML x509 private key
+  become: true
+  become_user: taiga
+  copy:
+    dest: "{{ _taiga_ssl_key_path }}"
+    mode: "0640"
+    content: "{{ taiga_ssl_key }}"
+  tags:
+    - config
+    - back-config
+
+- name: deploy SAML x509 certificate
+  become: true
+  become_user: taiga
+  copy:
+    dest: "{{ _taiga_ssl_certificate_path }}"
+    mode: "0644"
+    content: "{{ taiga_ssl_certificate }}"
+  tags:
+    - config
+    - back-config
