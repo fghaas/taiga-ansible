@@ -40,7 +40,7 @@ server {
         proxy_redirect off;
     }
 
-{% if taiga_front_enable_django_admin %}
+{% if taiga_front_enable_django_admin | bool %}
     # Django admin access (/admin/)
     location /admin {
         proxy_set_header Host $http_host;
@@ -87,7 +87,7 @@ server {
 {% endif %}
     }
 
-{% if taiga_enable_events %}
+{% if taiga_enable_events | bool %}
     # Taiga-events
     location /events {
 {% if _taiga_is_events_node %}
