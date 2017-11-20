@@ -55,6 +55,8 @@
     dest: "{{ taiga_user_home }}/{{ taiga_back_checkout_dir }}"
     version: "{{ taiga_back_version }}"
     force: true
+  notify:
+    - "restart taiga (via {{ taiga_service_manager }})"
   tags:
     - install
     - back-install
@@ -66,6 +68,8 @@
     requirements: "{{ taiga_user_home }}/{{ taiga_back_checkout_dir }}/requirements.txt"
     virtualenv: "{{ taiga_user_home }}/{{ taiga_back_venv_dir }}"
     virtualenv_python: "python3.5"
+  notify:
+    - "restart taiga (via {{ taiga_service_manager }})"
   tags:
     - install
     - back-install
@@ -84,7 +88,7 @@
     src: local.py.j2
     dest: "{{ taiga_user_home }}/{{ taiga_back_checkout_dir }}/settings/local.py"
   notify:
-    - "restart {{ taiga_service_manager }}"
+    - "restart taiga (via {{ taiga_service_manager }})"
   tags:
     - config
     - back-config
@@ -97,7 +101,7 @@
     src: celery_local.py.j2
     dest: "{{ taiga_user_home }}/{{ taiga_back_checkout_dir }}/settings/celery_local.py"
   notify:
-    - "restart {{ taiga_service_manager }}"
+    - "restart taiga-celery (via {{ taiga_service_manager }})"
   when: "taiga_enable_async_tasks | bool"
   tags:
     - config

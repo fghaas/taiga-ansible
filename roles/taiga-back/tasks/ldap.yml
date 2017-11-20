@@ -5,6 +5,8 @@
     name: taiga-contrib-ldap-auth
     virtualenv: "{{ taiga_user_home }}/{{ taiga_back_venv_dir }}"
     virtualenv_python: "python3.5"
+  notify:
+    - "restart taiga (via {{ taiga_service_manager }})"
   tags:
     - install
     - back-install

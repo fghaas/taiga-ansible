@@ -41,8 +41,6 @@
     mode: '0644'
     src: conf.json.j2
     dest: "{{ taiga_user_home }}/{{ taiga_front_checkout_dir }}/dist/conf.json"
-  notify:
-    - "restart {{ taiga_service_manager }}"
   tags:
     - config
     - front-config

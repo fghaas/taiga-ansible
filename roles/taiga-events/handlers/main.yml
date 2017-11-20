@@ -1,0 +1,14 @@
+---
+- name: restart taiga-events (via circus)
+  become: true
+  become_user: root
+  command: circusctl restart taiga-events
+  when: taiga_service_manager == 'circus'
+
+- name: restart taiga-events (via systemd)
+  become: true
+  become_user: root
+  service:
+    name: taiga-events
+    state: restarted
+  when: taiga_service_manager == 'systemd'

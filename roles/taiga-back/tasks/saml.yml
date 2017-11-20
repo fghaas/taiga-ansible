@@ -16,6 +16,8 @@
     repo: "{{ taiga_contrib_saml_auth_mirror }}/{{ taiga_contrib_saml_auth_repo }}"
     dest: "{{ taiga_user_home }}/{{ taiga_contrib_saml_auth_checkout_dir }}"
     version: "{{ taiga_contrib_saml_auth_version }}"
+  notify:
+    - "restart taiga (via {{ taiga_service_manager }})"
   tags:
     - install
     - back-install
@@ -28,6 +30,8 @@
     editable: true
     virtualenv: "{{ taiga_user_home }}/{{ taiga_back_venv_dir }}"
     virtualenv_python: "python3.5"
+  notify:
+    - "restart taiga (via {{ taiga_service_manager }})"
   tags:
     - install
     - back-install
@@ -45,6 +49,8 @@
       ##############################################
 
       urlpatterns += [url(r'^saml/', include('taiga_contrib_saml_auth.urls'))]
+  notify:
+    - "restart taiga (via {{ taiga_service_manager }})"
   tags:
     - config
     - back-config
