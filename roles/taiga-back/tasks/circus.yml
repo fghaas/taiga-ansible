@@ -18,7 +18,7 @@
     mode: '0644'
     src: taiga-celery.ini.j2
     dest: "/etc/circus/conf.d/taiga-celery.ini"
-  when: taiga_enable_async_tasks
+  when: taiga_enable_async_tasks | bool
   notify:
     - restart circus
   tags:
