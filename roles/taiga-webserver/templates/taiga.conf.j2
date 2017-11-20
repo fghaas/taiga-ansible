@@ -106,14 +106,14 @@ server {
 
 {% if taiga_enable_ssl | bool %}
     ssl on;
-    ssl_certificate {{ _taiga_webserver_ssl_certificate_path }};
-    ssl_certificate_key {{ _taiga_webserver_ssl_key_path }};
+    ssl_certificate {{ _taiga_ssl_certificate_path }};
+    ssl_certificate_key {{ _taiga_ssl_key_path }};
     ssl_session_timeout 5m;
     ssl_protocols {{ taiga_webserver_ssl_protocols | join(' ') }};
     ssl_prefer_server_ciphers on;
     ssl_ciphers {{ taiga_webserver_ssl_ciphers | join(':') }};
     ssl_session_cache shared:SSL:10m;
-    ssl_dhparam {{ _taiga_webserver_ssl_dhparam_path }};
+    ssl_dhparam {{ _taiga_ssl_dhparam_path }};
     ssl_stapling on;
     ssl_stapling_verify on;
 

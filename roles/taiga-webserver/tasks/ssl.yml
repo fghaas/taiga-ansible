@@ -1,27 +1,12 @@
 ---
-- name: set SSL common name
-  set_fact:
-    _taiga_webserver_ssl_common_name: "{{ taiga_frontend_host or ansible_fqdn }}"
-  tags:
-    - always
-
-- name: set SSL related paths
-  set_fact:
-    _taiga_webserver_ssl_certificate_path: "{{ taiga_user_home }}/{{ _taiga_webserver_ssl_common_name }}.pem"
-    _taiga_webserver_ssl_key_path: "{{ taiga_user_home }}/{{ _taiga_webserver_ssl_common_name }}.key"
-    _taiga_webserver_ssl_csr_path: "{{ taiga_user_home }}/{{ _taiga_webserver_ssl_common_name }}.csr"
-    _taiga_webserver_ssl_dhparam_path: "{{ taiga_user_home }}/dhparam.pem"
-  tags:
-    - always
-
 - name: create DH params
   become: true
   become_user: taiga
-  command: "openssl dhparam -out {{ _taiga_webserver_ssl_dhparam_path }} {{ taiga_webserver_ssl_dhparam_bits }}"
+  command: "openssl dhparam -out {{ _taiga_ssl_dhparam_path }} {{ taiga_webserver_ssl_dhparam_bits }}"
   args:
-    creates: "{{ _taiga_webserver_ssl_dhparam_path }}"
+    creates: "{{ _taiga_ssl_dhparam_path }}"
   tags:
     - config
     - front-config
 
-- include: "ssl-{{ 'selfsign' if taiga_webserver_ssl_key is undefined else 'signed'}}.yml"
+- include: "ssl-{{ 'signed' if taiga_ssl_key else 'selfsign'}}.yml"

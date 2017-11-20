@@ -125,10 +125,9 @@ Other variables that you might want to set include:
   SSL is terminated on the frontend node; communications between the
   frontend node and the backend and event processor are
   unencrypted. If using Ansible 2.3 or earlier, you must also set
-  `taiga_webserver_ssl_certificate` and `taiga_webserver_ssl_key` in
-  your inventory (using a vault as appropriate) to deploy your
-  certificate. In Ansible 2.4 or later, leaving
-  `taiga_webserver_ssl_key` empty will create a self-signed
+  `taiga_ssl_certificate` and `taiga_ssl_key` in your inventory (using
+  a vault as appropriate) to deploy your certificate. In Ansible 2.4
+  or later, leaving `taiga_ssl_key` empty will create a self-signed
   certificate for test deployments.
 
 - `taiga_back_version`, `taiga_front_version`, and

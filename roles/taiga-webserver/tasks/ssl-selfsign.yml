@@ -11,7 +11,7 @@
   become: true
   become_user: taiga
   openssl_privatekey:
-    path: "{{ _taiga_webserver_ssl_key_path }}"
+    path: "{{ _taiga_ssl_key_path }}"
     size: 4096
   tags:
     - config
@@ -21,9 +21,9 @@
   become: true
   become_user: taiga
   openssl_csr:
-    path: "{{ _taiga_webserver_ssl_csr_path }}"
-    privatekey_path: "{{ _taiga_webserver_ssl_key_path }}"
-    common_name: "{{ _taiga_webserver_ssl_common_name }}"
+    path: "{{ _taiga_ssl_csr_path }}"
+    privatekey_path: "{{ _taiga_ssl_key_path }}"
+    common_name: "{{ taiga_ssl_common_name }}"
   tags:
     - config
     - front-config
@@ -32,9 +32,9 @@
   become: true
   become_user: taiga
   openssl_certificate:
-    path: "{{ _taiga_webserver_ssl_certificate_path }}"
-    privatekey_path: "{{ _taiga_webserver_ssl_key_path }}"
-    csr_path: "{{ _taiga_webserver_ssl_csr_path }}"
+    path: "{{ _taiga_ssl_certificate_path }}"
+    privatekey_path: "{{ _taiga_ssl_key_path }}"
+    csr_path: "{{ _taiga_ssl_csr_path }}"
     provider: selfsigned
   tags:
     - config

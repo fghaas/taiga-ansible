@@ -16,6 +16,15 @@
   tags:
     always
 
+- name: set facts related to SSL certificates
+  set_fact:
+    _taiga_ssl_certificate_path: "{{ taiga_user_home }}/{{ taiga_ssl_common_name }}.pem"
+    _taiga_ssl_key_path: "{{ taiga_user_home }}/{{ taiga_ssl_common_name }}.key"
+    _taiga_ssl_csr_path: "{{ taiga_user_home }}/{{ taiga_ssl_common_name }}.csr"
+    _taiga_ssl_dhparam_path: "{{ taiga_user_home }}/dhparam.pem"
+  tags:
+    - always
+
 - name: populate hosts file
   become: true
   become_user: root

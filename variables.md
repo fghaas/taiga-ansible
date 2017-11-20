@@ -78,6 +78,21 @@ taiga_enable_public_register: false
 # WebSockets (WSS)?
 taiga_enable_ssl: false
 
+# The common name in the X.509 certificate used for SSL (and SAML, if
+# configured).
+taiga_ssl_common_name: "{{ taiga_frontend_host or ansible_fqdn }}"
+
+# The SSL key to use. If defined, this key is used for both HTTPS on
+# the front end, and for the configuration of the SAML SP. If
+# taiga_enable_ssl is set to true, and this value is empty, then a
+# self-signed certificate is created from a new key.
+taiga_ssl_key: ""
+
+# The default SSL certificate to use. If defined, this certificate is
+# used for both HTTPS on the front end, and for the configuration of
+# the SAML SP.
+taiga_ssl_certificate: ""
+
 # Which GitHub organization should we clone Taiga from?
 taiga_git_mirror: 'https://github.com/taigaio'
 
