@@ -6,6 +6,7 @@
     src: taiga-events.service.j2
     dest: "/etc/systemd/system/taiga-events.service"
   register: _taiga_events_service_unit
+  when: taiga_enable_events | bool
   tags:
     - config
     - events-config
@@ -27,6 +28,7 @@
     name: taiga-events
     enabled: true
     state: started
+  when: taiga_enable_events | bool
   tags:
     - config
     - events-config

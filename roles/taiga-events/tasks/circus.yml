@@ -5,6 +5,7 @@
     mode: '0644'
     src: taiga-events.ini.j2
     dest: "/etc/circus/conf.d/taiga-events.ini"
+  when: taiga_enable_events | bool
   notify:
     - restart circus
   tags:
