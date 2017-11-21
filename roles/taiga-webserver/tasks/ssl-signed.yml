@@ -5,7 +5,7 @@
   copy:
     dest: "{{ _taiga_ssl_key_path }}"
     mode: "0640"
-    content: "{{ taiga_webserver_ssl_key }}"
+    content: "{{ taiga_ssl_key }}"
   tags:
     - config
     - front-config
@@ -16,7 +16,7 @@
   copy:
     dest: "{{ _taiga_ssl_certificate_path }}"
     mode: "0644"
-    content: "{{ taiga_webserver_ssl_certificate }}"
+    content: "{{ taiga_ssl_certificate }}"
   tags:
     - config
     - front-config
