@@ -114,6 +114,21 @@ taiga_rabbitmq_vhost: taiga
 # Ansible 2.2 or later.
 taiga_service_manager: circus
 
+# Twitter handle to include in notification emails
+taiga_twitter_handle: taigaio
+
+# GitHub organization to include in notification emails
+taiga_github_organization: taigaio
+
+# Support URL to include in notification emails
+taiga_support_url: "https://tree.taiga.io/support"
+
+# Support email address to include in notification emails
+taiga_support_email: "support@taiga.io"
+
+# Mailing list URL to include in notification emails
+taiga_support_mailing_list: "https://groups.google.com/forum/#!forum/taigaio"
+
 # Should Taiga support LDAP authentication?
 taiga_enable_ldap_login: false
 

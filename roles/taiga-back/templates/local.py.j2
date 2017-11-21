@@ -50,6 +50,19 @@ GITHUB_API_CLIENT_ID = "{{ taiga_github_api_client_id }}"
 GITHUB_API_CLIENT_SECRET = "{{ taiga_github_api_client_secret }}"
 {% endif %}
 
+SR = {
+    "taigaio_url": "https://taiga.io",
+    "social": {
+        "twitter_url": "https://twitter.com/{{ taiga_twitter_handle }}",
+        "github_url": "https://github.com/{{ taiga_github_organization }}",
+    },
+    "support": {
+        "url": "{{ taiga_support_url }}",
+        "email": "{{ taiga_support_email }}",
+        "mailing_list": "{{ taiga_support_mailing_list }}",
+    }
+}
+
 {% if taiga_enable_ldap_login | bool %}
 INSTALLED_APPS += ["taiga_contrib_ldap_auth"]
 

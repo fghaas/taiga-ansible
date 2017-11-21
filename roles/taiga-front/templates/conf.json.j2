@@ -16,6 +16,7 @@
 {% if taiga_enable_ldap_login | bool %}
         "loginFormType": "ldap",
 {% endif %}
+        "supportUrl": "{{ taiga_support_url }}",
 	"privacyPolicyUrl": null,
 	"termsOfServiceUrl": null,
 	"maxUploadFileSize": null,
