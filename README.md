@@ -1,4 +1,4 @@
-# `ansible-taiga`
+# `taiga-ansible`
 
 ### [Ansible](https://www.ansible.com/) roles and playbooks to deploy [Taiga](https://taiga.io/)
 	
