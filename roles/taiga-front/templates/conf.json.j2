@@ -14,18 +14,18 @@
 	"publicRegisterEnabled": {{ taiga_enable_public_register | bool | lower }},
 	"feedbackEnabled": {{ taiga_enable_feedback | bool | lower }},
 {% if taiga_enable_ldap_login | bool %}
-        "loginFormType": "ldap",
+	"loginFormType": "ldap",
 {% endif %}
-        "supportUrl": "{{ taiga_support_url }}",
+	"supportUrl": "{{ taiga_support_url }}",
 	"privacyPolicyUrl": null,
 	"termsOfServiceUrl": null,
 	"maxUploadFileSize": null,
 	"contribPlugins": [
 {% if taiga_enable_saml_login | bool %}
-        "/plugins/saml-auth/saml-auth.json"
+	"/plugins/saml-auth/saml-auth.json"
 {% endif %}
 	],
-        "tribeHost": null,
+	"tribeHost": null,
 	"importers": [],
 	"gravatar": true
 }
