@@ -127,6 +127,14 @@ SAML_AUTH = {
 {% endif %}
 {% if taiga_saml_mapping %}
   'mapping': {{ taiga_saml_mapping }}
+{% else %}
+  'mapping': {
+    'attributes': {
+      'email': 'email',
+      'username': 'username',
+      'full_name': 'full_name',
+    },
+  }
 {% endif %}
 }
 {% endif %}
