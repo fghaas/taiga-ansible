@@ -193,7 +193,7 @@ taiga_contrib_saml_auth_checkout_dir: "{{ taiga_contrib_saml_auth_repo }}"
 # Version, tag, branch, or commit to check out when installing
 # taiga-contrib-saml-auth. Ignored unless taiga_enable_saml_login is
 # set.
-taiga_contrib_saml_auth_version: "1.0.1"
+taiga_contrib_saml_auth_version: "1.0.2"
 
 # The SAML NameId format, if your IdP requires that you specify
 # one. Ignored unless taiga_enable_saml_login is set.
