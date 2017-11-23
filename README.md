@@ -32,8 +32,9 @@ Taiga hosts are to be sorted into three different roles:
 It is perfectly acceptable to assign all three roles to the same host,
 if needed.
 
-Two other defined roles, `taiga`, and `taiga-webserver`, are auxiliary
-and should never be used directly.
+The other defined roles, `taiga`, `taiga-node`, and `taiga-webserver`,
+are auxiliary and should never be used directly. The `taiga-back`,
+`taiga-front`, and `taiga-events` roles inherit from these as needed.
 
 ## Inventory
 
