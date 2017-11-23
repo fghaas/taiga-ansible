@@ -1,0 +1,91 @@
+---
+- name: set facts for restore
+  become: false
+  set_fact:
+    _restore_staging: "{{ taiga_user_home }}/restore/{{ _timestamp }}"
+    _restore_file: "{{ taiga_user_home }}/restore/{{ taiga_back_restore_file | basename }}"
+  tags:
+    - restore
+
+- name: create remote restore staging directory
+  become: true
+  become_user: taiga
+  file:
+    path: "{{ _restore_staging }}"
+    state: directory
+  tags:
+    - restore
+
+- name: copy archive to restore
+  become: true
+  become_user: root
+  copy:
+    src:  "{{ taiga_back_restore_file }}"
+    dest: "{{ taiga_user_home }}/restore/"
+  tags:
+    - restore
+
+- name: unpack backup archive
+  become: true
+  become_user: taiga
+  unarchive:
+    src: "{{ _restore_file }}"
+    dest: "{{ _restore_staging }}/"
+    remote_src: true
+  tags:
+    - restore
+
+- name: drop existing PostgreSQL database
+  become: true
+  become_user: postgres
+  postgresql_db:
+    name: "{{ taiga_back_database_name }}"
+    owner: "{{ taiga_back_database_user }}"
+    state: absent
+  tags:
+    - restore
+
+- name: recreate PostgreSQL database
+  become: true
+  become_user: postgres
+  postgresql_db:
+    name: "{{ taiga_back_database_name }}"
+    owner: "{{ taiga_back_database_user }}"
+  tags:
+    - restore
+
+- name: restore PostgreSQL database dump
+  become: true
+  become_user: taiga
+  postgresql_db:
+    name: "{{ taiga_back_database_name }}"
+    owner: "{{ taiga_back_database_user }}"
+    login_user: "{{ taiga_back_database_user }}"
+    state: restore
+    target: "{{ _restore_staging }}/{{ taiga_back_database_name }}.sql"
+  notify:
+    - "restart taiga (via {{ taiga_service_manager }})"
+  tags:
+    - restore
+
+- name: copy media directory
+  become: true
+  become_user: taiga
+  synchronize:
+    src: "{{ _restore_staging }}/media"
+    dest:  "{{ taiga_user_home }}/{{ taiga_back_checkout_dir }}/"
+  delegate_to: "{{ inventory_hostname }}"
+  tags:
+    - restore
+
+- name: remove remote restore file and staging directory
+  become: true
+  become_user: taiga
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - "{{ _restore_staging }}"
+    - "{{ _restore_file }}"
+  tags:
+    - restore

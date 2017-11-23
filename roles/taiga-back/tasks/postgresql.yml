@@ -22,6 +22,46 @@
     - install
     - back-install
 
+- name: check for restore file
+  become: false
+  stat:
+    path: "{{ taiga_back_restore_file }}"
+  register: restore_file
+  delegate_to: localhost
+  tags:
+    - always
+
+- name: issue warning if restore file exists, but restore is not enabled
+  debug:
+    msg: "taiga_back_restore has not been set, but restore file exists at {{ taiga_back_restore_file }}!"
+  when: >
+    not (taiga_back_restore | bool )
+    and restore_file.stat.exists
+  tags:
+    - restore
+    - install
+    - back-install
+
+- name: fail if restore is enabled, but no restore file exists
+  fail:
+    msg: >
+      "taiga_back_restore has been set,
+      but no restore file exists at {{ taiga_back_restore_file }}.
+      Either drop a restore file at {{ taiga_back_restore_file }},
+      or override taiga_back_restore_file."
+  when: >
+    (taiga_back_restore | bool )
+    and not restore_file.stat.exists
+  tags:
+    - restore
+    - install
+    - back-install
+
+- include: "restore.yml"
+  when: >
+    (taiga_back_restore | bool )
+    and restore_file.stat.exists
+
 - name: create PostgreSQL database
   become: true
   become_user: postgres

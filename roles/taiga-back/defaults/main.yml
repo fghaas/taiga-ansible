@@ -38,6 +38,13 @@ taiga_back_load_initial_user_data: false
 # a production system.)
 taiga_back_create_sample_data: false
 
+# Do we want to restore data from a backup?
+taiga_back_restore: false
+
+# For restoring from a backup, what's the filename of the local
+# tarball we should restore?
+taiga_back_restore_file: "backup/taiga-restore.tar.bz2"
+
 # Which address should the backend send email from? (Ignored if
 # taiga_enable_email is off.)
 taiga_back_default_from_email: "{{ taiga_admin_email }}"

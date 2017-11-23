@@ -238,6 +238,39 @@ drwxr-xr-x taiga/taiga       0 2017-11-23 22:09 media/project/e/4/5/6/1c77291428
 [...]
 ```
 
+## Restore
+
+To restore or pre-populate a Taiga installation, either
+
+* create a copy of, or a symlink to, the backup you want to restore,
+  named `taiga-restore.tar.bz2`, in your local `backup` directory,
+  _or_
+* override the `taiga_back_restore_file` variable to point to whatever
+  tarball you want to restore.
+
+Then, invoke the playbook with the `taiga_back_restore` variable set
+to `true`:
+
+```
+$ ansible-playbook taiga.yml -e taiga_back_restore=true
+[...]
+PLAY RECAP ****************************************************************
+xenial-taiga-aio           : ok=120  changed=21   unreachable=0    failed=0
+```
+
+The playbook run will fail if you set `taiga_back_restore=true`, but
+there is no restore file.
+
+If you want to run *just* a restore, run only the tasks marked with the
+`restore` tag (but just as with the full playbook, don’t forget to
+also set the `taiga_back_restore` variable):
+
+```
+$ ansible-playbook taiga.yml -e taiga_back_restore=true -t restore
+[...]
+PLAY RECAP ****************************************************************
+xenial-taiga-aio           : ok=35   changed=9    unreachable=0    failed=0
+```
 
 ## Limitations
 
