@@ -109,8 +109,8 @@ Other variables that you might want to set include:
 
 - `taiga_service_manager`: when set to `circus` (the default),
   installs the Circus service manager and runs Taiga-related services
-  from there. When set to `systemd` (only supported for Ansible 2.2
-  and later), creates and enables systemd services for Taiga instead.
+  from there. When set to `systemd`, creates and enables systemd
+  services for Taiga instead.
 
 - `taiga_enable_ssl`: configures the web server for HTTPS, and the
   event processor (if enabled) for secure Websockets (WSS). Note that
