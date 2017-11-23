@@ -4,6 +4,7 @@
   command: "date +%Y%m%d-%H%M%S"
   register: date
   when: _timestamp is not defined
+  changed_when: false
   tags:
     - always
 
