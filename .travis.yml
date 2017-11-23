@@ -16,15 +16,6 @@ addons:
 env:
   - ANSIBLE_VERSION=latest
   - ANSIBLE_VERSION=2.4.0.0
-  - ANSIBLE_VERSION=2.3.2.0
-  - ANSIBLE_VERSION=2.2.3.0
-  - ANSIBLE_VERSION=2.1.1.0
-
-# Python 3 support was added in Ansible 2.2
-matrix:
-  exclude:
-    - python: "3.5"
-      env: ANSIBLE_VERSION=2.1.1.0
 
 branches:
   only:
