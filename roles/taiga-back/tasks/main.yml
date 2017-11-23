@@ -178,3 +178,4 @@
 
 - include: "{{ taiga_service_manager }}.yml"
 
+- include: "backup.yml"

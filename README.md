@@ -188,6 +188,57 @@ taiga_saml_mapping:  # map SAML users to Taiga users
     timezone:  SAML_ATTRIBUTE_NAME_TIMEZONE
 ```
 
+## Backups
+
+Taiga creates two sets of data that merit backup and that you might
+use to restore (or pre-populate) a Taiga installation: the PostgreSQL
+database, and the `media` directory in `taiga-back`, where user
+uploads like avatars, project logos, and file attachments go.
+
+To create a backup, simply run the `taiga.yml` playbook. It will
+automatically place a timestamped backup tarball in your local
+`backup` directory.
+
+```
+$ ansible-playbook taiga.yml
+[...]
+PLAY RECAP ****************************************************************
+xenial-taiga-aio           : ok=111  changed=14   unreachable=0    failed=0
+
+$ ls backup
+20171123-224624.tar.bz2
+```
+
+If you want to run *just* a backup, run only the tasks marked with the
+`backup` tag:
+
+```
+$ ansible-playbook taiga.yml -t backup
+[...]
+PLAY RECAP ****************************************************************
+xenial-taiga-aio           : ok=33   changed=6    unreachable=0 failed=0
+
+ls backup/
+20171123-224624.tar.bz2  20171123-224837.tar.bz2
+```
+
+The backup tarball contains your PostgreSQL database dump
+(`taiga.sql`) and a copy of the `media` directory:
+
+```
+$ tar -vtjf backup/20171123-224837.tar.bz2
+-rw-r--r-- taiga/taiga  254602 2017-11-23 23:48 taiga.sql
+drwxr-xr-x taiga/taiga       0 2017-11-23 23:34 media/project/
+drwxr-xr-x taiga/taiga       0 2017-11-23 23:34 media/user/
+drwxr-xr-x taiga/taiga       0 2017-11-23 22:09 media/project/e/
+drwxr-xr-x taiga/taiga       0 2017-11-23 22:09 media/project/e/4/
+drwxr-xr-x taiga/taiga       0 2017-11-23 22:09 media/project/e/4/5/
+drwxr-xr-x taiga/taiga       0 2017-11-23 22:09 media/project/e/4/5/6/
+drwxr-xr-x taiga/taiga       0 2017-11-23 22:09 media/project/e/4/5/6/1c77291428251856b6ddc6985e6558bf06eb0f723258d032f9d44f8147c1/
+[...]
+```
+
+
 ## Limitations
 
 - PostgreSQL gets installed to the `taiga-back` node. There is

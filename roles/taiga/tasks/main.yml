@@ -1,4 +1,20 @@
 ---
+- name: get current timestamp
+  become: false
+  command: "date +%Y%m%d-%H%M%S"
+  register: date
+  when: _timestamp is not defined
+  tags:
+    - always
+
+- name: set timestamp fact
+  become: false
+  set_fact:
+    _timestamp: "{{ date.stdout }}"
+  when: _timestamp is not defined
+  tags:
+    - always
+
 - name: check for required variables
   assert:
     that:
