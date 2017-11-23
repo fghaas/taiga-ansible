@@ -4,8 +4,9 @@ from .common import *
 
 MEDIA_URL = "{{ scheme }}://{{ taiga_frontend_host }}/media/"
 STATIC_URL = "{{ scheme }}://{{ taiga_frontend_host }}/static/"
-SITES["front"]["scheme"] = "{{ scheme }}"
-SITES["front"]["domain"] = "{{ taiga_frontend_host }}"
+for site in ["front", "api"]:
+    SITES[site]["scheme"] = "{{ scheme }}"
+    SITES[site]["domain"] = "{{ taiga_frontend_host }}"
 
 SECRET_KEY = "{{ taiga_secret_key }}"
 
