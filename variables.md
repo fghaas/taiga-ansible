@@ -198,7 +198,7 @@ taiga_contrib_saml_auth_checkout_dir: "{{ taiga_contrib_saml_auth_repo }}"
 # Version, tag, branch, or commit to check out when installing
 # taiga-contrib-saml-auth. Ignored unless taiga_enable_saml_login is
 # set.
-taiga_contrib_saml_auth_version: "1.0.1"
+taiga_contrib_saml_auth_version: "1.0.2"
 
 # The SAML NameId format, if your IdP requires that you specify
 # one. Ignored unless taiga_enable_saml_login is set.
@@ -417,6 +417,13 @@ taiga_back_load_initial_user_data: false
 # Do we want to create a set of sample Taiga data? (Leave disabled on
 # a production system.)
 taiga_back_create_sample_data: false
+
+# Do we want to restore data from a backup?
+taiga_back_restore: false
+
+# For restoring from a backup, what's the filename of the local
+# tarball we should restore?
+taiga_back_restore_file: "backup/taiga-restore.tar.bz2"
 
 # Which address should the backend send email from? (Ignored if
 # taiga_enable_email is off.)
