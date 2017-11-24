@@ -129,17 +129,17 @@ Other variables that you might want to set include:
 Several other variables can be overridden; for their defaults, please
 see [variables.md](variables.md).
 
+## Slack Support
+
+To enable the Slack notification plugin, set `taiga_enable_slack` to
+`true`.
+
 ## LDAP Authentication
 
 To enable LDAP authentication support, set `taiga_enable_ldap_login`
 to `true`, and set `taiga_ldap_*` variables to match your LDAP server
 configuration. For details on supported variables, see
 [variables.md](variables.md).
-
-## Slack Support
-
-To enable the Slack notification plugin, set `taiga_enable_slack` to
-`true`.
 
 ## SAML Authentication
 
