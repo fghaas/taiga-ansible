@@ -1,4 +1,4 @@
-- name: check out taiga-contrib-saml-auth git repository
+- name: "check out {{ taiga_contrib_saml_auth_repo }} git repository"
   become: true
   become_user: "{{ taiga_user }}"
   git:
@@ -9,7 +9,7 @@
     - install
     - front-install
 
-- name: "link taiga-contrib-saml-auth into {{ taiga_front_checkout_dir }}"
+- name: "link {{ taiga_contrib_saml_auth_repo }} into {{ taiga_front_checkout_dir }}"
   become: true
   become_user: "{{ taiga_user }}"
   file:
