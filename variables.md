@@ -134,6 +134,13 @@ taiga_support_email: "support@taiga.io"
 # Mailing list URL to include in notification emails
 taiga_support_mailing_list: "https://groups.google.com/forum/#!forum/taigaio"
 
+# IP addresses from which Taiga should accept GitLab webhook
+# calls. GitLab webhooks are not signed, so there is no way to
+# cryptographically verify their validity. Thus, the only way to be
+# somewhat sure that they come from a legitimate GitLab instance is to
+# verify the origin IP address.
+taiga_gitlab_valid_origin_ips: []
+
 # Should Taiga support LDAP authentication?
 taiga_enable_ldap_login: false
 
