@@ -74,6 +74,9 @@
     - install
     - back-install
 
+- include: "slack.yml"
+  when: taiga_enable_slack | bool
+
 - include: "ldap.yml"
   when: taiga_enable_ldap_login | bool
 

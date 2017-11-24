@@ -1,0 +1,26 @@
+- name: "check out {{ taiga_contrib_slack_repo }} git repository"
+  become: true
+  become_user: "{{ taiga_user }}"
+  git:
+    repo: "{{ taiga_contrib_slack_mirror }}/{{ taiga_contrib_slack_repo }}"
+    dest: "{{ taiga_user_home }}/{{ taiga_contrib_slack_checkout_dir }}"
+    version: "{{ taiga_contrib_slack_version }}"
+  notify:
+    - "restart taiga (via {{ taiga_service_manager }})"
+  tags:
+    - install
+    - back-install
+
+- name: install packages for Slack support into virtualenv
+  become: true
+  become_user: "{{ taiga_user }}"
+  pip:
+    name: "{{ taiga_user_home }}/{{ taiga_contrib_slack_checkout_dir }}/back"
+    editable: true
+    virtualenv: "{{ taiga_user_home }}/{{ taiga_back_venv_dir }}"
+    virtualenv_python: "python3.5"
+  notify:
+    - "restart taiga (via {{ taiga_service_manager }})"
+  tags:
+    - install
+    - back-install

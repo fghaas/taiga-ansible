@@ -46,6 +46,10 @@ EMAIL_HOST_PASSWORD = "{{ taiga_email_host_password }}"
 EMAIL_PORT = {{ taiga_email_port }}
 {% endif %}
 
+{% if taiga_enable_slack | bool %}
+INSTALLED_APPS += ["taiga_contrib_slack"]
+{% endif %}
+
 {% if taiga_enable_github_login | bool %}
 GITHUB_API_CLIENT_ID = "{{ taiga_github_api_client_id }}"
 GITHUB_API_CLIENT_SECRET = "{{ taiga_github_api_client_secret }}"

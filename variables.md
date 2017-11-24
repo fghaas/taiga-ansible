@@ -141,6 +141,26 @@ taiga_support_mailing_list: "https://groups.google.com/forum/#!forum/taigaio"
 # verify the origin IP address.
 taiga_gitlab_valid_origin_ips: []
 
+# Should Taiga support Slack notifications?
+taiga_enable_slack: false
+
+# Which GitHub organization should we clone taiga-contrib-slack
+# from? Ignored unless taiga_enable_slack is set.
+taiga_contrib_slack_mirror: "{{ taiga_git_mirror }}"
+
+# The name of the taiga-contrib-slack repository. Ignored unless
+# taiga_enable_slack is set.
+taiga_contrib_slack_repo: "taiga-contrib-slack"
+
+# The checkout directory for taiga-contrib-slack. Ignored unless
+# taiga_enable_slack is set.
+taiga_contrib_slack_checkout_dir: "{{ taiga_contrib_slack_repo }}"
+
+# Version, tag, branch, or commit to check out when installing
+# taiga-contrib-slack. Ignored unless taiga_enable_slack is
+# set.
+taiga_contrib_slack_version: "stable"
+
 # Should Taiga support LDAP authentication?
 taiga_enable_ldap_login: false
 

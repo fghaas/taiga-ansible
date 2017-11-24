@@ -136,6 +136,11 @@ to `true`, and set `taiga_ldap_*` variables to match your LDAP server
 configuration. For details on supported variables, see
 [variables.md](variables.md).
 
+## Slack Support
+
+To enable the Slack notification plugin, set `taiga_enable_slack` to
+`true`.
+
 ## SAML Authentication
 
 To enable SAML authentication, set `taiga_enable_saml_login` to

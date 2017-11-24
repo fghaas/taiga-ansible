@@ -31,6 +31,9 @@
     - config
     - front-install
 
+- include: slack.yml
+  when: taiga_enable_slack | bool
+
 - include: saml.yml
   when: taiga_enable_saml_login | bool
 

@@ -1,0 +1,21 @@
+- name: "check out {{ taiga_contrib_slack_repo }} git repository"
+  become: true
+  become_user: "{{ taiga_user }}"
+  git:
+    repo: "{{ taiga_contrib_slack_mirror }}/{{ taiga_contrib_slack_repo }}"
+    dest: "{{ taiga_user_home }}/{{ taiga_contrib_slack_checkout_dir }}"
+    version: "{{ taiga_contrib_slack_version }}"
+  tags:
+    - install
+    - front-install
+
+- name: "link {{ taiga_contrib_slack_repo }} into {{ taiga_front_checkout_dir }}"
+  become: true
+  become_user: "{{ taiga_user }}"
+  file:
+    dest: "{{ taiga_user_home }}/{{ taiga_front_checkout_dir }}/dist/plugins/slack"
+    src: "{{ taiga_user_home }}/{{ taiga_contrib_slack_checkout_dir }}/front/dist"
+    state: link
+  tags:
+    - install
+    - front-install
