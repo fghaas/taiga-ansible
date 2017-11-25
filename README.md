@@ -267,6 +267,25 @@ PLAY RECAP ****************************************************************
 xenial-taiga-aio           : ok=35   changed=9    unreachable=0    failed=0
 ```
 
+## Tags
+
+The roles support the following
+[tags](http://docs.ansible.com/ansible/latest/playbooks_tags.html):
+
+* `install`: only create scaffolding and install packages as needed,
+  but don’t change any configuration.
+* `config`: the opposite — _only_ make configuration changes, don’t
+  install any packages.
+* `front-install`, `back-install`: like `install`, but only for the
+  frontend or backend.
+* `front-config`, `back-config`: like `config`, but only for the
+  frontend or backend.
+* `backup`: create a backup tarball, and fetch it to the local system
+  (see [Backups](#backups) above).
+* `restore`: upload a backup tarball, and apply it on the remote system
+  (see [Restore](#restore) above).
+
+
 ## Limitations
 
 - PostgreSQL gets installed to the `taiga-back` node. There is
