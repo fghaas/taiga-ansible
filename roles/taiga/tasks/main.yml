@@ -24,6 +24,8 @@
       - "taiga_service_manager == 'circus' or ansible_version | version_compare('2.2', '>=')"
   with_items:
     - taiga_secret_key
+  tags:
+    - always
 
 - name: set facts identifying node roles
   set_fact:
@@ -31,7 +33,7 @@
     _taiga_is_front_node: "{{ 'taiga-front' in group_names }}"
     _taiga_is_events_node: "{{ 'taiga-events' in group_names }}"
   tags:
-    always
+    - always
 
 - name: set facts related to SSL certificates
   set_fact:
