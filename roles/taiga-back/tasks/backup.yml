@@ -6,6 +6,7 @@
     _backup_archive: "{{ taiga_user_home }}/backup/{{ _timestamp }}/{{ _timestamp }}.tar.bz2"
   tags:
     - backup
+    - offline
 
 - name: create local backup directory
   become: false
@@ -15,6 +16,7 @@
   delegate_to: localhost
   tags:
     - backup
+    - offline
 
 - name: create remote backup staging directory
   become: true
@@ -24,6 +26,7 @@
     state: directory
   tags:
     - backup
+    - offline
 
 - name: create PostgreSQL database dump
   become: true
@@ -35,6 +38,7 @@
     target: "{{ _backup_staging }}/{{ taiga_back_database_name }}.sql"
   tags:
     - backup
+    - offline
 
 - name: copy media directory
   become: true
@@ -45,6 +49,7 @@
   delegate_to: "{{ inventory_hostname }}"
   tags:
     - backup
+    - offline
 
 - name: archive backup
   become: true
@@ -55,6 +60,7 @@
     format: bz2
   tags:
     - backup
+    - offline
 
 - name: fetch backup archive
   become: true
@@ -65,6 +71,7 @@
     flat: true
   tags:
     - backup
+    - offline
 
 - name: remove remote backup staging directory
   become: true
@@ -74,4 +81,5 @@
     state: absent
   tags:
     - backup
+    - offline
 

@@ -54,5 +54,6 @@
   tags:
     - config
     - back-config
+    - offline
 
 - include: "saml-{{ 'signed' if taiga_ssl_key else 'selfsign'}}.yml"

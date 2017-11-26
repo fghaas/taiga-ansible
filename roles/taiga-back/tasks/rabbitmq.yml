@@ -16,6 +16,7 @@
   tags:
     - install
     - back-install
+    - offline
 
 - name: create RabbitMQ user
   become: true
@@ -30,3 +31,4 @@
   tags:
     - install
     - back-install
+    - offline

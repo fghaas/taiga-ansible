@@ -10,6 +10,7 @@
   tags:
     - config
     - back-config
+    - offline
 
 - name: add taiga-celery to Circus
   become: true
@@ -24,3 +25,4 @@
   tags:
     - config
     - back-config
+    - offline

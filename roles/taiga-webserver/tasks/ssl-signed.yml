@@ -9,6 +9,7 @@
   tags:
     - config
     - front-config
+    - offline
 
 - name: deploy SSL certificate
   become: true
@@ -20,3 +21,4 @@
   tags:
     - config
     - front-config
+    - offline

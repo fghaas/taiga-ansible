@@ -24,6 +24,7 @@
   tags:
     - config
     - events-config
+    - offline
 
 - name: install global NPM modules
   become: true

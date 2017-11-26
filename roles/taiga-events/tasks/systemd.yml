@@ -10,6 +10,7 @@
   tags:
     - config
     - events-config
+    - offline
 
 - name: reload systemd
   become: true
@@ -20,6 +21,7 @@
   tags:
     - config
     - events-config
+    - offline
 
 - name: start taiga-events service
   become: true
@@ -32,3 +34,4 @@
   tags:
     - config
     - events-config
+    - offline

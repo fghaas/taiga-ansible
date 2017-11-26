@@ -6,6 +6,7 @@
     _restore_file: "{{ taiga_user_home }}/restore/{{ taiga_back_restore_file | basename }}"
   tags:
     - restore
+    - offline
 
 - name: create remote restore staging directory
   become: true
@@ -15,6 +16,7 @@
     state: directory
   tags:
     - restore
+    - offline
 
 - name: copy archive to restore
   become: true
@@ -24,6 +26,7 @@
     dest: "{{ taiga_user_home }}/restore/"
   tags:
     - restore
+    - offline
 
 - name: unpack backup archive
   become: true
@@ -34,6 +37,7 @@
     remote_src: true
   tags:
     - restore
+    - offline
 
 - name: drop existing PostgreSQL database
   become: true
@@ -44,6 +48,7 @@
     state: absent
   tags:
     - restore
+    - offline
 
 - name: recreate PostgreSQL database
   become: true
@@ -53,6 +58,7 @@
     owner: "{{ taiga_back_database_user }}"
   tags:
     - restore
+    - offline
 
 - name: restore PostgreSQL database dump
   become: true
@@ -67,6 +73,7 @@
     - "restart taiga (via {{ taiga_service_manager }})"
   tags:
     - restore
+    - offline
 
 - name: copy media directory
   become: true
@@ -77,6 +84,7 @@
   delegate_to: "{{ inventory_hostname }}"
   tags:
     - restore
+    - offline
 
 - name: remove remote restore file and staging directory
   become: true
@@ -89,3 +97,4 @@
     - "{{ _restore_file }}"
   tags:
     - restore
+    - offline

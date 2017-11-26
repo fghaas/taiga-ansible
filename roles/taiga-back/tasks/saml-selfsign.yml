@@ -16,6 +16,7 @@
   tags:
     - config
     - back-config
+    - offline
 
 - name: create SAML x509 certificate request
   become: true
@@ -27,6 +28,7 @@
   tags:
     - config
     - back-config
+    - offline
 
 - name: create self-signed SAML x509 certificate
   become: true
@@ -39,3 +41,4 @@
   tags:
     - config
     - back-config
+    - offline

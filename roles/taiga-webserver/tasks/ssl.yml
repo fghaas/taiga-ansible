@@ -8,5 +8,6 @@
   tags:
     - config
     - front-config
+    - offline
 
 - include: "ssl-{{ 'signed' if taiga_ssl_key else 'selfsign'}}.yml"

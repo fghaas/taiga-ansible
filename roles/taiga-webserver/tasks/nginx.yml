@@ -23,6 +23,7 @@
     - config
     - nginx-config
     - front-config
+    - offline
 
 - name: "remove nginx default site"
   become: true
@@ -36,6 +37,7 @@
     - config
     - nginx-config
     - front-config
+    - offline
 
 - name: add taiga to nginx
   become: true
@@ -51,6 +53,7 @@
     - nginx-config
     - front-config
     - back-config
+    - offline
 
 - name: enable nginx service
   become: true
@@ -62,3 +65,4 @@
     - config
     - nginx-config
     - front-config
+    - offline

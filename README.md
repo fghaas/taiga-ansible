@@ -284,6 +284,15 @@ The roles support the following
   (see [Backups](#backups) above).
 * `restore`: upload a backup tarball, and apply it on the remote system
   (see [Restore](#restore) above).
+* `offline`: only run those tasks that don’t require your target
+  systems to have a working internet connection. This is primarily
+  useful for working on a local, previously installed test system
+  while traveling or otherwise disconnected. 
+  
+For example, if you wanted to run the whole playbook but skip all
+tasks that require connectivity, and also skip the automatic backups,
+you might run with `ansible-playbook taiga.yml --tags offline
+--skip-tags backup`.
 
 
 ## Limitations

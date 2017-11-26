@@ -12,6 +12,7 @@
   tags:
     - config
     - back-config
+    - offline
 
 - name: reload systemd
   become: true
@@ -22,6 +23,7 @@
   tags:
     - config
     - back-config
+    - offline
 
 - name: start taiga service
   become: true
@@ -33,6 +35,7 @@
   tags:
     - config
     - back-config
+    - offline
 
 - name: start taiga-celery service
   become: true
@@ -45,3 +48,4 @@
   tags:
     - config
     - back-config
+    - offline

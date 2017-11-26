@@ -61,6 +61,7 @@
     - front-config
     - back-config
     - events-config
+    - offline
 
 - name: "create user {{ taiga_user }}"
   become: true
@@ -74,6 +75,7 @@
     - front-install
     - back-install
     - events-install
+    - offline
 
 - name: "create logs directory"
   become: true
@@ -88,6 +90,7 @@
     - front-install
     - back-install
     - events-install
+    - offline
 
 - name: update package cache
   become: true

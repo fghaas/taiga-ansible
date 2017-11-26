@@ -21,6 +21,7 @@
     - front-config
     - back-config
     - events-config
+    - offline
 
 - name: enable Circus service
   become: true
@@ -33,3 +34,4 @@
     - front-config
     - back-config
     - events-config
+    - offline

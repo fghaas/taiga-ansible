@@ -9,6 +9,7 @@
   tags:
     - config
     - back-config
+    - offline
 
 - name: deploy SAML x509 certificate
   become: true
@@ -20,3 +21,4 @@
   tags:
     - config
     - back-config
+    - offline

@@ -16,6 +16,7 @@
   tags:
     - config
     - front-config
+    - offline
 
 - name: create SSL certificate request
   become: true
@@ -27,6 +28,7 @@
   tags:
     - config
     - front-config
+    - offline
 
 - name: create self-signed SSL certificate
   become: true
@@ -39,3 +41,4 @@
   tags:
     - config
     - front-config
+    - offline

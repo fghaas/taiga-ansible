@@ -21,6 +21,7 @@
   tags:
     - install
     - back-install
+    - offline
 
 - name: check for restore file
   become: false
@@ -30,6 +31,7 @@
   delegate_to: localhost
   tags:
     - always
+    - offline
 
 - name: issue warning if restore file exists, but restore is not enabled
   debug:
@@ -41,6 +43,7 @@
     - restore
     - install
     - back-install
+    - offline
 
 - name: fail if restore is enabled, but no restore file exists
   fail:
@@ -56,6 +59,7 @@
     - restore
     - install
     - back-install
+    - offline
 
 - include: "restore.yml"
   when: >
@@ -71,4 +75,5 @@
   tags:
     - install
     - back-install
+    - offline
 
