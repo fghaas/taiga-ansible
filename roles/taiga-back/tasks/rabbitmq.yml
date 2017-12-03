@@ -4,6 +4,7 @@
   become_user: root
   apt:
     name: rabbitmq-server
+    state: "{{ taiga_upgrade | bool | ternary('latest', 'present') }}"
   tags:
     - install
     - back-install

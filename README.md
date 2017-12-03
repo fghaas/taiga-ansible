@@ -267,6 +267,28 @@ PLAY RECAP ****************************************************************
 xenial-taiga-aio           : ok=35   changed=9    unreachable=0    failed=0
 ```
 
+
+## Upgrades
+
+Taiga itself will be updated on every run to whatever Git version
+(tag, branch, etc.) you specify.
+
+When run with `taiga_upgrade` set to `true`, the playbook also invokes
+`apt-get safe-upgrade`, and also upgrades all installed PIP and NPM
+modules (as far as possible).
+
+If you *only* want to run a package upgrade and not change any
+configuration, you can run just the `install` tasks with
+`taiga_upgrade=true`:
+
+```
+$ ansible-playbook taiga.yml -e taiga_upgrade=true -t install
+[...]
+PLAY RECAP ****************************************************************
+xenial-taiga-aio           : ok=84   changed=7    unreachable=0    failed=0
+```
+
+
 ## Tags
 
 The roles support the following

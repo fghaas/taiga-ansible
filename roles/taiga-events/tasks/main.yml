@@ -32,6 +32,7 @@
   npm:
     name: "{{ item }}"
     global: true
+    state: "{{ taiga_upgrade | bool | ternary('latest', 'present') }}"
   with_items:
     - coffee-script
   tags:
@@ -43,6 +44,7 @@
   become_user: "{{ taiga_user }}"
   npm:
     path: "{{ taiga_user_home }}/{{ taiga_events_checkout_dir }}"
+    state: "{{ taiga_upgrade | bool | ternary('latest', 'present') }}"
   tags:
     - install
     - events-install

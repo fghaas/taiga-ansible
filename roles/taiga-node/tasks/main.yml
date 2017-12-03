@@ -36,6 +36,7 @@
   become_user: root
   apt:
     name: nodejs
+    state: "{{ taiga_upgrade | bool | ternary('latest', 'present') }}"
   tags:
     - install
     - front-install

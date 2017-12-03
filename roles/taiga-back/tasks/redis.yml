@@ -3,6 +3,7 @@
   become_user: root
   apt:
     name: redis-server
+    state: "{{ taiga_upgrade | bool | ternary('latest', 'present') }}"
   tags:
     - install
     - back-install

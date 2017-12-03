@@ -4,6 +4,7 @@
   become_user: root
   apt:
     name: "{{ item }}"
+    state: "{{ taiga_upgrade | bool | ternary('latest', 'present') }}"
   with_items:
     - ruby
     - ruby-dev
@@ -30,6 +31,7 @@
   npm:
     name: "{{ item }}"
     global: true
+    state: "{{ taiga_upgrade | bool | ternary('latest', 'present') }}"
   with_items:
     - gulp
   tags:
@@ -41,6 +43,7 @@
   become_user: "{{ taiga_user }}"
   npm:
     path: "{{ taiga_user_home }}/{{ taiga_front_checkout_dir }}"
+    state: "{{ taiga_upgrade | bool | ternary('latest', 'present') }}"
   tags:
     - install
     - front-install

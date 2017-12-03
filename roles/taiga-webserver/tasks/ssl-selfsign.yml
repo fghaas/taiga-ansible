@@ -3,6 +3,7 @@
   become_user: root
   apt:
     name: python-openssl
+    state: "{{ taiga_upgrade | bool | ternary('latest', 'present') }}"
   tags:
     - install
     - front-install

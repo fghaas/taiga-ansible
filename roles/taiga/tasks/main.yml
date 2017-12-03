@@ -103,6 +103,18 @@
     - back-install
     - events-install
 
+- name: optionally upgrade installed packages
+  become: true
+  become_user: root
+  apt:
+    upgrade: true
+  when: "taiga_upgrade | bool"
+  tags:
+    - install
+    - front-install
+    - back-install
+    - events-install
+
 - name: fail on unsupported service manager
   fail:
     msg: "Unsupported value for taiga_service_manager, must be 'circus' or 'systemd'"
