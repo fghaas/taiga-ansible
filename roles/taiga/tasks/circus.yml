@@ -6,6 +6,11 @@
   with_items:
     - circus
     - python-setuptools
+  tags:
+    - install
+    - front-install
+    - back-install
+    - events-install
 
 - name: "make Circus configuration directory writeable for user {{ taiga_user }}"
   become: true
