@@ -223,7 +223,7 @@ taiga_contrib_saml_auth_checkout_dir: "{{ taiga_contrib_saml_auth_repo }}"
 # Version, tag, branch, or commit to check out when installing
 # taiga-contrib-saml-auth. Ignored unless taiga_enable_saml_login is
 # set.
-taiga_contrib_saml_auth_version: "1.0.2"
+taiga_contrib_saml_auth_version: "1.1.0"
 
 # The SAML NameId format, if your IdP requires that you specify
 # one. Ignored unless taiga_enable_saml_login is set.
@@ -237,10 +237,18 @@ taiga_saml_idp_entity_id: ""
 # set.
 taiga_saml_idp_single_sign_on_url: ""
 
+# The SAML SSO binding protocol. Ignored unless
+# taiga_enable_saml_login is set.
+taiga_saml_idp_single_sign_on_binding: "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+
 # Your SAML IdP's SLO URL. Ignored unless taiga_enable_saml_login is
 # set. If left empty, SAML authentication will use the same URL as
 # that specified in taiga_saml_idp_single_sign_on_url.
 taiga_saml_idp_single_logout_url: ""
+
+# The SAML SLO binding protocol. Ignored unless
+# taiga_enable_saml_login is set.
+taiga_saml_idp_single_logout_binding: "{{ taiga_saml_idp_single_sign_on_binding }}"
 
 # Your SAML IdP's X.509 certificate. Ignored unless
 # taiga_enable_saml_login is set.

@@ -96,21 +96,27 @@ INSTALLED_APPS += ["taiga_contrib_saml_auth"]
 SAML_AUTH = {
   'sp': {
 {% if taiga_saml_sp_name_id_format %}
-    'nameIDFormat': '{{ taiga_saml_sp_name_id_format }}',
+    'NameIDFormat': '{{ taiga_saml_sp_name_id_format }}',
 {% endif %}
-    'cert': open('{{ _taiga_ssl_certificate_path }}', 'r').read(),
-    'key': open('{{ _taiga_ssl_key_path }}', 'r').read(),
+    'x509cert': open('{{ _taiga_ssl_certificate_path }}', 'r').read(),
+    'privateKey': open('{{ _taiga_ssl_key_path }}', 'r').read(),
   },
   'idp': {
-    'entityID': '{{ taiga_saml_idp_entity_id }}',
-    'singleSignOnURL': '{{ taiga_saml_idp_single_sign_on_url }}',
+    'entityId': '{{ taiga_saml_idp_entity_id }}',
+    'singleSignOnService': {
+      'url': '{{ taiga_saml_idp_single_sign_on_url }}',
+      'binding': '{{ taiga_saml_idp_single_sign_on_binding }}',
+    },
+    'singleLogoutService': {
 {% if taiga_saml_idp_single_logout_url %}
-    'singleLogoutURL': '{{ taiga_saml_idp_single_logout_url }}',
+      'url': '{{ taiga_saml_idp_single_logout_url }}',
 {% else %}
-    'singleLogoutURL': '{{ taiga_saml_idp_single_sign_on_url }}',
+      'url': '{{ taiga_saml_idp_single_sign_on_url }}',
 {% endif %}
+      'binding': '{{ taiga_saml_idp_single_logout_binding }}',
+    },
 {% if taiga_saml_idp_cert %}
-    'cert': '{{ taiga_saml_idp_cert }}',
+    'x509cert': '{{ taiga_saml_idp_cert }}',
 {% else %}
     'certFingerprint': '{{ taiga_saml_idp_cert_fingerprint }}',
 {% endif %}
