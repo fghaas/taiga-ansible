@@ -287,11 +287,11 @@ taiga_saml_security: {}
 # taiga_enable_saml_login is set. If unset, this information is
 # generated from the frontend hostname.
 # Example settings:
-taiga_saml_organization:  # populate at least for en-US, and for other languages as needed
-  en-US:
-    name:          # organization identifier
-    displayname:   # name to display for the organization
-    url:           # web site URL
+# taiga_saml_organization:  # populate at least for en-US, and for other languages as needed
+#   en-US:
+#     name:          # organization identifier
+#     displayname:   # name to display for the organization
+#     url:           # web site URL
 taiga_saml_organization: {}
 
 # Contact person settings for your SAML SP. Ignored unless
