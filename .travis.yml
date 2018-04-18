@@ -29,3 +29,4 @@ install:
 script:
   # Check the role/playbook's syntax.
   - ansible-playbook -i tests/syntax-check/inventory taiga.yml --syntax-check
+  - if [ "$ANSIBLE_VERSION" = "latest" ]; then ansible-lint taiga.yml; fi
