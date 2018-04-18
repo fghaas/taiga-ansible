@@ -30,6 +30,7 @@
     - install
     - front-install
     - events-install
+    - skip_ansible_lint
 
 - name: install nodejs
   become: true
