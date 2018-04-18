@@ -411,6 +411,9 @@ taiga_front_debug: "{{ taiga_debug }}"
 # Do we want to expose the Django admin interface in the front end?
 taiga_front_enable_django_admin: false
 
+# Enable/Disable taiga front gravatar support
+taiga_front_gravatar_enabled: true
+
 ```
 
 ## Variables defined in `taiga-back`
