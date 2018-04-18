@@ -6,7 +6,8 @@
     name: circusd
     state: restarted
 
-- name: restart systemd
+- name: reload systemd daemon
   become: true
   become_user: root
-  command: systemctl daemon-reload
+  systemd:
+    daemon_reload: true
