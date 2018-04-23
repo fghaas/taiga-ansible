@@ -78,7 +78,7 @@ LDAP_PORT = {{ taiga_ldap_port }}
 
 {% if taiga_ldap_bind_dn %}
 LDAP_BIND_DN = '{{ taiga_ldap_bind_dn }}'
-LDAP_BIND_PASSWORD = ''{{ taiga_ldap_bind_password }}'
+LDAP_BIND_PASSWORD = '{{ taiga_ldap_bind_password }}'
 {% endif %}
 
 LDAP_SEARCH_BASE = '{{ taiga_ldap_search_base }}'
