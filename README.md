@@ -14,7 +14,12 @@ All systems in your inventory must be running
 is the only platform where we expect everything to work, although we
 make an effort to support later Ubuntu LTS releases as well.
 
-Your deploy host must be running at least Ansible 2.4.
+Your deploy host must be running at least Ansible 2.4. Since that
+version is not included in Ubuntu Xenial, you can install Ansible
+either
+[from a PPA](https://launchpad.net/~ansible/+archive/ubuntu/ansible),
+or
+[using `pip`](http://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html?#latest-releases-via-pip).
 
 ## Roles
 
