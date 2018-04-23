@@ -5,10 +5,10 @@
     name: "{{ item }}"
     state: "{{ taiga_upgrade | bool | ternary('latest', 'present') }}"
   with_items:
-    - postgresql-9.5
-    - postgresql-contrib-9.5
-    - postgresql-doc-9.5
-    - postgresql-server-dev-9.5
+    - postgresql
+    - postgresql-contrib
+    - postgresql-doc
+    - postgresql-server-dev-all
     - python-psycopg2
   tags:
     - install
@@ -77,4 +77,3 @@
     - install
     - back-install
     - offline
-
