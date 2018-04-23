@@ -4,13 +4,15 @@
 	
 This is a set of Ansible roles and example playbook that enable you to
 deploy the Taiga project management platform to your own servers. It
-closely tracks the recommendations given in the Taiga
+is based on the recommendations given in the Taiga
 [production environment setup guide](http://taigaio.github.io/taiga-doc/dist/setup-production.html).
 
 ## Prerequisites
 
-All systems in your inventory must be running Ubuntu 16.04 Xenial
-Xerus.
+All systems in your inventory must be running
+[Ubuntu 16.04 Xenial Xerus](http://releases.ubuntu.com/16.04/). This
+is the only platform where we expect everything to work, although we
+make an effort to support later Ubuntu LTS releases as well.
 
 Your deploy host must be running at least Ansible 2.4.
 
