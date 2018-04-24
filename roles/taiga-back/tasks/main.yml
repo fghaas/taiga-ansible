@@ -20,7 +20,10 @@
     - libgdbm-dev
     - libjpeg-dev
     - libncurses5-dev
+    - libssl-dev
     - libtool
+    - libxml2-dev
+    - libxslt-dev
     - libzmq3-dev
     - python-dev
     - python-pip
