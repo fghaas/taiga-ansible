@@ -1,4 +1,14 @@
 ---
+- name: install apt-transport-https
+  become: true
+  become_user: root
+  apt:
+    name: apt-transport-https
+  tags:
+    - install
+    - front-install
+    - events-install
+
 - name: add NodeSource repository key
   become: true
   become_user: root
