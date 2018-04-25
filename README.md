@@ -27,7 +27,7 @@ Taiga hosts are to be sorted into three different roles:
 
 - `taiga-back`: Taiga backend node running the Taiga Django REST
   application (and optionally, asynchronous task processing via
-  Celery). This nodes also run PostgreSQL and, if needed, RabbitMQ and
+  Celery). This node also runs PostgreSQL and, if needed, RabbitMQ and
   Redis.
   
 - `taiga-front`: Frontend node running nginx and the Taiga AngularJS
