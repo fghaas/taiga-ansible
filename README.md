@@ -334,6 +334,19 @@ you might run with `ansible-playbook taiga.yml --tags offline
   self-signed certificates only; there is no provision for Let’s
   Encrypt (`certbot`) certificate automation yet.
 
+In addition, you should be aware that the variable defaults for
+`taiga_backend_host`, `taiga_events_host` and `taiga_frontend_host`
+assume that you operate a single Taiga environment from your
+inventory. If you want to manage several Taiga instances, then you
+should
+
+* create a separate inventory for each, *or*
+* manage everything in a single inventory, but override these three
+  variables for each of your instances, *or*
+* manage everything in a single inventory and write your own playbook,
+  so that the roles are mapped to different group names than in
+  `taiga.yml`.
+
 ## License
 
 Like Taiga itself, these playbooks are licensed under the AGPL 3.0;
