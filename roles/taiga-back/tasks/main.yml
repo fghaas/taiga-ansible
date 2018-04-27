@@ -39,7 +39,7 @@
 
 - name: set facts identifying backend services
   set_fact:
-    _taiga_is_rabbit_node: "(taiga_enable_async_tasks or taiga_enable_events) and (taiga_rabbitmq_host in ['localhost', '127.0.0.1', '::1', ansible_hostname, ansible_fqdn])"
+    _taiga_is_rabbit_node: "(taiga_enable_async_tasks | bool or taiga_enable_events | bool) and (taiga_rabbitmq_host in ['localhost', '127.0.0.1', '::1', ansible_hostname, ansible_fqdn])"
     _taiga_is_redis_node: "(taiga_enable_async_tasks | bool) and (taiga_back_redis_host in ['localhost', '127.0.0.1', '::1', ansible_hostname, ansible_fqdn])"
   tags: always
 
