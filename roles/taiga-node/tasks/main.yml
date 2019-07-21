@@ -23,7 +23,7 @@
   become: true
   become_user: root
   apt_repository:
-    repo: "deb https://deb.nodesource.com/node_6.x {{ ansible_distribution_release }} main"
+    repo: "deb https://deb.nodesource.com/node_8.x {{ ansible_distribution_release }} main"
   register: nodesource_repo
   tags:
     - install
