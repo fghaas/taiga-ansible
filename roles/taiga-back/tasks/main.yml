@@ -71,7 +71,7 @@
   pip:
     requirements: "{{ taiga_user_home }}/{{ taiga_back_checkout_dir }}/requirements.txt"
     virtualenv: "{{ taiga_user_home }}/{{ taiga_back_venv_dir }}"
-    virtualenv_python: "python3.5"
+    virtualenv_python: "python3"
     state: "{{ taiga_upgrade | bool | ternary('latest', 'present') }}"
   notify:
     - "restart taiga (via {{ taiga_service_manager }})"

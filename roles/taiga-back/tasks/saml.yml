@@ -30,7 +30,7 @@
     name: "{{ taiga_user_home }}/{{ taiga_contrib_saml_auth_checkout_dir }}/back"
     editable: true
     virtualenv: "{{ taiga_user_home }}/{{ taiga_back_venv_dir }}"
-    virtualenv_python: "python3.5"
+    virtualenv_python: "python3"
   notify:
     - "restart taiga (via {{ taiga_service_manager }})"
   tags:
