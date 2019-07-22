@@ -2,3 +2,4 @@
 dependencies:
   - role: taiga-webserver
   - role: taiga-node
+    when: "'-dist' not in taiga_front_repo"
