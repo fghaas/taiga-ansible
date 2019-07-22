@@ -27,6 +27,13 @@
   tags:
     - always
 
+- name: set facts related to Python versioning
+  set_fact:
+    _taiga_python_major_version: "{{ ansible_python['version']['major'] }}"
+    _taiga_python_package_prefix: "{{ (ansible_python['version']['major'] == 3) | ternary('python3', 'python') }}"
+  tags:
+    - always
+
 - name: set facts identifying node roles
   set_fact:
     _taiga_is_back_node: "{{ 'taiga-back' in group_names }}"

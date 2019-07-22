@@ -6,7 +6,7 @@
     state: "{{ taiga_upgrade | bool | ternary('latest', 'present') }}"
   with_items:
     - circus
-    - python-setuptools
+    - "{{ _taiga_python_package_prefix }}-setuptools"
   tags:
     - install
     - front-install

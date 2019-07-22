@@ -2,7 +2,7 @@
   become: true
   become_user: root
   apt:
-    name: python-openssl
+    name: "{{ _taiga_python_package_prefix }}-openssl"
     state: "{{ taiga_upgrade | bool | ternary('latest', 'present') }}"
   tags:
     - install

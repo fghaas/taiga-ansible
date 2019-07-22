@@ -9,7 +9,7 @@
     - postgresql-contrib
     - postgresql-doc
     - postgresql-server-dev-all
-    - python-psycopg2
+    - "{{ _taiga_python_package_prefix }}-psycopg2"
   tags:
     - install
     - back-install
