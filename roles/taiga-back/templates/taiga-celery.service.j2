@@ -1,11 +1,12 @@
 [Unit]
 Description=Taiga Celery asynchronous task processing service
+After=network.target
 
 [Service]
 Type=simple
 Restart=on-failure
 WorkingDirectory={{ taiga_user_home }}/{{ taiga_back_checkout_dir }}
-ExecStart={{ taiga_user_home }}/{{ taiga_back_venv_dir }}/bin/celery -A taiga worker -c 4
+ExecStart={{ taiga_user_home }}/{{ taiga_back_venv_dir }}/bin/celery -A taiga worker --concurrency {{ ansible_processor_vcpus }}
 ExecStop=/bin/kill -TERM $MAINPID
 ExecReload=/bin/kill -HUP $MAINPID
 Environment="PATH={{ taiga_back_venv_dir }}/bin:$PATH"
@@ -14,7 +15,7 @@ Environment="SHELL=/bin/bash"
 Environment="USER={{ taiga_user }}"
 Environment="LANG=en_US.UTF-8"
 Environment="HOME={{ taiga_user_home }}"
-Environment="PYTHONPATH={{ taiga_user_home }}/{{ taiga_back_venv_dir }}/lib/python3.5/site-packages"
+Environment="PYTHONUNBUFFERED=true"
 User={{ taiga_user }}
 
 [Install]

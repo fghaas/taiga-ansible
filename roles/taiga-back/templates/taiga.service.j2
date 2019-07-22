@@ -1,21 +1,23 @@
 {% set _listen_address = '127.0.0.1' if _taiga_is_front_node else '0.0.0.0' %}
 [Unit]
 Description=Taiga backend service
+After=network.target
 
 [Service]
+User={{ taiga_user }}
 Restart=on-failure
+RestartSec=3
 WorkingDirectory={{ taiga_user_home }}/{{ taiga_back_checkout_dir }}
-ExecStart={{ taiga_user_home }}/{{ taiga_back_venv_dir }}/bin/gunicorn -w 3 -t 60 --pythonpath=. -b {{ _listen_address }}:{{ taiga_backend_port }}{{ ' --log-level debug' if taiga_back_debug else '' }} taiga.wsgi
+ExecStart={{ taiga_user_home }}/{{ taiga_back_venv_dir }}/bin/gunicorn --workers {{ ansible_processor_vcpus }} --timeout 60 -b {{ _listen_address }}:{{ taiga_backend_port }}{{ ' --log-level debug' if taiga_back_debug else '' }} taiga.wsgi
 ExecStop=/bin/kill -TERM $MAINPID
 ExecReload=/bin/kill -HUP $MAINPID
+Environment="PYTHONUNBUFFERED=true"
 Environment="PATH={{ taiga_user_home }}/{{ taiga_back_venv_dir }}/bin:$PATH"
 Environment="TERM=rxvt-256color"
 Environment="SHELL=/bin/bash"
 Environment="USER={{ taiga_user }}"
 Environment="LANG=en_US.UTF-8"
 Environment="HOME={{ taiga_user_home }}"
-Environment="PYTHONPATH={{ taiga_user_home }}/{{ taiga_back_venv_dir }}/lib/python3.5/site-packages"
-User={{ taiga_user }}
 
 [Install]
 WantedBy=default.target
