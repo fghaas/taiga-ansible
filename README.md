@@ -18,7 +18,7 @@ repository are also being used on [Ubuntu 18.04 Bionic
 Beaver](http://releases.ubuntu.com/18.04/) systems, and should be
 working fine there as well.
 
-Your deploy host must be running at least Ansible 2.4. Since that
+Your deploy host must be running at least Ansible 2.5. Since that
 version is not included in Ubuntu Xenial, you can install Ansible
 either
 [from a PPA](https://launchpad.net/~ansible/+archive/ubuntu/ansible),
@@ -389,6 +389,25 @@ Even with all these hacks in place, you’re not certain to
 succeed. Running Taiga on a low-memory platform generally isn’t
 something that you should consider “supported.”
 
+
+### Python 3
+
+All of Taiga runs on Python 3, and [since Ansible 2.5 and later fully
+support Python
+3](https://docs.ansible.com/ansible/latest/reference_appendices/python_3_support.html),
+the roles in this repository should allow you to build completely
+“Python 2-free” systems.
+
+However, the `rabbitmq-server` package in Ubuntu Bionic [currently has
+a dependency](https://packages.ubuntu.com/bionic/rabbitmq-server) on
+`python` (the Ubuntu Python 2 package). Thus, if you run with
+`taiga_enable_events: true` and/or `taiga_enable_async_tasks: true`,
+which will install `rabbitmq-server` onto your `taiga-back` and
+`taiga-events` nodes, you will pull Python 2 libraries into those
+systems. This — [depending on your Ansible
+configuration](https://docs.ansible.com/ansible/2.8/reference_appendices/interpreter_discovery.html)
+— may or may not cause Ansible to revert to Python 2 on subsequent
+runs.
 
 ## License
 
