@@ -347,6 +347,45 @@ should
   so that the roles are mapped to different group names than in
   `taiga.yml`.
 
+### Low-memory platforms
+
+On low-memory platforms, you may bump into into the rather hefty
+memory utilization from compiling the `pip`-installed `lxml` package,
+to the point of your memory being exhausted and the installation
+failing. To that end, the `taiga-back` role checks
+`taiga_back_required_memory` against the available memory on the
+target machine, defaulting to 1024 (MB).
+
+You can still install Taiga on a box with less available memory (such
+as an [Ubuntu](https://wiki.ubuntu.com/ARM/RaspberryPi)-powered
+[Raspberry Pi
+3](https://www.raspberrypi.org/products/raspberry-pi-3-model-b/) that
+you may use to host a Taiga instance for personal use). But you must
+meet a few prerequisites, at least for the duration of the
+installation:
+
+1. Swap space must be available. Yes, it’ll be terribly slow on a
+   MicroSD card, but it will get you over `lxml`’s memory utilization
+   hump.
+   
+2. PostgreSQL must be stopped while the compilation is running. This
+   must be done manually, the `taiga-back` role does not have a task
+   for this.
+	   
+3. RabbitMQ must not run while the compilation is running. This can be
+   accomplished by stopping RabbitMQ (again, manually), or you can set
+   both `taiga_enable_events` and `taiga_enable_async_tasks` to
+   `false`; both those features are probably not of much use on a
+   Raspberry Pi or similar platform anyway.
+
+4. You must set `taiga_back_required_memory` to a value that matches
+   your target system, such as 900.
+
+Even with all these hacks in place, you’re not certain to
+succeed. Running Taiga on a low-memory platform generally isn’t
+something that you should consider “supported.”
+
+
 ## License
 
 Like Taiga itself, these playbooks are licensed under the AGPL 3.0;

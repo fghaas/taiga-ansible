@@ -1,4 +1,20 @@
 ---
+- name: check for required memory
+  fail:
+    msg: >
+      "The available total memory on the target host, {{
+      ansible_memory_mb['real']['total'] }} MB, is less than the
+      recommended minimum ({{ taiga_back_required_memory }} MB).
+      Installation may fail, primarily due to the memory required for
+      compiling and installing the lxml module. Reduce
+      taiga_back_required_memory (at your own risk) to suppress this
+      message."
+  when: "ansible_memory_mb['real']['total']|int < taiga_back_required_memory|int"
+  tags:
+    - install
+    - back-install
+    - offline
+
 - name: install required backend-specific packages
   become: true
   become_user: root

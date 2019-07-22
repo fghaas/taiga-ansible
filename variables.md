@@ -422,6 +422,9 @@ taiga_front_enable_gravatar: true
 
 ```yaml
 ---
+# Which minimum memory requirement (in MB) should we enforce?
+taiga_back_required_memory: 1024
+
 # What repo should we check out?
 # (relative to taiga_git_mirror)
 taiga_back_repo: "taiga-back"
