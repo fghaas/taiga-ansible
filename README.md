@@ -9,10 +9,14 @@ is based on the recommendations given in the Taiga
 
 ## Prerequisites
 
-All systems in your inventory must be running
-[Ubuntu 16.04 Xenial Xerus](http://releases.ubuntu.com/16.04/). This
-is the only platform where we expect everything to work, although we
-make an effort to support later Ubuntu LTS releases as well.
+The [setup
+guide](http://taigaio.github.io/taiga-doc/dist/setup-production.html)
+requires that all systems in your inventory run [Ubuntu 16.04 Xenial
+Xerus](http://releases.ubuntu.com/16.04/). This is the only platform
+where upstream expects everything to work. However, the roles in this
+repository are also being used on [Ubuntu 18.04 Bionic
+Beaver](http://releases.ubuntu.com/18.04/) systems, and should be
+working fine there as well.
 
 Your deploy host must be running at least Ansible 2.4. Since that
 version is not included in Ubuntu Xenial, you can install Ansible
