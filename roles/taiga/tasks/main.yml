@@ -21,7 +21,7 @@
     that:
       - "taiga_secret_key is defined"
       - "taiga_rabbitmq_password is defined or not (taiga_enable_events | bool or taiga_enable_async_tasks | bool)"
-      - "taiga_service_manager == 'circus' or ansible_version is version_compare('2.2', '>=')"
+      - "taiga_service_manager == 'circus'"
   with_items:
     - taiga_secret_key
   tags:
