@@ -1,24 +1,66 @@
 - hosts:
     - taiga-front
+    - taiga_front
     - taiga-back
+    - taiga_back
     - taiga-events
+    - taiga_events
   become: false
   tasks:
     - name: group hosts by distribution
       group_by:
-        key: "{{ ansible_distribution | lower }}-{{ ansible_distribution_release | lower }}"
+        key: "{{ ansible_distribution | lower }}_{{ ansible_distribution_release | lower }}"
       changed_when: false
   tags:
     - always
 
-- hosts: taiga-back
+- hosts:
+    - taiga-back
+  become: false
+  tasks:
+    - name: map taiga-back to taiga_back
+      group_by:
+        key: 'taiga_back'
+      changed_when: false
+  gather_facts: false
+  tags:
+    - always
+
+- hosts:
+    - taiga-front
+  become: false
+  tasks:
+    - name: map taiga-front to taiga_front
+      group_by:
+        key: 'taiga_front'
+      changed_when: false
+  gather_facts: false
+  tags:
+    - always
+
+- hosts:
+    - taiga-events
+  become: false
+  tasks:
+    - name: map taiga-events to taiga_events
+      group_by:
+        key: 'taiga_events'
+      changed_when: false
+  gather_facts: false
+  tags:
+    - always
+
+- hosts:
+    - taiga_back
   roles:
     - role: taiga-back
 
-- hosts: taiga-events
+- hosts:
+    - taiga_events
   roles:
     - role: taiga-events
 
-- hosts: taiga-front
+- hosts:
+    - taiga_front
   roles:
     - role: taiga-front

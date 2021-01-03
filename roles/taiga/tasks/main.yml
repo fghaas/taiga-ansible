@@ -34,9 +34,9 @@
 
 - name: set facts identifying node roles
   set_fact:
-    _taiga_is_back_node: "{{ ('taiga-back' in group_names) | bool | default(false) }}"
-    _taiga_is_front_node: "{{ ('taiga-front' in group_names) | bool | default(false) }}"
-    _taiga_is_events_node: "{{ ('taiga-events' in group_names) | bool | default(false) }}"
+    _taiga_is_back_node: "{{ ('taiga_back' in group_names) | bool | default(false) }}"
+    _taiga_is_front_node: "{{ ('taiga_front' in group_names) | bool | default(false) }}"
+    _taiga_is_events_node: "{{ ('taiga_events' in group_names) | bool | default(false) }}"
   tags:
     - always
 

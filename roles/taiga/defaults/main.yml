@@ -1,12 +1,12 @@
 ---
 # Which host runs our backend?
-taiga_backend_host: "{{ hostvars[groups['taiga-back'][0]]['ansible_fqdn'] }}"
+taiga_backend_host: "{{ hostvars[groups['taiga_back'][0]]['ansible_fqdn'] }}"
 
 # Which host should run the taiga-events service?
-taiga_events_host: "{{ hostvars[groups['taiga-events'][0]]['ansible_fqdn'] }}"
+taiga_events_host: "{{ hostvars[groups['taiga_events'][0]]['ansible_fqdn'] }}"
 
 # Which host should run the Taiga front end?
-taiga_frontend_host: "{{ hostvars[groups['taiga-front'][0]]['ansible_fqdn'] }}"
+taiga_frontend_host: "{{ hostvars[groups['taiga_front'][0]]['ansible_fqdn'] }}"
 
 # Which user should be created on all hosts for Taiga's own purposes?
 # Taiga services must not be run as root.

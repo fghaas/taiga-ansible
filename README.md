@@ -82,8 +82,17 @@ taiga-events.example.com
 ## Playbooks
 
 An example playbook is provided in `taiga.yml`. It understands the
-group names `taiga-back`, `taiga-front`, and `taiga-events`, and maps
-them to the roles of the same name.
+group names `taiga_back`, `taiga_front`, and `taiga_events`, and maps
+them to the corresponding role names.
+
+Note that the example playbook also understands the group names
+`taiga-back`, `taiga-front`, and `taiga-events`, using hyphens instead
+of underscores. Running a playbook with hyphens in group names is
+deprecated and will raise a warning in Ansible version 2.8 and
+later. Starting with Ansible 2.10, hyphens in group names are no
+longer supported — so if you use the example playbook verbatim, or use
+your own playbook with hyphens in group names, please update your
+inventory to correct your group names.
 
 ## Variables
 
