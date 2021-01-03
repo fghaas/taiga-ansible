@@ -57,10 +57,10 @@
   tags: always
 
 - include: rabbitmq.yml
-  when: _taiga_is_rabbit_node
+  when: _taiga_is_rabbit_node | bool
 
 - include: redis.yml
-  when: _taiga_is_redis_node
+  when: _taiga_is_redis_node | bool
 
 - include: postgresql.yml
 
