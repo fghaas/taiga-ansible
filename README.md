@@ -15,8 +15,9 @@ requires that all systems in your inventory run [Ubuntu 16.04 Xenial
 Xerus](http://releases.ubuntu.com/16.04/). This is the only platform
 where upstream expects everything to work. However, the roles in this
 repository are also being used on [Ubuntu 18.04 Bionic
-Beaver](http://releases.ubuntu.com/18.04/) systems, and should be
-working fine there as well.
+Beaver](http://releases.ubuntu.com/18.04/) and [Ubuntu 20.04 Focal
+Fossa](http://releases.ubuntu.com/20.04/), and should be working fine
+there as well.
 
 Your deploy host must be running at least Ansible 2.5. Since that
 version is not included in Ubuntu Xenial, you can install Ansible
@@ -24,6 +25,7 @@ either
 [from a PPA](https://launchpad.net/~ansible/+archive/ubuntu/ansible),
 or
 [using `pip`](http://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html?#latest-releases-via-pip).
+Later Ubuntu releases can just use the Ansible versions that ship with them.
 
 ## Roles
 
@@ -298,6 +300,20 @@ $ ansible-playbook taiga.yml -e taiga_upgrade=true -t install
 PLAY RECAP ****************************************************************
 xenial-taiga-aio           : ok=84   changed=7    unreachable=0    failed=0
 ```
+
+### Base system upgrades
+
+If you want to upgrade the base operating system of the platform that
+Taiga runs on (say, upgrade from Ubuntu Bionic to Ubuntu Focal
+in-place), you *should* be able to do that [in the usual
+manner](https://ubuntu.com/blog/how-to-upgrade-from-ubuntu-18-04-lts-to-20-04-lts-today),
+and then continue to manage Taiga using Ansible.
+
+However, the recommended course of action is to create a backup of
+your Taiga instance running on your old system, and then populate a
+freshly installed instance on the new system, by restoring data from
+that backup. To do so, use the exact same backup and restore procedure
+as described above, just update your inventory in between.
 
 
 ## Tags
