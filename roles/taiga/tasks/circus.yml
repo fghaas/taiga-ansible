@@ -2,11 +2,10 @@
   become: true
   become_user: root
   apt:
-    name: "{{ item }}"
+    name:
+      - circus
+      - "{{ _taiga_python_package_prefix }}-setuptools"
     state: "{{ taiga_upgrade | bool | ternary('latest', 'present') }}"
-  with_items:
-    - circus
-    - "{{ _taiga_python_package_prefix }}-setuptools"
   tags:
     - install
     - front-install

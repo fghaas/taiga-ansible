@@ -2,14 +2,13 @@
   become: true
   become_user: root
   apt:
-    name: "{{ item }}"
+    name:
+      - postgresql
+      - postgresql-contrib
+      - postgresql-doc
+      - postgresql-server-dev-all
+      - "{{ _taiga_python_package_prefix }}-psycopg2"
     state: "{{ taiga_upgrade | bool | ternary('latest', 'present') }}"
-  with_items:
-    - postgresql
-    - postgresql-contrib
-    - postgresql-doc
-    - postgresql-server-dev-all
-    - "{{ _taiga_python_package_prefix }}-psycopg2"
   tags:
     - install
     - back-install

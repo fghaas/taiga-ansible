@@ -3,10 +3,9 @@
   become: true
   become_user: root
   apt:
-    name: "{{ item }}"
+    name:
+      - nginx
     state: "{{ taiga_upgrade | bool | ternary('latest', 'present') }}"
-  with_items:
-    - nginx
   tags:
     - install
     - nginx-install

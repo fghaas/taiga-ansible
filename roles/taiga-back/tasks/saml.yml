@@ -2,10 +2,9 @@
   become: true
   become_user: root
   apt:
-    name: "{{ item }}"
+    name:
+      - libxmlsec1-dev
     state: "{{ taiga_upgrade | bool | ternary('latest', 'present') }}"
-  with_items:
-    - libxmlsec1-dev
   tags:
     - install
     - back-install

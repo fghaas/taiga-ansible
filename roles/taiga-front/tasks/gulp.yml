@@ -3,11 +3,10 @@
   become: true
   become_user: root
   apt:
-    name: "{{ item }}"
+    name:
+      - ruby
+      - ruby-dev
     state: "{{ taiga_upgrade | bool | ternary('latest', 'present') }}"
-  with_items:
-    - ruby
-    - ruby-dev
   tags:
     - install
     - front-install
