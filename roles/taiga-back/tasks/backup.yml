@@ -61,6 +61,7 @@
   tags:
     - backup
     - offline
+  when: not ansible_check_mode
 
 - name: fetch backup archive
   become: true
