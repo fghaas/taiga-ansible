@@ -5,6 +5,7 @@
   register: date
   when: _timestamp is not defined
   changed_when: false
+  check_mode: no
   tags:
     - always
 
