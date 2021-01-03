@@ -41,9 +41,10 @@
 
 - name: add taiga to nginx
   become: true
-  become_user: "{{ taiga_user }}"
+  become_user: root
   template:
     mode: '0644'
+    owner: "{{ taiga_user }}"
     src: taiga.conf.j2
     dest: "/etc/nginx/conf.d/taiga.conf"
   notify:
