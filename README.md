@@ -130,10 +130,11 @@ Other variables that you might want to set include:
   `taiga_enable_events` or `taiga_enable_async_tasks` is set to
   `true`.
 
-- `taiga_service_manager`: when set to `circus` (the default),
-  installs the Circus service manager and runs Taiga-related services
-  from there. When set to `systemd`, creates and enables systemd
-  services for Taiga instead.
+- `taiga_service_manager`: when set to `circus` (the default, for
+  historical reasons), installs the Circus service manager and runs
+  Taiga-related services from there. When set to `systemd`, creates
+  and enables systemd services for Taiga instead. It is strongly
+  recommended to use `systemd`, matching the upstream recommendation.
 
 - `taiga_enable_ssl`: configures the web server for HTTPS, and the
   event processor (if enabled) for secure Websockets (WSS). Note that

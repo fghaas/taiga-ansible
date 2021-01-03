@@ -117,9 +117,10 @@ taiga_rabbitmq_user: "taiga"
 taiga_rabbitmq_vhost: taiga
 
 # Which service manager should run the Taiga gunicorn, Celery, and
-# node.js services? Defaults to "circus" because that is the
-# upstream-preferred default. Can also be set to "systemd", if using
-# Ansible 2.2 or later.
+# node.js services? Defaults to "circus" for historical reasons,
+# because that used to be the upstream preference. Highly recommended
+# to set this to "systemd", which is also the current upstream
+# recommendation.
 taiga_service_manager: circus
 
 # Twitter handle to include in notification emails
