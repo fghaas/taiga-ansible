@@ -90,6 +90,7 @@
     state: directory
     owner: "{{ taiga_user }}"
     group: "{{ taiga_user }}"
+    mode: '0750'
   tags:
     - install
     - front-install

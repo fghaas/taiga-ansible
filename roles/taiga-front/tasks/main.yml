@@ -27,6 +27,7 @@
   file:
     path: "{{ taiga_user_home }}/{{ taiga_front_checkout_dir }}/dist/plugins"
     state: directory
+    mode: '0750'
   tags:
     - config
     - front-install
