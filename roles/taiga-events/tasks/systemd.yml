@@ -17,7 +17,7 @@
   become_user: root
   systemd:
     daemon_reload: true
-  when: _taiga_events_service_unit.changed
+  when: _taiga_events_service_unit.changed  # noqa 503
   tags:
     - config
     - events-config
