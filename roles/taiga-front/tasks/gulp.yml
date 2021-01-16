@@ -50,7 +50,7 @@
 - name: run gulp deploy
   become: true
   become_user: "{{ taiga_user }}"
-  shell: gulp deploy
+  command: gulp deploy
   args:
     chdir: "{{ taiga_user_home }}/{{ taiga_front_checkout_dir }}"
     creates: "{{ taiga_user_home }}/{{ taiga_front_checkout_dir }}/dist/conf.example.json"
