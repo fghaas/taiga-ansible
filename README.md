@@ -9,23 +9,22 @@ is based on the recommendations given in the Taiga
 
 ## Prerequisites
 
-The [setup
-guide](http://taigaio.github.io/taiga-doc/dist/setup-production.html)
-requires that all systems in your inventory run [Ubuntu 16.04 Xenial
-Xerus](http://releases.ubuntu.com/16.04/). This is the only platform
+The [production installation guide
+guide](https://docs.taiga.io/setup-production.html#_introduction)
+requires that all systems in your inventory run [Ubuntu 20.04 Focal
+Fossa](http://releases.ubuntu.com/20.04/). This is the only platform
 where upstream expects everything to work. However, the roles in this
 repository are also being used on [Ubuntu 18.04 Bionic
-Beaver](http://releases.ubuntu.com/18.04/) and [Ubuntu 20.04 Focal
-Fossa](http://releases.ubuntu.com/20.04/), and should be working fine
-there as well.
+Beaver](http://releases.ubuntu.com/18.04/) and should work fine there
+as well. Other Ubuntu releases *might* work, but no guarantees.
 
-Your deploy host must be running at least Ansible 2.5. Since that
-version is not included in Ubuntu Xenial, you can install Ansible
-either
-[from a PPA](https://launchpad.net/~ansible/+archive/ubuntu/ansible),
-or
-[using `pip`](http://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html?#latest-releases-via-pip).
-Later Ubuntu releases can just use the Ansible versions that ship with them.
+Your deploy host must be running at least Ansible 2.5. Ubuntu 20.04
+ships Ansible 2.9, so if you don't have Ansible installed yet, you can
+simply run:
+
+```bash
+sudo apt install ansible
+```
 
 ## Roles
 
