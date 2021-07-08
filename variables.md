@@ -505,3 +505,12 @@ taiga_events_version: "master"  # No stable branch exists for taiga-events
 taiga_events_log_dir: "{{ taiga_log_dir }}"
 
 ```
+
+## Variables defined in `taiga-node`
+
+```yaml
+---
+# Repo release of nodeJS to be installed.
+taiga_node_version: 8
+
+```
