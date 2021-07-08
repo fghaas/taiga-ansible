@@ -115,6 +115,18 @@
     - back-config
     - offline
 
+- name: adjust settings.py to import local
+  become: true
+  become_user: "{{ taiga_user }}"
+  lineinfile:
+    path: "{{ taiga_user_home }}/{{ taiga_back_checkout_dir }}/settings/common.py"
+    line: 'from settings.local import *'
+    insertbefore: "# NOTE: DON'T INSERT ANYTHING AFTER THIS BLOCK"
+  tags:
+    - config
+    - back-config
+    - offline
+
 - name: optionally deploy local Celery settings
   become: true
   become_user: "{{ taiga_user }}"
