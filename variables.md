@@ -510,7 +510,7 @@ taiga_events_log_dir: "{{ taiga_log_dir }}"
 
 ```yaml
 ---
-# Repo release of nodeJS to be installed.
-taiga_node_version: 8
+# Repo release of Node.js to be installed.
+taiga_node_version: 12
 
 ```
