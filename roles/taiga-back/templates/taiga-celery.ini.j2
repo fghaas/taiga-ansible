@@ -22,4 +22,4 @@ SHELL=/bin/bash
 USER={{ taiga_user }}
 LANG=en_US.UTF-8
 HOME=/home/taiga
-PYTHONPATH={{ taiga_user_home }}/{{ taiga_back_venv_dir }}/lib/python3.5/site-packages
+PYTHONPATH={{ _gunicorn_path.stdout | dirname | dirname }}
