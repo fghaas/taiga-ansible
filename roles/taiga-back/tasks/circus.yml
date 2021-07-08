@@ -1,3 +1,25 @@
+- name: find site_packages directory in virtualenv
+  become: true
+  become_user: "{{ taiga_user }}"
+  find:
+    paths: '{{ taiga_user_home }}/{{ taiga_back_venv_dir }}/lib'
+    file_type: directory
+    patterns: 'site-packages'
+    recurse: yes
+  register: _taiga_venv_site_packages
+  tags:
+    - config
+    - back-config
+    - offline
+
+- name: set PYTHONPATH for Circus
+  set_fact:
+    '_circus_pythonpath': '{{ _taiga_venv_site_packages[0].path }}'
+  tags:
+    - config
+    - back-config
+    - offline
+
 - name: add taiga to Circus
   become: true
   become_user: "{{ taiga_user }}"
